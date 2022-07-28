@@ -1,9 +1,13 @@
 """ mountains models """
 
 import math
+from slugify import slugify
 
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+from django.urls import reverse
 
 from routes.utils import get_image_path
 
@@ -16,6 +20,16 @@ def thumbnail(width, height):
         height = max_
         width = int(height * factor)
     return {'width': width, 'height': height}
+
+
+def slugify_name(cls, name):
+    """
+    slugify name and check unique value
+    """
+    slug = slugify(name, to_lower=True)
+    while cls.objects.filter(slug=slug).count():
+        slug += '-1'
+    return slug
 
 
 class GeoPoint(models.Model):
@@ -62,9 +76,13 @@ class Ridge(models.Model):
     """
     Ridge model
     """
-    slug = models.SlugField(_("slug"), unique=True)
+    slug = models.SlugField(_("slug"), max_length=128, unique=True)
     name = models.CharField(max_length=128)
     description = models.TextField(blank=True, null=True)
+    editor = models.ForeignKey(
+        get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
+    changed = models.DateTimeField(
+        _("created"), default=timezone.now, db_index=True)
 
     class Meta:
         db_table = 'ridge'
@@ -74,6 +92,9 @@ class Ridge(models.Model):
     def __str__(self):
         return f'{self.id}-{self.slug}'
 
+    def get_absolute_url(self):
+        return reverse("ridge", kwargs={"slug": self.slug})
+
     def peaks(self):
         """ ridge peaks """
         return self.peak_set.order_by('name')
@@ -81,6 +102,32 @@ class Ridge(models.Model):
     def routes(self):
         """ ridge routes """
         return Route.objects.filter(peak__ridge=self).order_by('number')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_name(Ridge, self.name)
+        return super().save(*args, **kwargs)
+
+    def can_be_edited(self, user):
+        """
+        can the user edit this ridge
+        """
+        if user is None:
+            return False
+        if user.is_anonymous:
+            return False
+        if user.is_superuser:
+            return True
+        climber = user.climber
+        if climber.is_editor and self.editor == user:
+            return True
+        return False
+
+    def can_be_removed(self):
+        """
+        can be removed this ridge ?
+        """
+        return self.peak_set.all().count() == 0
 
 
 class RidgeInfoLink(models.Model):
@@ -105,7 +152,7 @@ class Peak(models.Model):
     """
     Peak model
     """
-    slug = models.SlugField(_("slug"), unique=True)
+    slug = models.SlugField(_("slug"), max_length=64, unique=True)
     ridge = models.ForeignKey(
         Ridge, on_delete=models.PROTECT, verbose_name=_("ridge"))
     name = models.CharField(max_length=64, blank=True, null=True)
@@ -116,6 +163,10 @@ class Peak(models.Model):
     point = models.ForeignKey(
         GeoPoint, blank=True, null=True, on_delete=models.SET_NULL,
         verbose_name=_("point"))
+    editor = models.ForeignKey(
+        get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
+    changed = models.DateTimeField(
+        _("created"), default=timezone.now, db_index=True)
 
     class Meta:
         db_table = 'peak'
@@ -132,6 +183,32 @@ class Peak(models.Model):
     def photos(self):
         """ peak photos """
         return self.peakphoto_set.order_by('id')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_name(Peak, self.name)
+        return super().save(*args, **kwargs)
+
+    def can_be_edited(self, user):
+        """
+        can the user edit this peak
+        """
+        if user is None:
+            return False
+        if user.is_anonymous:
+            return False
+        if user.is_superuser:
+            return True
+        climber = user.climber
+        if climber.is_editor and self.editor == user:
+            return True
+        return False
+
+    def can_be_removed(self):
+        """
+        can be removed this peak ?
+        """
+        return self.route_set.all().count() == 0
 
 
 class PeakPhoto(models.Model):
@@ -164,7 +241,8 @@ class Route(models.Model):
     """
     peak = models.ForeignKey(
         Peak, on_delete=models.PROTECT, verbose_name=_("peak"))
-    name = models.CharField(max_length=64, blank=True, null=True)
+    name = models.CharField(_("name"), max_length=64, blank=True, null=True)
+    slug = models.SlugField(_("slug"), max_length=64, unique=True, null=True)
     number = models.PositiveSmallIntegerField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -180,6 +258,10 @@ class Route(models.Model):
     height_difference = models.IntegerField(blank=True, null=True)
     start_height = models.IntegerField(blank=True, null=True)
     descent = models.TextField(blank=True, null=True)
+    changed = models.DateTimeField(
+        _("created"), default=timezone.now, db_index=True)
+    editor = models.ForeignKey(
+        get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
     ready = models.BooleanField(default=False)
 
     class Meta:
@@ -201,6 +283,11 @@ class Route(models.Model):
     def photos(self):
         """ route photos """
         return self.routephoto_set.order_by('id')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_name(Route, self.name)
+        return super().save(*args, **kwargs)
 
 
 class RouteSection(models.Model):

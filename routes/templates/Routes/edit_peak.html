@@ -1,0 +1,61 @@
+{% extends "Routes/base_routes.html" %}
+{% load i18n %}
+{% load static %}
+
+    {% block content %}
+    <div class="btn-group" role="group" aria-label="">
+      {% if form.errors %}
+        <div class="error-message">
+          {% trans 'Please fill fields with correct values' %}
+        </div>
+      {% endif %}
+      <form action="" method="post">
+        {% csrf_token %}
+        <h3 class="text-center text-info">{% trans 'Edit summit' %}</h3>
+        <div class="form-group">
+          <label for="id_name" class="text-info">{{ form.name.label }}:</label><br>
+          {{ form.name }}
+          <label id="name-error" class="has-error" for="id_name">{{ form.name.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_slug" class="text-info">{{ form.slug.label }}:</label><br>
+          {{ form.slug }}
+          <label id="slug-error" class="has-error" for="id_slug">{{ form.slug.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_description" class="text-info">{{ form.description.label }}:</label><br>
+          {{ form.description }}
+          <label id="description-error" class="has-error" for="id_description">{{ form.description.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_height" class="text-info">{{ form.height.label }}:</label><br>
+          {{ form.height }}
+          <label id="height-error" class="has-error" for="id_height">{{ form.height.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_latitude" class="text-info">{{ form.latitude.label }}:</label><br>
+          {{ form.latitude }}
+          <label id="latitude-error" class="has-error" for="id_latitude">{{ form.latitude.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_longitude" class="text-info">{{ form.longitude.label }}:</label><br>
+          {{ form.longitude }}
+          <label id="longitude-error" class="has-error" for="id_longitude">{{ form.longitude.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="photo" class="text-info">{{ form.photo.label }}:</label><br>
+          {{ form.photo }}
+          <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+      </form>
+    </div>
+
+    {% endblock %}

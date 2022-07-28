@@ -5,8 +5,27 @@
     {% block content %}
     <div>
       <h2>{{ ridge.name }}</h2>
-      <div>{{ ridge.description }}</div>
+      <div>{{ ridge.description|default_if_none:""|safe }}</div>
     </div>
+
+    {% if can_be_edited %}
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-primary"
+              onclick="document.location='{% url "add-ridge-peak" ridge.slug %}'">
+        {% trans "Add a new summit" %}
+      </button>
+      <button type="button" class="btn btn-primary"
+              onclick="document.location='{% url "edit-ridge" ridge.slug %}'">
+        {% trans "Edit the ridge" %}
+      </button>
+      {% if can_be_removed %}
+      <button type="button" class="btn btn-danger"
+              onclick="document.location='{% url "remove-ridge" ridge.slug %}'">
+        {% trans "Remove the ridge" %}
+      </button>
+      {% endif %}
+    </div>
+    {% endif %}
 
     {% if ridge.peaks %}
       <table class="table table-striped">
