@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'routes.mountains',
     'django_tables2',
     'django_filters',
+    'django_registration',
     'routes.user',
     'routes.geoname',
 ]
@@ -143,6 +144,11 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Registration
+
+ACCOUNT_ACTIVATION_DAYS = 2
+
 
 try:
     from .custom_settings import *
