@@ -17,6 +17,11 @@
     <h3>{% trans "Edit My Profile"%}</h3>
 
     {% if user.is_authenticated %}
+    {% if form.errors %}
+    <div class="error-message">
+      {% trans 'Please fill fields with correct values' %}
+    </div>
+    {% endif %}
     <form class="form-horizontal" id="registerHere" method='post' action=''>{% csrf_token %}
       <fieldset>
         <div class="container">

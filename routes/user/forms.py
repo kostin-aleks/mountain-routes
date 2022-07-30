@@ -2,54 +2,73 @@
 forms related to app user
 """
 
+import re
 from django import forms
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from routes.geoname.models import populate_country_subject_city
 
+class ProfileForm(forms.Form):
+    """
+    User Profile form
+    """
+    username = forms.CharField(
+        label=_('Username'),
+        required=True,
+        max_length=16,
+        min_length=2,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Username'),
+        }),
+    )
 
-class CityForm(forms.Form):
-    """ Form City """
-    country = forms.ChoiceField(
-        required=False,
-        label=_('Country'),
-        widget=forms.Select(
-            attrs={
-                'id': 'id_select_country',
-                'onchange': 'CityWidget.reload_subjects(this);'}))
-    subject = forms.ChoiceField(
-        required=False,
-        label=_('Admin Subject'),
-        widget=forms.Select(
-            attrs={
-                'id': 'id_select_subject',
-                'onchange': 'CityWidget.reload_cities(this);'}))
-    city = forms.ChoiceField(
-        required=False,
-        label=_('City'),
-        widget=forms.Select(
-            attrs={
-                'id': 'id_select_city',
-                'onchange': 'CityWidget.chosen_city(this);'}))
+    first_name = forms.CharField(
+        label=_('First name'),
+        required=True,
+        max_length=32,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('First name'),
+        }),
+    )
 
-    def __init__(self, *kargs, **kwargs):
-        self.user_city = None
-        my_kwargs = {}
+    middle_name = forms.CharField(
+        label=_('Middle name'),
+        required=True,
+        max_length=32,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Middle name'),
+        }),
+    )
 
-        for key, value in kwargs.items():
-            if key == 'user_city':
-                self.user_city = value
-            else:
-                my_kwargs[key] = value
-
-        super().__init__(*kargs, **my_kwargs)
+    last_name = forms.CharField(
+        label=_('Last name'),
+        required=True,
+        max_length=32,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Last name'),
+        }),
+    )
 
     def custom_init(self):
-        """ custom init """
-        self.fields['country'], self.fields['subject'], self.fields['city'] = \
-            populate_country_subject_city(
-                self.fields['country'],
-                self.fields['subject'],
-                self.fields['city'],
-                self.user_city,
-        )
+        from fcuser.views import random_username
+        username = ''
+        for i in range(10):
+            username = random_username()
+            if not get_user_model().objects.filter(username=username).exists():
+                break
+        self.fields['username'].initial = username
+
+    #def clean_username(self):
+        #username = self.cleaned_data['username']
+        #if not re.match(r'^[A-Za-z0-9_\.]{2,16}$', username):
+            #raise forms.ValidationError(
+                #_("Nickname should be a combination of english alphabets,"
+                  #" numbers, underscore and point with length between 2 and 16 symbols"))
+        #if username and get_user_model().objects.filter(username__iexact=username).exists():
+            #raise ValidationError(_('A user with this nickname already exists'))
+        #return username
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
