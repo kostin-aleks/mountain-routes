@@ -19,5 +19,8 @@ urlpatterns = [
     path('add/route/peak/<slug>/', views.add_peak_route, name="add-peak-route"),
     path('peaks/', views.peaks, name="peaks"),
     path('route/<int:route_id>/', views.route, name="route"),
+    path('edit/route/<int:route_id>/', views.edit_route, name="edit-route"),
+    path('remove/route/<int:route_id>/', views.remove_route, name="remove-route"),
     path('', views.routes, name="routes"),
+    path('add/route/<int:route_id>/section/', views.add_route_section, name="add-route-section"),
 ]

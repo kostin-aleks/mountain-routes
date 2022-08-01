@@ -55,7 +55,12 @@
           <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">{% trans "Add" %}</button>
+        <button type="submit" class="btn btn-primary">
+          {% trans "Add" %}
+        </button>
+        <a href="{% url 'ridge' ridge.slug %}" class="btn btn-default">
+          {% trans "Cancel" %}
+        </a>
       </form>
     </div>
 

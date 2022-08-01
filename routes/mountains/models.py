@@ -289,6 +289,34 @@ class Route(models.Model):
             self.slug = slugify_name(Route, self.name)
         return super().save(*args, **kwargs)
 
+    def can_be_edited(self, user):
+        """
+        can the user edit this route
+        """
+        if user is None:
+            return False
+        if user.is_anonymous:
+            return False
+        if user.is_superuser:
+            return True
+        climber = user.climber
+        if climber.is_editor and self.editor == user:
+            return True
+        return False
+
+    def can_be_removed(self):
+        """
+        can be removed this route ?
+        """
+        return True
+
+    @property
+    def sections(self):
+        """
+        route sections
+        """
+        return self.routesection_set.all().order_by('num')
+
 
 class RouteSection(models.Model):
     """

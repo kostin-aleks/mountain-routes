@@ -6,8 +6,8 @@
     <div class="btn-group" role="group" aria-label="">
       <form action="" method="post">
         {% csrf_token %}
-        <h3 class="text-center text-info">{% trans 'Remove the summit' %} "{{ peak.name }}"</h3>
-        <input type="hidden" name="slug" value="{{ peak.slug }}" />
+        <h3 class="text-center text-info">{% trans 'Remove the route' %} "{{ route.peak.name }} {{ route.name }}"</h3>
+        <input type="hidden" name="slug" value="{{ route.slug }}" />
 
         <button type="submit" name="remove" class="btn btn-danger">{% trans "Remove" %}</button>
         <button type="submit" name="cancel" class="btn btn-default">{% trans "Cancel" %}</button>

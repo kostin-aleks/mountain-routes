@@ -40,7 +40,11 @@
     </div>
     <div class="panel panel-default">
       <div class="panel-body">
-        <h4>{{ peak.ridge.name }}</h4>
+        <h4>
+          <a href="{% url "ridge" peak.ridge.slug %}">
+            {{ peak.ridge.name }}
+          </a>
+        </h4>
         <div>{{ peak.point|point:"dms"|safe }}</div>
       </div>
     </div>

@@ -8,7 +8,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from routes.mountains.models import Ridge, Peak, Route
+from routes.mountains.models import Ridge, Peak, Route, RouteSection
 
 
 class ImagePreviewWidget(forms.widgets.FileInput):
@@ -86,3 +86,108 @@ class PeakForm(forms.Form):
             raise ValidationError(_("The slug must consist only of the characters (a-z, 0-9 and -)."))
 
         return slug
+
+
+class RouteForm(forms.Form):
+    """ Form for Route """
+    name = forms.CharField(
+        label=_('Name'),
+        required=True,
+        max_length=128,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Name of route'),
+        }), )
+    slug = forms.CharField(
+        label=_('Slug'),
+        required=False,
+        max_length=128,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Slug'),
+        }), )
+    number = forms.IntegerField(
+        label=_('Number'),
+        required=False, )
+    short_description = forms.CharField(
+        label=_('Short Description'),
+        required=False,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Short description'),
+        }), )
+    description = forms.CharField(
+        label=_('Description'),
+        required=False,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Description'),
+        }), )
+    difficulty = forms.CharField(
+        label=_('Difficulty'),
+        required=False,
+        max_length=3,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Difficulty'),
+        }), )
+    max_difficulty = forms.CharField(
+        label=_('Maximal Difficulty'),
+        required=False,
+        max_length=16,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Maximal difficulty'),
+        }), )
+    length = forms.IntegerField(
+        label=_('Length'),
+        required=False, )
+    photo = forms.ImageField(
+        label=_('Photo'),
+        required=False,
+        widget=ImagePreviewWidget())
+    map_image = forms.ImageField(
+        label=_('Map'),
+        required=False,
+        widget=ImagePreviewWidget())
+    author = forms.CharField(
+        label=_('Author'),
+        required=False,
+        max_length=64,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Author'),
+        }), )
+    year = forms.IntegerField(
+        label=_('Year'),
+        required=False, )
+    height_difference = forms.IntegerField(
+        label=_('Height Difference'),
+        required=False, )
+    start_height = forms.IntegerField(
+        label=_('Start Height'),
+        required=False, )
+    descent = forms.CharField(
+        label=_('Descent'),
+        required=False,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Descent'),
+        }), )
+    ready = forms.BooleanField(
+        label=_('Ready'),
+        required=False, )
+
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        pattern = r'[^\-a-z0-9]'
+        if re.search(pattern, slug):
+            # Character other then . a-z 0-9 was found
+            raise ValidationError(_("The slug must consist only of the characters (a-z, 0-9 and -)."))
+
+        return slug
+
+
+class RouteSectionForm(forms.ModelForm):
+    """ Form for RouteSection """
+    class Meta:
+        model = RouteSection
+        fields = (
+            'num',
+            'description',
+            'length',
+            'angle',
+            'difficulty',
+        )

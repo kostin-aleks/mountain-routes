@@ -54,7 +54,13 @@
           <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <button type="submit" class="btn btn-primary">
+          {% trans "Save" %}
+        </button>
+        <a href="{% url 'peak' peak.slug %}" class="btn btn-default">
+          {% trans "Cancel" %}
+        </a>
+
       </form>
     </div>
 

@@ -13,8 +13,8 @@ from django.urls import reverse
 import django_tables2 as tables
 from django_tables2.config import RequestConfig
 
-from routes.mountains.models import Ridge, Peak, Route, GeoPoint
-from routes.mountains.forms import RidgeForm, PeakForm
+from routes.mountains.models import Ridge, Peak, Route, GeoPoint, RouteSection
+from routes.mountains.forms import RidgeForm, PeakForm, RouteForm, RouteSectionForm
 
 
 class PeakFilter(django_filters.FilterSet):
@@ -190,7 +190,11 @@ def route(request, route_id):
     return render(
         request,
         'Routes/route.html',
-        {'route': the_route})
+        {
+            'route': the_route,
+            'can_be_edited': the_route.can_be_edited(request.user),
+            'can_be_removed': the_route.can_be_removed()
+        })
 
 
 def routes(request):
@@ -242,8 +246,7 @@ def add_ridge(request):
 
     if request.method == 'POST':
         form = RidgeForm(request.POST)
-
-        if form.is_valid():
+        if 'add' in request.POST and form.is_valid():
             data = form.cleaned_data
             ridge = Ridge.objects.create(
                 slug=data['slug'],
@@ -314,11 +317,11 @@ def edit_ridge(request, slug):
 
     args = {}
     args['form'] = form
+    args['ridge'] = the_ridge
+    print('ARGS', args)
 
     return render(
-        request,
-        'Routes/edit_ridge.html',
-        args)
+        request, 'Routes/edit_ridge.html', args)
 
 
 @login_required
@@ -348,7 +351,10 @@ def add_ridge_peak(request, slug):
     else:
         form = PeakForm()
 
-    args = {'form': form}
+    args = {
+        'form': form,
+        'ridge': the_ridge
+    }
 
     return render(
         request,
@@ -382,11 +388,10 @@ def edit_ridge(request, slug):
 
     args = {}
     args['form'] = form
+    args['ridge'] = the_ridge
 
     return render(
-        request,
-        'Routes/edit_ridge.html',
-        args)
+        request, 'Routes/edit_ridge.html', args)
 
 
 @login_required
@@ -428,11 +433,10 @@ def edit_peak(request, slug):
 
     args = {}
     args['form'] = form
+    args['peak'] = peak
 
     return render(
-        request,
-        'Routes/edit_peak.html',
-        args)
+        request, 'Routes/edit_peak.html', args)
 
 
 @login_required
@@ -482,16 +486,147 @@ def add_peak_route(request, slug):
                 slug=data['slug'],
                 name=data['name'],
                 description=data['description'],
-                # height=data['height'],
-                # point=GeoPoint.objects.create(latitude=data['latitude'], longitude=data['longitude'])
+                short_description=data['short_description'],
+                length=data['length'],
+                difficulty=data['difficulty'],
+                max_difficulty=data['max_difficulty'],
+                author=data['author'],
+                year=data['year'],
+                height_difference=data['height_difference'],
+                start_height=data['start_height'],
+                descent=data['descent'],
+                editor=user,
+                ready=data['ready'],
             )
             return HttpResponseRedirect(reverse('peak', args=[peak.slug]))
     else:
         form = RouteForm()
 
-    args = {'form': form}
+    args = {
+        'form': form,
+        'peak': peak,
+    }
+
+    return render(
+        request, 'Routes/add_peak_route.html', args)
+
+
+@login_required
+def edit_route(request, route_id):
+    """
+    edit the route
+    """
+    user = request.user
+    route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = RouteForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            route.slug = data['slug']
+            route.name = data['name']
+            route.description = data['description']
+            route.short_description = data['short_description']
+            route.length = data['length']
+            route.difficulty = data['difficulty']
+            route.max_difficulty = data['max_difficulty']
+            route.author = data['author']
+            route.year = data['year']
+            route.height_difference = data['height_difference']
+            route.start_height = data['start_height']
+            route.descent = data['descent']
+            route.ready = data['ready']
+            route.save()
+
+            return HttpResponseRedirect(reverse('route', args=[route.id]))
+    else:
+        data = {
+            'slug': route.slug,
+            'name': route.name,
+            'description': route.description,
+            'short_description': route.short_description,
+            'length': route.length,
+            'difficulty': route.difficulty,
+            'max_difficulty': route.max_difficulty,
+            'author': route.author,
+            'year': route.year,
+            'height_difference': route.height_difference,
+            'start_height': route.start_height,
+            'descent': route.descent,
+            'ready': route.ready,
+        }
+        form = RouteForm(initial=data)
+
+    form_section = RouteSectionForm()
+
+    args = {}
+    args['form'] = form
+    args['route'] = route
+    args['form_section'] = form_section
+
+    return render(
+        request, 'Routes/edit_route.html', args)
+
+
+@login_required
+def remove_route(request, route_id):
+    """
+    remove the route
+    """
+    user = request.user
+    route = get_object_or_404(Route, id=route_id)
+    peak = route.peak
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        data = request.POST
+        if 'remove' in data:
+            Route.objects.filter(slug=data['slug']).delete()
+            return HttpResponseRedirect(reverse('peak', args=[peak.slug]))
+        if 'cancel' in data:
+            return HttpResponseRedirect(reverse('route', args=[route.id]))
+
+    args = {'route': route}
 
     return render(
         request,
-        'Routes/add_peak_route.html',
+        'Routes/remove_route.html',
         args)
+
+
+@login_required
+def add_route_section(request, route_id):
+    """
+    add a new route section
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = RouteSectionForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            route_section = RouteSection.objects.create(
+                route=the_route,
+                num=data['num'],
+                description=data['description'],
+                length=data['length'],
+                difficulty=data['difficulty'],
+                angle=data['angle']
+            )
+
+
+    args = {}
+    args['form'] = form
+    args['route'] = the_route
+    args['sections'] = the_route.sections
+
+    return render(
+        request, 'Routes/route_sections.html', args)

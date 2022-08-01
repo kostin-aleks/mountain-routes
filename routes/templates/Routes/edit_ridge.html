@@ -28,7 +28,12 @@
           <label id="description-error" class="has-error" for="id_description">{{ form.description.errors }}</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <button type="submit" class="btn btn-primary">
+          {% trans "Save" %}
+        </button>
+        <a href="{% url 'ridge' ridge.slug %}" class="btn btn-default">
+          {% trans "Cancel" %}
+        </a>
       </form>
     </div>
 

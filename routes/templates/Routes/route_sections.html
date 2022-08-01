@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load static %}
+
+<table class="table">
+  <tr>
+    <th>{% trans "Number" %}</th>
+    <th>{% trans "Description" %}</th>
+    <th>{% trans "Length" %}</th>
+    <th>{% trans "Angle" %}</th>
+    <th>{% trans "Difficulty" %}</th>
+  </tr>
+  {% for section in route.sections %}
+  <tr>
+    <td>{{ section.num }}</td>
+    <td>{{ section.description }}</td>
+    <td>{{ section.length }}</td>
+    <td>{{ section.angle }}</td>
+    <td>{{ section.difficulty }}</td>
+  </tr>
+  {% endfor %}
+</table>
