@@ -89,7 +89,7 @@ class GeoPoint(models.Model):
         return coordinate minutes as integer value
         """
         value = float(self.field_value(name))
-        return int(round((value - self.degrees(name)) * 60.0))
+        return int((value - self.degrees(name)) * 60.0)
 
     def seconds(self, name):
         """
