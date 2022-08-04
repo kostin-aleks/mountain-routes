@@ -5,6 +5,7 @@ Module stores utilities
 import os
 from datetime import datetime
 
+from django.conf import settings
 from django.shortcuts import _get_queryset
 
 
@@ -21,9 +22,9 @@ def get_image_path(instance, filename):
     """
     now = datetime.now()
     return os.path.join(
+        'photos',
         class_name(instance),
         now.strftime('%Y%m%d%H%M'), filename)
-
 
 def get_object_or_none(klass, *args, **kwargs):
     """

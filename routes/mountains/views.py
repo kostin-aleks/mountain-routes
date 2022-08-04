@@ -3,6 +3,7 @@ views related to carpathians
 """
 
 import django_filters
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
@@ -559,6 +560,7 @@ def edit_route(request, route_id):
             'start_height': route.start_height,
             'descent': route.descent,
             'ready': route.ready,
+            'photo': route.photo,
         }
         form = RouteForm(initial=data)
 
