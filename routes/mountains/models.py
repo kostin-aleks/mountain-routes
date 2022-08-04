@@ -71,6 +71,33 @@ class GeoPoint(models.Model):
         items = [float(x) for x in string.split()]
         return items[0] + items[1] / 60.0 + items[2] / 3600.0
 
+    def field_value(self, name='lat'):
+        """
+        return latitude or longitude
+        """
+        return self.longitude if name == 'lon' else self.latitude
+
+    def degrees(self, name):
+        """
+        return coordinate degrees as integer value
+        """
+        value = self.field_value(name)
+        return int(value)
+
+    def minutes(self, name):
+        """
+        return coordinate minutes as integer value
+        """
+        value = float(self.field_value(name))
+        return int(round((value - self.degrees(name)) * 60.0))
+
+    def seconds(self, name):
+        """
+        return coordinate seconds as integer value
+        """
+        value = float(self.field_value(name))
+        return int(round((value - self.degrees(name) - self.minutes(name) / 60.0) * 3600.0))
+
 
 class Ridge(models.Model):
     """
@@ -272,10 +299,12 @@ class Route(models.Model):
     def __str__(self):
         return f'{self.number}-{self.name}'
 
+    @property
     def sections(self):
         """ route sections """
         return self.routesection_set.order_by('num')
 
+    @property
     def points(self):
         """ route points """
         return self.routepoint_set.order_by('id')
@@ -309,13 +338,6 @@ class Route(models.Model):
         can be removed this route ?
         """
         return True
-
-    @property
-    def sections(self):
-        """
-        route sections
-        """
-        return self.routesection_set.all().order_by('num')
 
 
 class RouteSection(models.Model):

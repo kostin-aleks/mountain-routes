@@ -67,7 +67,7 @@ class PeakForm(forms.Form):
     height = forms.IntegerField(
         label=_('Height'),
         required=False, )
-    photo = forms.IntegerField(
+    photo = forms.ImageField(
         label=_('Photo'),
         required=False,
         widget=ImagePreviewWidget())
@@ -191,3 +191,58 @@ class RouteSectionForm(forms.ModelForm):
             'angle',
             'difficulty',
         )
+
+
+class RoutePointForm(forms.Form):
+    """ Form for RoutePoint """
+    latitude_degree = forms.IntegerField(
+        label=_('degrees'),
+        required=True,
+        min_value=-180,
+        max_value=180,
+        widget=forms.NumberInput(attrs={'size': 4})
+    )
+    latitude_minute = forms.IntegerField(
+        label=_('minutes'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+    latitude_second = forms.IntegerField(
+        label=_('seconds'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+
+    longitude_degree = forms.IntegerField(
+        label=_('degrees'),
+        required=True,
+        min_value=-180,
+        max_value=180,
+        widget=forms.NumberInput(attrs={'size': 4})
+    )
+    longitude_minute = forms.IntegerField(
+        label=_('minutes'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+    longitude_second = forms.IntegerField(
+        label=_('seconds'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+
+    description = forms.CharField(
+        label=_('Description'),
+        required=True,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Description'),
+            'rows': 2,
+        }), )

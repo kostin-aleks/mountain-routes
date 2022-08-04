@@ -5,16 +5,17 @@ views related to carpathians
 import django_filters
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
+import django_tables2 as tables
+from django_tables2.config import RequestConfig
 from django.template.defaultfilters import slugify
 from django.utils.html import format_html
 from django.urls import reverse
-import django_tables2 as tables
-from django_tables2.config import RequestConfig
+from django.views.decorators.csrf import csrf_exempt
 
-from routes.mountains.models import Ridge, Peak, Route, GeoPoint, RouteSection
-from routes.mountains.forms import RidgeForm, PeakForm, RouteForm, RouteSectionForm
+from routes.mountains.models import Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint
+from routes.mountains.forms import RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm
 
 
 class PeakFilter(django_filters.FilterSet):
@@ -539,6 +540,7 @@ def edit_route(request, route_id):
             route.start_height = data['start_height']
             route.descent = data['descent']
             route.ready = data['ready']
+            route.photo = request.FILES.get('photo')
             route.save()
 
             return HttpResponseRedirect(reverse('route', args=[route.id]))
@@ -561,11 +563,13 @@ def edit_route(request, route_id):
         form = RouteForm(initial=data)
 
     form_section = RouteSectionForm()
+    form_point = RoutePointForm()
 
     args = {}
     args['form'] = form
     args['route'] = route
     args['form_section'] = form_section
+    args['form_point'] = form_point
 
     return render(
         request, 'Routes/edit_route.html', args)
@@ -622,7 +626,6 @@ def add_route_section(request, route_id):
                 angle=data['angle']
             )
 
-
     args = {}
     args['form'] = form
     args['route'] = the_route
@@ -630,3 +633,157 @@ def add_route_section(request, route_id):
 
     return render(
         request, 'Routes/route_sections.html', args)
+
+
+@login_required
+def add_route_point(request, route_id):
+    """
+    add a new route point
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = RoutePointForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            latitude = abs(data['latitude_degree']) + data['latitude_minute'] / 60.0 + data['latitude_second'] / 3600.0
+            if data['latitude_degree'] < 0:
+                latitude = - latitude
+            longitude = abs(data['longitude_degree']) + data['longitude_minute'] / \
+                60.0 + data['longitude_second'] / 3600.0
+            if data['longitude_degree'] < 0:
+                longitude = - longitude
+            the_point = GeoPoint.objects.create(
+                latitude=latitude,
+                longitude=longitude,
+            )
+            the_point = RoutePoint.objects.create(
+                point=the_point,
+                description=data['description'],
+                route=the_route)
+
+    args = {}
+    args['route'] = the_route
+
+    return render(
+        request, 'Routes/route_points.html', args)
+
+
+@login_required
+@csrf_exempt
+def remove_route_point(request, route_id, point_id):
+    """
+    remove a new route point
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_point = get_object_or_404(RoutePoint, id=point_id)
+    if the_point.route.id != the_route.id:
+        raise Http404
+
+    the_point.delete()
+
+    return render(
+        request, 'Routes/delete_route_point.html', {})
+
+
+@login_required
+def edit_route_point(request, route_id, point_id):
+    """
+    edit a new route point
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_point = get_object_or_404(RoutePoint, id=point_id)
+    if the_point.route.id != the_route.id:
+        raise Http404
+
+    data = {
+        'latitude_degree': the_point.point.degrees('lat'),
+        'latitude_minute': the_point.point.minutes('lat'),
+        'latitude_second': the_point.point.seconds('lat'),
+        'longitude_degree': the_point.point.degrees('lon'),
+        'longitude_minute': the_point.point.minutes('lon'),
+        'longitude_second': the_point.point.seconds('lon'),
+        'description': the_point.description,
+    }
+    form = RoutePointForm(initial=data)
+
+    return render(
+        request,
+        'Routes/edit_route_point.html',
+        {'route': the_route, 'point': the_point, 'form_point': form})
+
+
+@login_required
+def get_route_point(request, route_id, point_id):
+    """
+    get the route point
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_point = get_object_or_404(RoutePoint, id=point_id)
+    if the_point.route.id != the_route.id:
+        raise Http404
+
+    return render(
+        request,
+        'Routes/get_route_point.html',
+        {'route': the_route, 'point': the_point})
+
+
+@login_required
+@csrf_exempt
+def update_route_point(request, route_id, point_id):
+    """
+    update a new route point
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_point = get_object_or_404(RoutePoint, id=point_id)
+    if the_point.route.id != the_route.id:
+        raise Http404
+
+    if request.method == 'POST':
+        form = RoutePointForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            latitude = abs(data['latitude_degree']) + data['latitude_minute'] / 60.0 + data['latitude_second'] / 3600.0
+            if data['latitude_degree'] < 0:
+                latitude = - latitude
+            longitude = abs(data['longitude_degree']) + data['longitude_minute'] / \
+                60.0 + data['longitude_second'] / 3600.0
+            if data['longitude_degree'] < 0:
+                longitude = - longitude
+            the_point.point.latitude = latitude
+            the_point.point.longitude = longitude
+
+            the_point.description = data['description']
+            the_point.save()
+            return render(
+                request, 'Routes/get_route_point.html',
+                {'route': the_route, 'point': the_point})
+        else:
+            return render(
+                request, 'Routes/edit_route_point.html',
+                {'route': the_route, 'point': the_point, 'form': form})
+
+    args = {}
+    args['route'] = the_route
+    args['point'] = the_point
+
+    return render(
+        request, 'Routes/get_route_point.html', args)

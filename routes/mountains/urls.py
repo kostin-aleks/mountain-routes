@@ -23,4 +23,13 @@ urlpatterns = [
     path('remove/route/<int:route_id>/', views.remove_route, name="remove-route"),
     path('', views.routes, name="routes"),
     path('add/route/<int:route_id>/section/', views.add_route_section, name="add-route-section"),
+    path('add/route/<int:route_id>/point/', views.add_route_point, name="add-route-point"),
+    path('remove/route/<int:route_id>/point/<int:point_id>/',
+         views.remove_route_point, name="remove-route-point"),
+    path('edit/route/<int:route_id>/point/<int:point_id>/',
+         views.edit_route_point, name="edit-route-point"),
+    path('get/route/<int:route_id>/point/<int:point_id>/',
+         views.get_route_point, name="get-route-point"),
+    path('update/route/<int:route_id>/point/<int:point_id>/',
+         views.update_route_point, name="update-route-point"),
 ]

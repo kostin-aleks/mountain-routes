@@ -3,8 +3,15 @@
 {% load static %}
 
     {% block content %}
+    <style>
+      tr.htmx-swapping td {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+      }
+    </style>
     <section class="" x-data="{showmodal_add_section: false}">
       {% include "Routes/add_route_section.html" %}
+      {% include "Routes/add_route_point.html" %}
 
     <div class="btn-group" role="group" aria-label="">
       {% if form.errors %}
@@ -12,7 +19,7 @@
           {% trans 'Please fill fields with correct values' %}
         </div>
       {% endif %}
-      <form action="" method="post">
+      <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h3 class="text-center text-info">{% trans 'Edit route' %} "{{ route.peak.name }} {{ route.name }}"</h3>
         <div class="form-group">
@@ -113,6 +120,15 @@
             </button>
         </div>
         <br/>
+
+        <div id="route-points">{% include "Routes/route_points.html" %}</div>
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalPoints">
+              {% trans "Add route point" %}
+            </button>
+        </div>
+        <br/>
+
         <div>
             <button type="submit" class="btn btn-primary">
               {% trans "Save" %}
