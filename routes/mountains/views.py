@@ -341,13 +341,22 @@ def add_ridge_peak(request, slug):
 
         if form.is_valid():
             data = form.cleaned_data
+            latitude = abs(data['latitude_degree']) + data['latitude_minute'] / 60.0 + data['latitude_second'] / 3600.0
+            if data['latitude_degree'] < 0:
+                latitude = - latitude
+            longitude = abs(data['longitude_degree']) + data['longitude_minute'] / \
+                60.0 + data['longitude_second'] / 3600.0
+            if data['longitude_degree'] < 0:
+                longitude = - longitude
+
             peak = Peak.objects.create(
                 ridge=the_ridge,
                 slug=data['slug'],
                 name=data['name'],
                 description=data['description'],
                 height=data['height'],
-                point=GeoPoint.objects.create(latitude=data['latitude'], longitude=data['longitude'])
+                photo=request.FILES.get('photo'),
+                point=GeoPoint.objects.create(latitude=latitude, longitude=longitude)
             )
             return HttpResponseRedirect(reverse('ridge', args=[the_ridge.slug]))
     else:
@@ -411,12 +420,21 @@ def edit_peak(request, slug):
 
         if form.is_valid():
             data = form.cleaned_data
+            latitude = abs(data['latitude_degree']) + data['latitude_minute'] / 60.0 + data['latitude_second'] / 3600.0
+            if data['latitude_degree'] < 0:
+                latitude = - latitude
+            longitude = abs(data['longitude_degree']) + data['longitude_minute'] / \
+                60.0 + data['longitude_second'] / 3600.0
+            if data['longitude_degree'] < 0:
+                longitude = - longitude
+
             peak.slug = data['slug']
             peak.name = data['name']
             peak.description = data['description']
             peak.height = data['height']
-            peak.point.latitude = data['latitude']
-            peak.point.longitude = data['longitude']
+            peak.photo = request.FILES.get('photo')
+            peak.point.latitude = latitude
+            peak.point.longitude = longitude
             peak.point.save()
             peak.save()
 
@@ -427,10 +445,10 @@ def edit_peak(request, slug):
             'name': peak.name,
             'description': peak.description,
             'height': peak.height,
-            'latitude': peak.point.latitude,
-            'longitude': peak.point.longitude,
             'photo': peak.photo
         }
+        fill_with_point_data(peak.point, data)
+        print(data)
         form = PeakForm(initial=data)
 
     args = {}
@@ -659,12 +677,12 @@ def add_route_point(request, route_id):
                 60.0 + data['longitude_second'] / 3600.0
             if data['longitude_degree'] < 0:
                 longitude = - longitude
-            the_point = GeoPoint.objects.create(
+            __point = GeoPoint.objects.create(
                 latitude=latitude,
                 longitude=longitude,
             )
             the_point = RoutePoint.objects.create(
-                point=the_point,
+                point=_point,
                 description=data['description'],
                 route=the_route)
 
@@ -696,6 +714,38 @@ def remove_route_point(request, route_id, point_id):
 
 
 @login_required
+@csrf_exempt
+def remove_route_section(request, route_id, section_id):
+    """
+    remove a new route section
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_section = get_object_or_404(RouteSection, id=section_id)
+    if the_section.route.id != the_route.id:
+        raise Http404
+
+    the_section.delete()
+
+    return render(
+        request, 'Routes/delete_route_section.html', {})
+
+
+def fill_with_point_data(point, data):
+    """
+    fill form fields with point data
+    """
+    data['latitude_degree'] = point.degrees('lat')
+    data['latitude_minute'] = point.minutes('lat')
+    data['latitude_second'] = point.seconds('lat')
+    data['longitude_degree'] = point.degrees('lon')
+    data['longitude_minute'] = point.minutes('lon')
+    data['longitude_second'] = point.seconds('lon')
+
+
+@login_required
 def edit_route_point(request, route_id, point_id):
     """
     edit a new route point
@@ -708,21 +758,44 @@ def edit_route_point(request, route_id, point_id):
     if the_point.route.id != the_route.id:
         raise Http404
 
-    data = {
-        'latitude_degree': the_point.point.degrees('lat'),
-        'latitude_minute': the_point.point.minutes('lat'),
-        'latitude_second': the_point.point.seconds('lat'),
-        'longitude_degree': the_point.point.degrees('lon'),
-        'longitude_minute': the_point.point.minutes('lon'),
-        'longitude_second': the_point.point.seconds('lon'),
-        'description': the_point.description,
-    }
+    data = {'description': the_point.description}
+    fill_with_point_data(the_point.point, data)
+
     form = RoutePointForm(initial=data)
 
     return render(
         request,
         'Routes/edit_route_point.html',
         {'route': the_route, 'point': the_point, 'form_point': form})
+
+
+@login_required
+def edit_route_section(request, route_id, section_id):
+    """
+    edit a new route section
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_section = get_object_or_404(RouteSection, id=section_id)
+    if the_section.route.id != the_route.id:
+        raise Http404
+
+    data = {
+        'description': the_section.description,
+        'num': the_section.num,
+        'length': the_section.length,
+        'angle': the_section.angle,
+        'difficulty': the_section.difficulty,
+    }
+
+    form = RouteSectionForm(initial=data)
+
+    return render(
+        request,
+        'Routes/edit_route_section.html',
+        {'route': the_route, 'section': the_section, 'form_section': form})
 
 
 @login_required
@@ -742,6 +815,25 @@ def get_route_point(request, route_id, point_id):
         request,
         'Routes/get_route_point.html',
         {'route': the_route, 'point': the_point})
+
+
+@login_required
+def get_route_section(request, route_id, section_id):
+    """
+    get the route section
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_section = get_object_or_404(RouteSection, id=section_id)
+    if the_section.route.id != the_route.id:
+        raise Http404
+
+    return render(
+        request,
+        'Routes/get_route_section.html',
+        {'route': the_route, 'section': the_section})
 
 
 @login_required
@@ -789,3 +881,42 @@ def update_route_point(request, route_id, point_id):
 
     return render(
         request, 'Routes/get_route_point.html', args)
+
+@login_required
+@csrf_exempt
+def update_route_section(request, route_id, section_id):
+    """
+    update a new route section
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_section = get_object_or_404(RouteSection, id=section_id)
+    if the_section.route.id != the_route.id:
+        raise Http404
+
+    if request.method == 'POST':
+        form = RouteSectionForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            the_section.num = data['num']
+            the_section.length = data['length']
+            the_section.angle = data['angle']
+            the_section.description = data['description']
+            the_section.save()
+            return render(
+                request, 'Routes/get_route_section.html',
+                {'route': the_route, 'section': the_section})
+        else:
+            return render(
+                request, 'Routes/edit_route_section.html',
+                {'route': the_route, 'section': the_section, 'form': form})
+
+    args = {}
+    args['route'] = the_route
+    args['point'] = the_section
+
+    return render(
+        request, 'Routes/get_route_section.html', args)

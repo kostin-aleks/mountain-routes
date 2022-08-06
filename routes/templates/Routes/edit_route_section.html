@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load static %}
+
+<tr>
+  <td colspan="4">
+    <form hx-target="this" hx-swap="outerHTML" hx-post="{% url "update-route-section" route.id section.id %}" >
+      {% csrf_token %}
+        <div>
+            <span class="form-group">
+              {{ form_section.num }}
+            </span>
+            <br/>
+            <span class="form-group">
+              {{ form_section.description }}
+            </span>
+            <br/>
+            <span class="form-group">
+              {{ form_section.length }}
+            </span>
+            <br/>
+            <span class="form-group">
+              {{ form_section.angle }}
+            </span>
+            <br/>
+        </div>
+        <button class="btn btn-success">{% trans "Update" %}</button>
+        <button class="btn btn-default" hx-get="{% url "get-route-section" route.id section.id %}">{% trans "Cancel" %}</button>
+      </form>
+  </td>
+</tr>

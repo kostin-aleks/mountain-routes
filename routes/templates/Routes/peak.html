@@ -14,24 +14,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if can_be_edited %}
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-primary"
-              onclick="document.location='{% url "add-peak-route" peak.slug %}'">
-        {% trans "Add a new route" %}
-      </button>
-      <button type="button" class="btn btn-primary"
-              onclick="document.location='{% url "edit-peak" peak.slug %}'">
-        {% trans "Edit the summit" %}
-      </button>
-      {% if can_be_removed %}
-      <button type="button" class="btn btn-danger"
-              onclick="document.location='{% url "remove-peak" peak.slug %}'">
-        {% trans "Remove the summit" %}
-      </button>
-      {% endif %}
-    </div>
-    {% endif %}
+    {% include "Routes/peak_buttons.html" %}
 
     <div class="panel panel-default">
       <div class="panel-body">

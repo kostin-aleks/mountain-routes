@@ -72,12 +72,49 @@ class PeakForm(forms.Form):
         label=_('Photo'),
         required=False,
         widget=ImagePreviewWidget())
-    latitude = forms.FloatField(
-        label=_('Latitude'),
-        required=False, )
-    longitude = forms.FloatField(
-        label=_('Longitude'),
-        required=False, )
+    latitude_degree = forms.IntegerField(
+        label=_('degrees'),
+        required=True,
+        min_value=-180,
+        max_value=180,
+        widget=forms.NumberInput(attrs={'size': 4})
+    )
+    latitude_minute = forms.IntegerField(
+        label=_('minutes'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+    latitude_second = forms.IntegerField(
+        label=_('seconds'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+
+    longitude_degree = forms.IntegerField(
+        label=_('degrees'),
+        required=True,
+        min_value=-180,
+        max_value=180,
+        widget=forms.NumberInput(attrs={'size': 4})
+    )
+    longitude_minute = forms.IntegerField(
+        label=_('minutes'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
+    longitude_second = forms.IntegerField(
+        label=_('seconds'),
+        required=True,
+        min_value=0,
+        max_value=59,
+        widget=forms.NumberInput(attrs={'size': 2})
+    )
 
     def clean_slug(self):
         slug = self.cleaned_data['slug']

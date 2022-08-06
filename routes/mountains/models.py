@@ -375,7 +375,7 @@ class RouteSection(models.Model):
             length = f'{len_km}км ' + length
         items = [length]
         if self.angle:
-            items.append(self.angle)
+            items.append(f'{self.angle}&deg;')
         items.append(self.difficulty)
         return ', '.join(items)
 

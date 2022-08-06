@@ -32,4 +32,12 @@ urlpatterns = [
          views.get_route_point, name="get-route-point"),
     path('update/route/<int:route_id>/point/<int:point_id>/',
          views.update_route_point, name="update-route-point"),
+    path('remove/route/<int:route_id>/section/<int:section_id>/',
+         views.remove_route_section, name="remove-route-section"),
+    path('edit/route/<int:route_id>/section/<int:section_id>/',
+         views.edit_route_section, name="edit-route-section"),
+    path('get/route/<int:route_id>/section/<int:section_id>/',
+         views.get_route_section, name="get-route-section"),
+    path('update/route/<int:route_id>/section/<int:section_id>/',
+         views.update_route_section, name="update-route-section"),
 ]

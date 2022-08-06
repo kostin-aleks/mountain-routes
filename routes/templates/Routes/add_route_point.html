@@ -17,19 +17,7 @@
       <div class="modal-body">
         <div>
             {% csrf_token %}
-            <div class="form-group">
-                <label for="id_latitude_degree" class="text-info">{% trans "Latitude" %}:</label><br/>
-                {{ form_point.latitude_degree }}&deg;&nbsp;
-                {{ form_point.latitude_minute }}&prime;&nbsp;
-                {{ form_point.latitude_second }}&Prime;
-            </div>
-
-            <div class="form-group">
-                <label for="id_longitude_degree" class="text-info">{% trans "longitude" %}:</label><br/>
-                {{ form_point.longitude_degree }}&deg;&nbsp;
-                {{ form_point.longitude_minute }}&prime;&nbsp;
-                {{ form_point.longitude_second }}&Prime;
-            </div>
+            {% include "Routes/point_block.html" %}
 
             <div class="form-group">
               <label for="id_description" class="text-info">{{ form_section.description.label }}:</label><br>
