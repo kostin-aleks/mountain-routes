@@ -3,6 +3,8 @@
 {% load static %}
 
     {% block content %}
+    {% include "Routes/add_peak_photo.html" %}
+
     <div class="btn-group" role="group" aria-label="">
       {% if form.errors %}
         <div class="error-message">
@@ -43,6 +45,16 @@
           {{ form.photo }}
           <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
         </div>
+
+        <div id="peak-photos">{% include "Routes/peak_photos.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#myModalPhotos">
+              {% trans "Add photo" %}
+            </button>
+        </div>
+        <br/>
 
         <button type="submit" class="btn btn-primary">
           {% trans "Save" %}

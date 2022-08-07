@@ -43,6 +43,21 @@ class RidgeForm(forms.ModelForm):
         return slug
 
 
+class PeakPhotoForm(forms.Form):
+    """ Form for Peak Photo """
+    description = forms.CharField(
+        label=_('Description'),
+        required=True,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Description'),
+        }), )
+
+    photo = forms.ImageField(
+        label=_('Photo'),
+        required=False,
+        widget=ImagePreviewWidget())
+
+
 class PeakForm(forms.Form):
     """ Form for Peak """
     name = forms.CharField(

@@ -15,8 +15,10 @@ from django.utils.html import format_html
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from routes.mountains.models import Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint
-from routes.mountains.forms import RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm
+from routes.mountains.models import (
+    Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, PeakPhoto)
+from routes.mountains.forms import (
+    RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm, PeakPhotoForm)
 
 
 class PeakFilter(django_filters.FilterSet):
@@ -294,39 +296,6 @@ def remove_ridge(request, slug):
 
 
 @login_required
-def edit_ridge(request, slug):
-    """
-    edit the ridge
-    """
-    user = request.user
-    the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or (user.climber.is_editor and the_ridge.editor == user)):
-        raise PermissionDenied()
-
-    if request.method == 'POST':
-        form = RidgeForm(request.POST, instance=the_ridge)
-
-        if form.is_valid():
-            data = form.cleaned_data
-            the_ridge.slug = data['slug']
-            the_ridge.name = data['name']
-            the_ridge.description = data['description']
-            the_ridge.save()
-
-            return HttpResponseRedirect(reverse('ridges'))
-    else:
-        form = RidgeForm(instance=the_ridge)
-
-    args = {}
-    args['form'] = form
-    args['ridge'] = the_ridge
-    print('ARGS', args)
-
-    return render(
-        request, 'Routes/edit_ridge.html', args)
-
-
-@login_required
 def add_ridge_peak(request, slug):
     """
     edit the ridge
@@ -432,7 +401,8 @@ def edit_peak(request, slug):
             peak.name = data['name']
             peak.description = data['description']
             peak.height = data['height']
-            peak.photo = request.FILES.get('photo')
+            if request.FILES.get('photo'):
+                peak.photo = request.FILES.get('photo')
             peak.point.latitude = latitude
             peak.point.longitude = longitude
             peak.point.save()
@@ -448,12 +418,15 @@ def edit_peak(request, slug):
             'photo': peak.photo
         }
         fill_with_point_data(peak.point, data)
-        print(data)
+
         form = PeakForm(initial=data)
+
+    form_photo = PeakPhotoForm()
 
     args = {}
     args['form'] = form
     args['peak'] = peak
+    args['form_photo'] = form_photo
 
     return render(
         request, 'Routes/edit_peak.html', args)
@@ -559,7 +532,10 @@ def edit_route(request, route_id):
             route.start_height = data['start_height']
             route.descent = data['descent']
             route.ready = data['ready']
-            route.photo = request.FILES.get('photo')
+            if request.FILES.get('photo'):
+                route.photo = request.FILES.get('photo')
+            if request.FILES.get('map_image'):
+                route.map_image = request.FILES.get('map_image')
             route.save()
 
             return HttpResponseRedirect(reverse('route', args=[route.id]))
@@ -579,6 +555,7 @@ def edit_route(request, route_id):
             'descent': route.descent,
             'ready': route.ready,
             'photo': route.photo,
+            'map_image': route.map_image,
         }
         form = RouteForm(initial=data)
 
@@ -609,6 +586,9 @@ def remove_route(request, route_id):
     if request.method == 'POST':
         data = request.POST
         if 'remove' in data:
+            for route in Route.objects.filter(slug=data['slug']):
+                RouteSection.objects.filter(route=route).delete()
+                RoutePoint.objects.filter(route=route).delete()
             Route.objects.filter(slug=data['slug']).delete()
             return HttpResponseRedirect(reverse('peak', args=[peak.slug]))
         if 'cancel' in data:
@@ -653,6 +633,36 @@ def add_route_section(request, route_id):
 
     return render(
         request, 'Routes/route_sections.html', args)
+
+
+@login_required
+def add_peak_photo(request, slug):
+    """
+    add a new peak photo
+    """
+    user = request.user
+    the_peak = get_object_or_404(Peak, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and peak.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = PeakPhotoForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            peak_photo = PeakPhoto.objects.create(
+                peak=the_peak,
+                description=data['description'],
+            )
+            if request.FILES.get('photo'):
+                peak_photo.photo = request.FILES.get('photo')
+                peak_photo.save()
+
+    args = {}
+    args['peak'] = the_peak
+
+    return render(
+        request, 'Routes/peak_photos.html', args)
 
 
 @login_required
@@ -731,6 +741,26 @@ def remove_route_section(request, route_id, section_id):
 
     return render(
         request, 'Routes/delete_route_section.html', {})
+
+
+@login_required
+@csrf_exempt
+def remove_peak_photo(request, slug, photo_id):
+    """
+    remove a new peak photo
+    """
+    user = request.user
+    the_peak = get_object_or_404(Peak, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and peak.editor == user)):
+        raise PermissionDenied()
+    the_photo = get_object_or_404(PeakPhoto, id=photo_id)
+    if the_photo.peak.id != the_peak.id:
+        raise Http404
+
+    the_photo.delete()
+
+    return render(
+        request, 'Routes/delete_peak_photo.html', {})
 
 
 def fill_with_point_data(point, data):

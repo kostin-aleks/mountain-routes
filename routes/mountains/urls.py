@@ -40,4 +40,7 @@ urlpatterns = [
          views.get_route_section, name="get-route-section"),
     path('update/route/<int:route_id>/section/<int:section_id>/',
          views.update_route_section, name="update-route-section"),
+    path('add/peak/<slug>/photo/', views.add_peak_photo, name="add-peak-photo"),
+    path('remove/peak/<slug>/photo/<int:photo_id>/',
+         views.remove_peak_photo, name="remove-peak-photo"),
 ]
