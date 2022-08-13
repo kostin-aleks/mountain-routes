@@ -154,5 +154,6 @@ ACCOUNT_ACTIVATION_DAYS = 2
 
 try:
     from .custom_settings import *
+
 except ImportError:
     pass

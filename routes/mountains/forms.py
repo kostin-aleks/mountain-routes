@@ -9,11 +9,17 @@ from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from routes.mountains.models import Ridge, Peak, Route, RouteSection
+from routes.mountains.models import Ridge, RouteSection
 
 
 class ImagePreviewWidget(forms.widgets.FileInput):
+    """
+    Widget ImagePreview
+    """
     def render(self, name, value, attrs=None, **kwargs):
+        """
+        render
+        """
         input_html = super().render(name, value, attrs=None, **kwargs)
         if value:
             img_html = mark_safe(
@@ -34,11 +40,15 @@ class RidgeForm(forms.ModelForm):
         )
 
     def clean_slug(self):
+        """
+        validate field slug
+        """
         slug = self.cleaned_data['slug']
         pattern = r'[^\-a-z0-9]'
         if re.search(pattern, slug):
             # Character other then . a-z 0-9 was found
-            raise ValidationError(_("The slug must consist only of the characters (a-z, 0-9 and -)."))
+            raise ValidationError(
+                _("The slug must consist only of the characters (a-z, 0-9 and -)."))
 
         return slug
 
@@ -132,11 +142,15 @@ class PeakForm(forms.Form):
     )
 
     def clean_slug(self):
+        """
+        validate field slug
+        """
         slug = self.cleaned_data['slug']
         pattern = r'[^\-a-z0-9]'
         if re.search(pattern, slug):
             # Character other then . a-z 0-9 was found
-            raise ValidationError(_("The slug must consist only of the characters (a-z, 0-9 and -)."))
+            raise ValidationError(
+                _("The slug must consist only of the characters (a-z, 0-9 and -)."))
 
         return slug
 
@@ -230,11 +244,15 @@ class RouteForm(forms.Form):
         required=False, )
 
     def clean_slug(self):
+        """
+        validate field slug
+        """
         slug = self.cleaned_data['slug']
         pattern = r'[^\-a-z0-9]'
         if re.search(pattern, slug):
             # Character other then . a-z 0-9 was found
-            raise ValidationError(_("The slug must consist only of the characters (a-z, 0-9 and -)."))
+            raise ValidationError(
+                _("The slug must consist only of the characters (a-z, 0-9 and -)."))
 
         return slug
 

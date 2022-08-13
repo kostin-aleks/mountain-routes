@@ -6,9 +6,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 
-from routes.misc import atoi
 from .forms import ProfileForm
 
 

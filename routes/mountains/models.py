@@ -120,6 +120,9 @@ class Ridge(models.Model):
         return f'{self.id}-{self.slug}'
 
     def get_absolute_url(self):
+        """
+        get absolute url to the ridge
+        """
         return reverse("ridge", kwargs={"slug": self.slug})
 
     def peaks(self):

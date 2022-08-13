@@ -2,11 +2,11 @@
 forms related to app user
 """
 
-import re
 from django import forms
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+
+from routes.utils import random_username
 
 
 class ProfileForm(forms.Form):
@@ -51,7 +51,9 @@ class ProfileForm(forms.Form):
     )
 
     def custom_init(self):
-        from fcuser.views import random_username
+        """
+        custom init
+        """
         username = ''
         for i in range(10):
             username = random_username()
@@ -59,16 +61,5 @@ class ProfileForm(forms.Form):
                 break
         self.fields['username'].initial = username
 
-    #def clean_username(self):
-        #username = self.cleaned_data['username']
-        #if not re.match(r'^[A-Za-z0-9_\.]{2,16}$', username):
-            #raise forms.ValidationError(
-                #_("Nickname should be a combination of english alphabets,"
-                  #" numbers, underscore and point with length between 2 and 16 symbols"))
-        #if username and get_user_model().objects.filter(username__iexact=username).exists():
-            #raise ValidationError(_('A user with this nickname already exists'))
-        #return username
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
