@@ -16,9 +16,10 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from routes.mountains.models import (
-    Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, PeakPhoto)
+    Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, PeakPhoto, RidgeInfoLink)
 from routes.mountains.forms import (
-    RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm, PeakPhotoForm)
+    RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm,
+    PeakPhotoForm, RidgeLinkForm)
 
 
 class PeakFilter(django_filters.FilterSet):
@@ -368,6 +369,7 @@ def edit_ridge(request, slug):
 
     args = {}
     args['form'] = form
+    args['form_link'] = RidgeLinkForm()
     args['ridge'] = the_ridge
 
     return render(
@@ -523,6 +525,7 @@ def edit_route(request, route_id):
             route.name = data['name']
             route.description = data['description']
             route.short_description = data['short_description']
+            route.recommended_equipment = data['recommended_equipment']
             route.length = data['length']
             route.difficulty = data['difficulty']
             route.max_difficulty = data['max_difficulty']
@@ -545,6 +548,7 @@ def edit_route(request, route_id):
             'name': route.name,
             'description': route.description,
             'short_description': route.short_description,
+            'recommended_equipment': route.recommended_equipment,
             'length': route.length,
             'difficulty': route.difficulty,
             'max_difficulty': route.max_difficulty,
@@ -704,6 +708,35 @@ def add_route_point(request, route_id):
 
 
 @login_required
+def add_ridge_link(request, slug):
+    """
+    add a new ridge link
+    """
+    user = request.user
+    the_ridge = get_object_or_404(Ridge, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and ridge.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = RidgeLinkForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+
+            the_link = RidgeInfoLink.objects.create(
+                link=data['link'],
+                description=data['description'],
+                ridge=the_ridge)
+    else:
+        form = RidgeLinkForm()
+    args = {}
+    args['ridge'] = the_ridge
+
+    return render(
+        request, 'Routes/ridge_links.html', args)
+
+
+@login_required
 @csrf_exempt
 def remove_route_point(request, route_id, point_id):
     """
@@ -721,6 +754,26 @@ def remove_route_point(request, route_id, point_id):
 
     return render(
         request, 'Routes/delete_route_point.html', {})
+
+
+@login_required
+@csrf_exempt
+def remove_ridge_link(request, slug, link_id):
+    """
+    remove a new ridge link
+    """
+    user = request.user
+    the_ridge = get_object_or_404(Ridge, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and ridge.editor == user)):
+        raise PermissionDenied()
+    the_link = get_object_or_404(RidgeInfoLink, id=link_id)
+    if the_link.ridge.id != the_ridge.id:
+        raise Http404
+
+    the_link.delete()
+
+    return render(
+        request, 'Routes/delete_ridge_link.html', {})
 
 
 @login_required
@@ -800,6 +853,32 @@ def edit_route_point(request, route_id, point_id):
 
 
 @login_required
+def edit_ridge_link(request, slug, link_id):
+    """
+    edit a new ridge link
+    """
+    user = request.user
+    the_ridge = get_object_or_404(Ridge, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and ridge.editor == user)):
+        raise PermissionDenied()
+    the_link = get_object_or_404(RidgeInfoLink, id=link_id)
+    if the_link.ridge.id != the_ridge.id:
+        raise Http404
+
+    data = {
+        'description': the_link.description,
+        'link': the_link.link,
+    }
+
+    form = RidgeLinkForm(initial=data)
+
+    return render(
+        request,
+        'Routes/edit_ridge_link.html',
+        {'ridge': the_ridge, 'link': the_link, 'form_link': form})
+
+
+@login_required
 def edit_route_section(request, route_id, section_id):
     """
     edit a new route section
@@ -845,6 +924,25 @@ def get_route_point(request, route_id, point_id):
         request,
         'Routes/get_route_point.html',
         {'route': the_route, 'point': the_point})
+
+
+@login_required
+def get_ridge_link(request, slug, link_id):
+    """
+    get the ridge link
+    """
+    user = request.user
+    the_ridge = get_object_or_404(Ridge, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and ridge.editor == user)):
+        raise PermissionDenied()
+    the_link = get_object_or_404(RidgeInfoLink, id=link_id)
+    if the_link.ridge.id != the_ridge.id:
+        raise Http404
+
+    return render(
+        request,
+        'Routes/get_ridge_link.html',
+        {'ridge': the_ridge, 'link': the_link})
 
 
 @login_required
@@ -911,6 +1009,47 @@ def update_route_point(request, route_id, point_id):
 
     return render(
         request, 'Routes/get_route_point.html', args)
+
+
+@login_required
+@csrf_exempt
+def update_ridge_link(request, slug, link_id):
+    """
+    update a new ridge link
+    """
+    user = request.user
+    the_ridge = get_object_or_404(Ridge, slug=slug)
+    if not (user.is_superuser or (user.climber.is_editor and ridge.editor == user)):
+        raise PermissionDenied()
+    the_link = get_object_or_404(RidgeInfoLink, id=link_id)
+    if the_link.ridge.id != the_ridge.id:
+        raise Http404
+
+    if request.method == 'POST':
+        form = RidgeLinkForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            the_link.description = data['description']
+            the_link.link = data['link']
+            the_link.save()
+            print(the_ridge)
+            print(the_link)
+            return render(
+                request, 'Routes/get_ridge_link.html',
+                {'ridge': the_ridge, 'link': the_link})
+        else:
+            return render(
+                request, 'Routes/edit_ridge_link.html',
+                {'ridge': the_ridge, 'link': the_link, 'form': form})
+
+    args = {}
+    args['ridge'] = the_ridge
+    args['link'] = the_link
+
+    return render(
+        request, 'Routes/get_ridge_link.html', args)
+
 
 @login_required
 @csrf_exempt

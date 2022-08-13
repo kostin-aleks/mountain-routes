@@ -29,22 +29,11 @@
         <h3>Описание маршрута пока не готово к использованию.</h3>
       </div>
     </div>
-    {% endif %}
+    {% else %}
 
-    {% if can_be_edited %}
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-primary"
-              onclick="document.location='{% url "edit-route" route.id %}'">
-        {% trans "Edit the route" %}
-      </button>
-      {% if can_be_removed %}
-      <button type="button" class="btn btn-danger"
-              onclick="document.location='{% url "remove-route" route.id %}'">
-        {% trans "Remove the route" %}
-      </button>
-      {% endif %}
-    </div>
-    {% endif %}
+    {% include "Routes/route_buttons.html" %}
+
+    <br/><br/>
 
     <div class="panel panel-default">
       <div class="panel-body text-primary">
@@ -115,6 +104,16 @@
       </div>
     </div>
 
+    {% if route.recommended_equipment %}
+    <div class="panel">
+      <div class="panel-body">
+        <div class="alert alert-warning">
+          {% trans "Recommended equipment:" %} {{ route.recommended_equipment }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
     {% if route.points %}
     <div class="panel panel-default">
       <div class="panel-body">
@@ -152,5 +151,6 @@
     <script>
       new Zooming().listen('img');
     </script>
+    {% endif %}
 {% endblock %}
 

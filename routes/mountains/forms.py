@@ -172,6 +172,12 @@ class RouteForm(forms.Form):
         widget=forms.Textarea(attrs={
             'placeholder': _('Description'),
         }), )
+    recommended_equipment = forms.CharField(
+        label=_('Recommended Equipment'),
+        required=False,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Recommended equipment'),
+        }), )
     difficulty = forms.CharField(
         label=_('Difficulty'),
         required=False,
@@ -298,4 +304,23 @@ class RoutePointForm(forms.Form):
         widget=forms.Textarea(attrs={
             'placeholder': _('Description'),
             'rows': 2,
+        }), )
+
+
+class RidgeLinkForm(forms.Form):
+    """ Form for RidgeLink """
+    link = forms.URLField(
+        label=_('Link'),
+        required=True,
+        min_length=5,
+        widget=forms.URLInput(attrs={'size': 40})
+    )
+
+    description = forms.CharField(
+        label=_('Description'),
+        required=True,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Description'),
+            'rows': 2,
+            'cols': 40,
         }), )

@@ -126,6 +126,10 @@ class Ridge(models.Model):
         """ ridge peaks """
         return self.peak_set.order_by('name')
 
+    def links(self):
+        """ ridge links """
+        return self.ridgeinfolink_set.order_by('id')
+
     def routes(self):
         """ ridge routes """
         return Route.objects.filter(peak__ridge=self).order_by('number')
@@ -273,6 +277,7 @@ class Route(models.Model):
     number = models.PositiveSmallIntegerField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    recommended_equipment = models.TextField(blank=True, null=True)
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
     map_image = models.ImageField(

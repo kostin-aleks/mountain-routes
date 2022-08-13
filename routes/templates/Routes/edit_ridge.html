@@ -3,6 +3,9 @@
 {% load static %}
 
     {% block content %}
+
+    {% include "Routes/add_ridge_link.html" %}
+
     <div class="btn-group" role="group" aria-label="">
       {% if form.errors %}
         <div class="error-message">
@@ -27,6 +30,15 @@
           {{ form.description }}
           <label id="description-error" class="has-error" for="id_description">{{ form.description.errors }}</label>
         </div>
+
+        <div id="ridge-links">{% include "Routes/ridge_links.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+              {% trans "Add ridge info link" %}
+            </button>
+        </div>
+        <br/>
 
         <button type="submit" class="btn btn-primary">
           {% trans "Save" %}

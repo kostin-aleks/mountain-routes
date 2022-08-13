@@ -53,6 +53,12 @@
         </div>
 
         <div class="form-group">
+          <label for="id_recommended_equipment" class="text-info">{{ form.recommended_equipment.label }}:</label><br>
+          {{ form.recommended_equipment }}
+          <label id="recommended-equipment-error" class="has-error" for="id_recommended_equipment">{{ form.recommended_equipment.errors }}</label>
+        </div>
+
+        <div class="form-group">
           <label for="id_difficulty" class="text-info">{{ form.difficulty.label }}:</label><br>
           {{ form.difficulty }}
           <label id="difficulty-error" class="has-error" for="id_difficulty">{{ form.difficulty.errors }}</label>

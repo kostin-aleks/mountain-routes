@@ -5,27 +5,30 @@
     {% block content %}
     <div>
       <h2>{{ ridge.name }}</h2>
-      <div>{{ ridge.description|default_if_none:""|safe }}</div>
+      <div>{{ ridge.description|default_if_none:""|linebreaks|safe }}</div>
     </div>
 
-    {% if can_be_edited %}
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-primary"
-              onclick="document.location='{% url "add-ridge-peak" ridge.slug %}'">
-        {% trans "Add a new summit" %}
-      </button>
-      <button type="button" class="btn btn-primary"
-              onclick="document.location='{% url "edit-ridge" ridge.slug %}'">
-        {% trans "Edit the ridge" %}
-      </button>
-      {% if can_be_removed %}
-      <button type="button" class="btn btn-danger"
-              onclick="document.location='{% url "remove-ridge" ridge.slug %}'">
-        {% trans "Remove the ridge" %}
-      </button>
-      {% endif %}
+    {% if ridge.links %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table">
+        {% for link in ridge.links %}
+        <tr>
+          <td class="min text-primary">
+            <a href="{{ link.link|safe }}" target="_blank">
+            <strong>{{ link.description|linebreaks|safe }}</strong>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+        </table>
+      </div>
     </div>
     {% endif %}
+
+    {% include "Routes/ridge_buttons.html" %}
+
+    <br/><br/>
 
     {% if ridge.peaks %}
       <table class="table table-striped">

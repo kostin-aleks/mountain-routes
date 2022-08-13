@@ -43,4 +43,13 @@ urlpatterns = [
     path('add/peak/<slug>/photo/', views.add_peak_photo, name="add-peak-photo"),
     path('remove/peak/<slug>/photo/<int:photo_id>/',
          views.remove_peak_photo, name="remove-peak-photo"),
+    path('add/ridge/<slug>/link/', views.add_ridge_link, name="add-ridge-link"),
+    path('edit/ridge/<slug>/link/<int:link_id>/',
+         views.edit_ridge_link, name="edit-ridge-link"),
+    path('update/ridge/<slug>/link/<int:link_id>/',
+         views.update_ridge_link, name="update-ridge-link"),
+    path('remove/ridge/<slug>/link/<int:link_id>/',
+         views.remove_ridge_link, name="remove-ridge-link"),
+    path('get/ridge/<slug>/link/<int:link_id>/',
+         views.get_ridge_link, name="get-ridge-link"),
 ]
