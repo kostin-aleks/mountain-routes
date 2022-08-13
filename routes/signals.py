@@ -9,4 +9,4 @@ def create_custom_user(sender, instance, signal, created, **kwargs):
 
     if created:
         Climber.objects.create(user=instance)
-    instance.gpsfunuser.save()
+    instance.climber.save()

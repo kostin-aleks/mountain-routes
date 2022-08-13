@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load static %}
+
+    {% if can_be_edited %}
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-primary"
+              onclick="document.location='{% url "edit-route" route.id %}'">
+        {% trans "Edit the route" %}
+      </button>
+      {% if can_be_removed %}
+      <button type="button" class="btn btn-danger"
+              onclick="document.location='{% url "remove-route" route.id %}'">
+        {% trans "Remove the route" %}
+      </button>
+      {% endif %}
+    </div>
+    {% endif %}

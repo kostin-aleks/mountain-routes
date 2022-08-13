@@ -1,5 +1,5 @@
 """
-Admin classes for models from Carpathians
+Admin classes for models from mountains
 """
 from django.contrib import admin
 from routes.mountains.models import (
@@ -23,8 +23,9 @@ class RidgeFilter(admin.SimpleListFilter):
 
 class RidgeAdmin(admin.ModelAdmin):
     """ RidgeAdmin """
-    list_display = ('id', 'slug', 'name', 'description')
+    list_display = ('id', 'slug', 'name', 'description', 'editor', 'changed', )
     search_fields = ('slug', 'name', 'description')
+    raw_id_fields = ('editor',)
     ordering = ('name',)
 
 
@@ -56,9 +57,9 @@ class PeakAdmin(admin.ModelAdmin):
     """ PeakAdmin """
     list_display = (
         'id', 'slug', 'name', 'description', 'ridge',
-        'height', 'photo', 'point')
+        'height', 'photo', 'point', 'editor', 'changed')
     search_fields = ('slug', 'name', 'description')
-    raw_id_fields = ('point', )
+    raw_id_fields = ('point', 'editor')
     list_filter = (RidgeFilter, )
     inlines = [PeakPhotoInline, ]
     ordering = ('name', )
@@ -99,8 +100,11 @@ class RouteAdmin(admin.ModelAdmin):
         'description', 'photo', 'map_image', 'descent',
         'difficulty', 'max_difficulty', 'length',
         'author', 'year',
-        'height_difference', 'start_height')
+        'height_difference', 'start_height',
+        'editor', 'changed',
+    )
     search_fields = ('name', 'description')
+    raw_id_fields = ('editor', )
     inlines = [SectionInline, RoutePointInline, RoutePhotoInline]
     ordering = ('peak__name', 'name')
 

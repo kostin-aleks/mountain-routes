@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load static %}
+
+{% if route.photos %}
+<table class="table table-hover">
+  <tbody hx-target="closest tr" hx-swap="outerHTML swap:1s">
+  {% for photo in route.photos %}
+  <tr hx-target="this" hx-swap="outerHTML">
+    <td>
+      {% if photo.photo %}
+      <img src="{{ photo.photo.url }}" alt="{{ photo.description }}"
+             width="{{ photo.thumbnail.width }}"
+             height="{{ photo.thumbnail.height }}" />
+      {% endif %}
+      {{ photo.description|linebreaks }}
+    </td>
+    <td width="100">
+      <button class="btn btn-danger" hx-confirm="{% trans "Are you sure?" %}"
+              hx-delete="{% url "remove-route-photo" route.id photo.id %}">
+        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+      </button>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}

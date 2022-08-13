@@ -1,0 +1,52 @@
+{% extends "Routes/base_routes.html" %}
+{% load i18n %}
+{% load static %}
+
+    {% block content %}
+
+    {% include "Routes/add_ridge_link.html" %}
+
+    <div class="btn-group" role="group" aria-label="">
+      {% if form.errors %}
+        <div class="error-message">
+          {% trans 'Please fill fields with correct values' %}
+        </div>
+      {% endif %}
+      <form action="" method="post">
+        {% csrf_token %}
+        <h3 class="text-center text-info">{% trans 'Edit ridge' %}</h3>
+        <div class="form-group">
+          <label for="id_name" class="text-info">{{ form.name.label }}:</label><br>
+          {{ form.name }}
+          <label id="name-error" class="has-error" for="id_name">{{ form.name.errors }}</label>
+        </div>
+        <div class="form-group">
+          <label for="id_slug" class="text-info">{{ form.slug.label }}:</label><br>
+          {{ form.slug }}
+          <label id="slug-error" class="has-error" for="id_slug">{{ form.slug.errors }}</label>
+        </div>
+        <div class="form-group">
+          <label for="id_description" class="text-info">{{ form.description.label }}:</label><br>
+          {{ form.description }}
+          <label id="description-error" class="has-error" for="id_description">{{ form.description.errors }}</label>
+        </div>
+
+        <div id="ridge-links">{% include "Routes/ridge_links.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+              {% trans "Add ridge info link" %}
+            </button>
+        </div>
+        <br/>
+
+        <button type="submit" class="btn btn-primary">
+          {% trans "Save" %}
+        </button>
+        <a href="{% url 'ridge' ridge.slug %}" class="btn btn-default">
+          {% trans "Cancel" %}
+        </a>
+      </form>
+    </div>
+
+    {% endblock %}
