@@ -4,6 +4,14 @@
 {% load render_table from django_tables2 %}
 
     {% block content %}
+    {% if can_edit %}
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-primary"
+              onclick="document.location='{% url "add-ridge" %}'">
+        {% trans "Add ridge" %}
+      </button>
+    </div>
+    {% endif %}
     <div>
       {% render_table table %}
     </div>

@@ -26,7 +26,7 @@ class Climber(models.Model):
         db_table = 'climber'
 
     def __str__(self):
-        return f'user {self.user.username}: '
+        return f'user {self.user.username}'
 
     def address(self):
         """ user address """
@@ -40,3 +40,20 @@ class Climber(models.Model):
     def is_banned(self):
         """ is user banned ? """
         return False
+
+    @property
+    def is_editor(self):
+        """ can user edit ? """
+        return EditorRole.objects.filter(climber=self).count() > 0
+
+
+class EditorRole(models.Model):
+    """ Editor role """
+    climber = models.ForeignKey(
+        Climber, null=True, db_index=True, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'editor_role'
+
+    def __str__(self):
+        return f'editor {self.climber.user.username}'

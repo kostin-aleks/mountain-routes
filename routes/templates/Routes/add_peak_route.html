@@ -1,0 +1,124 @@
+{% extends "Routes/base_routes.html" %}
+{% load i18n %}
+{% load static %}
+
+    {% block content %}
+    <div class="btn-group" role="group" aria-label="">
+      {% if form.errors %}
+        <div class="error-message">
+          {% trans 'Please fill fields with correct values' %}
+        </div>
+      {% endif %}
+      <form action="" method="post">
+        {% csrf_token %}
+        <h3 class="text-center text-info">
+          <a href='{% url 'peak' peak.slug %}'>{{ peak.name }}</a>
+        </h3>
+        <h3 class="text-center text-info">{% trans 'Add new route' %}</h3>
+
+        <div class="form-group">
+          <label for="id_name" class="text-info">{{ form.name.label }}:</label><br>
+          {{ form.name }}
+          <label id="name-error" class="has-error" for="id_name">{{ form.name.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_slug" class="text-info">{{ form.slug.label }}:</label><br>
+          {{ form.slug }}
+          <label id="slug-error" class="has-error" for="id_slug">{{ form.slug.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_number" class="text-info">{{ form.number.label }}:</label><br>
+          {{ form.number }}
+          <label id="number-error" class="has-error" for="id_number">{{ form.number.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_description" class="text-info">{{ form.description.label }}:</label><br>
+          {{ form.description }}
+          <label id="description-error" class="has-error" for="id_description">{{ form.description.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_short_description" class="text-info">{{ form.short_description.label }}:</label><br>
+          {{ form.short_description }}
+          <label id="short-description-error" class="has-error" for="id_short_description">{{ form.short_description.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_difficulty" class="text-info">{{ form.difficulty.label }}:</label><br>
+          {{ form.difficulty }}
+          <label id="difficulty-error" class="has-error" for="id_difficulty">{{ form.difficulty.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_max_difficulty" class="text-info">{{ form.max_difficulty.label }}:</label><br>
+          {{ form.max_difficulty }}
+          <label id="max-difficulty-error" class="has-error" for="id_max_difficulty">{{ form.max_difficulty.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_length" class="text-info">{{ form.length.label }}:</label><br>
+          {{ form.length }}
+          <label id="length-error" class="has-error" for="id_length">{{ form.length.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_author" class="text-info">{{ form.author.label }}:</label><br>
+          {{ form.author }}
+          <label id="author-error" class="has-error" for="id_author">{{ form.author.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_year" class="text-info">{{ form.year.label }}:</label><br>
+          {{ form.year }}
+          <label id="year-error" class="has-error" for="id_year">{{ form.year.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="photo" class="text-info">{{ form.photo.label }}:</label><br>
+          {{ form.photo }}
+          <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="map_image" class="text-info">{{ form.map_image.label }}:</label><br>
+          {{ form.map_image }}
+          <label id="map-image-error" class="has-error" for="id_map_image">{{ form.map_image.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="height_difference" class="text-info">{{ form.height_difference.label }}:</label><br>
+          {{ form.height_difference }}
+          <label id="height-difference-error" class="has-error" for="id_height_difference">{{ form.height_difference.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="start_height" class="text-info">{{ form.start_height.label }}:</label><br>
+          {{ form.start_height }}
+          <label id="start-height-error" class="has-error" for="id_start_height">{{ form.start_height.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="descent" class="text-info">{{ form.descent.label }}:</label><br>
+          {{ form.descent }}
+          <label id="descent-error" class="has-error" for="id_descent">{{ form.descent.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="ready" class="text-info">{{ form.ready.label }}:</label><br>
+          {{ form.ready }}
+          <label id="ready-error" class="has-error" for="id_ready">{{ form.ready.errors }}</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          {% trans "Add" %}
+        </button>
+        <a href="{% url 'peak' peak.slug %}" class="btn btn-default">
+          {% trans "Cancel" %}
+        </a>
+      </form>
+    </div>
+
+    {% endblock %}

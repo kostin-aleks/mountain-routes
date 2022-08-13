@@ -1,0 +1,174 @@
+{% extends "Routes/base_routes.html" %}
+{% load i18n %}
+{% load static %}
+
+    {% block content %}
+    <style>
+      tr.htmx-swapping td {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+      }
+    </style>
+    <section class="" x-data="{showmodal_add_section: false}">
+      {% include "Routes/add_route_section.html" %}
+      {% include "Routes/add_route_point.html" %}
+      {% include "Routes/add_route_photo.html" %}
+
+    <div class="btn-group" role="group" aria-label="">
+      {% if form.errors %}
+        <div class="error-message">
+          {% trans 'Please fill fields with correct values' %}
+        </div>
+      {% endif %}
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3 class="text-center text-info">{% trans 'Edit route' %} "{{ route.peak.name }} {{ route.name }}"</h3>
+        <div class="form-group">
+          <label for="id_name" class="text-info">{{ form.name.label }}:</label><br>
+          {{ form.name }}
+          <label id="name-error" class="has-error" for="id_name">{{ form.name.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_slug" class="text-info">{{ form.slug.label }}:</label><br>
+          {{ form.slug }}
+          <label id="slug-error" class="has-error" for="id_slug">{{ form.slug.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_number" class="text-info">{{ form.number.label }}:</label><br>
+          {{ form.number }}
+          <label id="number-error" class="has-error" for="id_number">{{ form.number.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_description" class="text-info">{{ form.description.label }}:</label><br>
+          {{ form.description }}
+          <label id="description-error" class="has-error" for="id_description">{{ form.description.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_short_description" class="text-info">{{ form.short_description.label }}:</label><br>
+          {{ form.short_description }}
+          <label id="short-description-error" class="has-error" for="id_short_description">{{ form.short_description.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_recommended_equipment" class="text-info">{{ form.recommended_equipment.label }}:</label><br>
+          {{ form.recommended_equipment }}
+          <label id="recommended-equipment-error" class="has-error" for="id_recommended_equipment">{{ form.recommended_equipment.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_difficulty" class="text-info">{{ form.difficulty.label }}:</label><br>
+          {{ form.difficulty }}
+          <label id="difficulty-error" class="has-error" for="id_difficulty">{{ form.difficulty.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_max_difficulty" class="text-info">{{ form.max_difficulty.label }}:</label><br>
+          {{ form.max_difficulty }}
+          <label id="max-difficulty-error" class="has-error" for="id_max_difficulty">{{ form.max_difficulty.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_length" class="text-info">{{ form.length.label }}:</label><br>
+          {{ form.length }}
+          <label id="length-error" class="has-error" for="id_length">{{ form.length.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_author" class="text-info">{{ form.author.label }}:</label><br>
+          {{ form.author }}
+          <label id="author-error" class="has-error" for="id_author">{{ form.author.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_year" class="text-info">{{ form.year.label }}:</label><br>
+          {{ form.year }}
+          <label id="year-error" class="has-error" for="id_year">{{ form.year.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_height_difference" class="text-info">{{ form.height_difference.label }}:</label><br>
+          {{ form.height_difference }}
+          <label id="height-difference-error" class="has-error" for="id_height_difference">{{ form.height_difference.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_start_height" class="text-info">{{ form.start_height.label }}:</label><br>
+          {{ form.start_height }}
+          <label id="start-height-error" class="has-error" for="id_start_height">{{ form.start_height.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_descent" class="text-info">{{ form.descent.label }}:</label><br>
+          {{ form.descent }}
+          <label id="descent-error" class="has-error" for="id_descent">{{ form.descent.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_ready" class="text-info">{{ form.ready.label }}:</label><br>
+          {{ form.ready }}
+          <label id="ready-error" class="has-error" for="id_ready">{{ form.ready.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_photo" class="text-info">{{ form.photo.label }}:</label><br>
+          {{ form.photo }}
+          <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
+        </div>
+
+        <div class="form-group">
+          <label for="id_map_image" class="text-info">{{ form.map_image.label }}:</label><br>
+          {{ form.map_image }}
+          <label id="map-image-error" class="has-error" for="id_map_image">
+            {{ form.map_image.errors }}
+          </label>
+        </div>
+
+        <div id="route-sections">{% include "Routes/route_sections.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+              {% trans "Add route section" %}
+            </button>
+        </div>
+        <br/>
+
+        <div id="route-points">{% include "Routes/route_points.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#myModalPoints">
+              {% trans "Add route point" %}
+            </button>
+        </div>
+        <br/>
+
+        <div id="route-photos">{% include "Routes/route_photos.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#myModalPhotos">
+              {% trans "Add photo" %}
+            </button>
+        </div>
+        <br/>
+
+        <div>
+            <button type="submit" class="btn btn-primary">
+              {% trans "Save" %}
+            </button>
+            <a href="{% url 'route' route.id %}" class="btn btn-default">
+              {% trans "Cancel" %}
+            </a>
+        </div>
+
+      </form>
+    </div>
+
+    <br/><br/>
+
+    </section>
+    {% endblock %}

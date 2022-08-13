@@ -1,0 +1,26 @@
+{% load i18n %}
+{% load static %}
+
+            <div class="form-group">
+                <label for="id_latitude_degree" class="text-info">{% trans "Latitude" %}:</label><br/>
+                {{ form.latitude_degree }}&deg;&nbsp;
+                {{ form.latitude_minute }}&prime;&nbsp;
+                {{ form.latitude_second }}&Prime;
+                <label id="latitude-error" class="has-error" for="id_latitude_degree">
+                  {% if form.latitude_degree.errors or form.latitude_minute.errors or form.latitude_second.errors %}
+                  &nbsp;{% trans "These fields are required." %}
+                  {% endif %}
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="id_longitude_degree" class="text-info">{% trans "longitude" %}:</label><br/>
+                {{ form.longitude_degree }}&deg;&nbsp;
+                {{ form.longitude_minute }}&prime;&nbsp;
+                {{ form.longitude_second }}&Prime;
+                <label id="longitude-error" class="has-error" for="id_longitude_degree">
+                  {% if form.longitude_degree.errors or form.longitude_minute.errors or form.longitude_second.errors %}
+                  &nbsp;{% trans "These fields are required." %}
+                  {% endif %}
+                </label>
+            </div>

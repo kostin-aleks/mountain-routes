@@ -8,7 +8,7 @@ custom settings
 DEBUG = True
 
 ADMINS = (
-    ('kostin', 'kostin@halogen-dg.com'),
+    ('kostin', 'galdor@ukr.net'),
 )
 
 MANAGERS = ADMINS
@@ -33,7 +33,7 @@ DATABASES = {
 }
 
 
-SAFE_EMAILS = [ADMINS[0][1]]
+SAFE_EMAILS = [ADMINS[0][1], 'aleksandr.kostin@gmail.com']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'nmail.ua2web.com'
