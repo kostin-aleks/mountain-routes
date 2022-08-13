@@ -12,6 +12,7 @@
     <section class="" x-data="{showmodal_add_section: false}">
       {% include "Routes/add_route_section.html" %}
       {% include "Routes/add_route_point.html" %}
+      {% include "Routes/add_route_photo.html" %}
 
     <div class="btn-group" role="group" aria-label="">
       {% if form.errors %}
@@ -141,6 +142,16 @@
             <button type="button" class="btn btn-success" data-toggle="modal"
                     data-target="#myModalPoints">
               {% trans "Add route point" %}
+            </button>
+        </div>
+        <br/>
+
+        <div id="route-photos">{% include "Routes/route_photos.html" %}</div>
+
+        <div>
+            <button type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#myModalPhotos">
+              {% trans "Add photo" %}
             </button>
         </div>
         <br/>

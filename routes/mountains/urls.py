@@ -52,4 +52,8 @@ urlpatterns = [
          views.remove_ridge_link, name="remove-ridge-link"),
     path('get/ridge/<slug>/link/<int:link_id>/',
          views.get_ridge_link, name="get-ridge-link"),
+    path('add/route/<int:route_id>/photo/',
+         views.add_route_photo, name="add-route-photo"),
+    path('remove/route/<int:route_id>/photo/<int:photo_id>/',
+         views.remove_route_photo, name="remove-route-photo"),
 ]

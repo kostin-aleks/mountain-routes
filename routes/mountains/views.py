@@ -16,10 +16,11 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from routes.mountains.models import (
-    Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, PeakPhoto, RidgeInfoLink)
+    Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, RoutePhoto,
+    PeakPhoto, RidgeInfoLink)
 from routes.mountains.forms import (
     RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm,
-    PeakPhotoForm, RidgeLinkForm)
+    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm)
 
 
 class PeakFilter(django_filters.FilterSet):
@@ -565,12 +566,14 @@ def edit_route(request, route_id):
 
     form_section = RouteSectionForm()
     form_point = RoutePointForm()
+    form_photo = RoutePhotoForm()
 
     args = {}
     args['form'] = form
     args['route'] = route
     args['form_section'] = form_section
     args['form_point'] = form_point
+    args['form_photo'] = form_photo
 
     return render(
         request, 'Routes/edit_route.html', args)
@@ -670,6 +673,36 @@ def add_peak_photo(request, slug):
 
 
 @login_required
+def add_route_photo(request, route_id):
+    """
+    add a new route photo
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = RoutePhotoForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            route_photo = RoutePhoto.objects.create(
+                route=the_route,
+                description=data['description'],
+            )
+            if request.FILES.get('photo'):
+                route_photo.photo = request.FILES.get('photo')
+                route_photo.save()
+
+    args = {}
+    args['route'] = the_route
+
+    return render(
+        request, 'Routes/route_photos.html', args)
+
+
+@login_required
 def add_route_point(request, route_id):
     """
     add a new route point
@@ -754,6 +787,26 @@ def remove_route_point(request, route_id, point_id):
 
     return render(
         request, 'Routes/delete_route_point.html', {})
+
+
+@login_required
+@csrf_exempt
+def remove_route_photo(request, route_id, photo_id):
+    """
+    remove a new route photo
+    """
+    user = request.user
+    the_route = get_object_or_404(Route, id=route_id)
+    if not (user.is_superuser or (user.climber.is_editor and route.editor == user)):
+        raise PermissionDenied()
+    the_photo = get_object_or_404(RoutePhoto, id=photo_id)
+    if the_photo.route.id != the_route.id:
+        raise Http404
+
+    the_photo.delete()
+
+    return render(
+        request, 'Routes/delete_route_photo.html', {})
 
 
 @login_required

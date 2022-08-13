@@ -307,6 +307,21 @@ class RoutePointForm(forms.Form):
         }), )
 
 
+class RoutePhotoForm(forms.Form):
+    """ Form for Route Photo """
+    description = forms.CharField(
+        label=_('Description'),
+        required=True,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Description'),
+        }), )
+
+    photo = forms.ImageField(
+        label=_('Photo'),
+        required=False,
+        widget=ImagePreviewWidget())
+
+
 class RidgeLinkForm(forms.Form):
     """ Form for RidgeLink """
     link = forms.URLField(
