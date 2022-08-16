@@ -83,7 +83,7 @@
     {% if route.sections %}
     <div class="panel panel-default">
       <div class="panel-body">
-        <table class="table">
+        <table class="table table-hover table-striped">
         {% for section in route.sections %}
         <tr>
           <td class="min text-danger"><strong>{{ section.number|safe }}</strong></td>
@@ -117,7 +117,7 @@
     {% if route.points %}
     <div class="panel panel-default">
       <div class="panel-body">
-        <table class="table">
+        <table class="table table-hover table-striped">
         {% for point in route.points %}
         <tr>
           <td class="min text-primary">

@@ -11,7 +11,7 @@
     {% if ridge.links %}
     <div class="panel panel-default">
       <div class="panel-body">
-        <table class="table">
+        <table class="table table-hover table-striped">
         {% for link in ridge.links %}
         <tr>
           <td class="min text-primary">
@@ -31,7 +31,7 @@
     <br/><br/>
 
     {% if ridge.peaks %}
-      <table class="table table-striped">
+      <table class="table table-striped table-hover">
       {% for peak in ridge.peaks %}
       <tr>
         <td><a href="{% url "peak" peak.slug %}">{{ peak.slug }}</a></td>

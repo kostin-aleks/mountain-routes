@@ -55,7 +55,7 @@ class PeakTable(tables.Table):
             value)
 
     class Meta:
-        attrs = {'class': 'table'}
+        attrs = {'class': 'table table-striped table-hover'}
 
 
 class RidgeFilter(django_filters.FilterSet):
@@ -82,7 +82,7 @@ class RidgeTable(tables.Table):
             value)
 
     class Meta:
-        attrs = {'class': 'table'}
+        attrs = {'class': 'table table-striped table-hover'}
 
 
 class RouteFilter(django_filters.FilterSet):
@@ -129,7 +129,7 @@ class RouteTable(tables.Table):
             value)
 
     class Meta:
-        attrs = {'class': 'table'}
+        attrs = {'class': 'table table-striped table-hover'}
 
 
 def ridges(request):
