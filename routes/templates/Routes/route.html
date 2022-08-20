@@ -134,18 +134,18 @@
     {% endif %}
 
     {% if route.photos %}
+    <div class="row">
       {% for photo in route.photos %}
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <img src="{{ photo.photo.url }}" alt="{{ photo.description }}"
-                 width="{{ photo.thumbnail.width }}"
-                 height="{{ photo.thumbnail.height }}" />
+      <div class="col-md-4">
+        <div class="thumbnail">
+            <img src="{{ photo.photo.url }}" alt="{{ photo.description }}" style="width:100%">
             <div class="caption">
-              <h5>{{ photo.description }}</h5>
+              <p>{{ photo.description|linebreaks }}</p>
             </div>
-          </div>
         </div>
+      </div>
       {% endfor %}
+    </div>
     {% endif %}
 
     <script>
