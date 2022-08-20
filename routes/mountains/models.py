@@ -71,6 +71,15 @@ class GeoPoint(models.Model):
         items = [float(x) for x in string.split()]
         return items[0] + items[1] / 60.0 + items[2] / 3600.0
 
+    @classmethod
+    def coordinate_from_string(cls, string):
+        """
+        get degree from string that contains digits and other symbols
+        """
+        items = list(map(int, re.findall(r'\d+', string)))
+        if items:
+            return items[0] + items[1] / 60.0 + items[2] / 3600.0
+
     def field_value(self, name='lat'):
         """
         return latitude or longitude
