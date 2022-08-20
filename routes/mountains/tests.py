@@ -4,6 +4,7 @@ Test case to test models related to mountain routes
 
 import unittest
 from .models import GeoPoint, Ridge, thumbnail, slugify_name
+from .views import divide_into_groups_of_three
 
 
 class RouteTestCase(unittest.TestCase):
@@ -88,6 +89,11 @@ class RouteTestCase(unittest.TestCase):
         self.assertTrue(self.route.number)
         self.assertTrue(self.route.sections)
         self.assertTrue(self.route.points)
+
+    def test_17_divide_list(self):
+        lst = [1, 2, 3, 4, 5, 6, 7, 8]
+        lst1 = divide_into_groups_of_three(lst)
+        self.assertEqual(lst1[1], [4, 5, 6])
 
 
 if __name__ == '__main__':

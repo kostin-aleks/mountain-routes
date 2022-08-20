@@ -22,6 +22,19 @@ from routes.mountains.forms import (
     PeakPhotoForm, RidgeLinkForm, RoutePhotoForm)
 
 
+def divide_into_groups_of_three(lst):
+    """
+    divide the list into groups of three
+    """
+    chunked_list = list()
+    chunk_size = 3
+
+    for i in range(0, len(lst), chunk_size):
+        chunked_list.append(lst[i:i + chunk_size])
+
+    return chunked_list
+
+
 class PeakFilter(django_filters.FilterSet):
     """
     Filter Set to filter by peak
@@ -182,6 +195,7 @@ def peak(request, slug):
         'Routes/peak.html',
         {
             'peak': the_peak,
+            'photos': divide_into_groups_of_three(the_peak.photos()),
             'can_be_edited': the_peak.can_be_edited(request.user),
             'can_be_removed': the_peak.can_be_removed()})
 
@@ -197,6 +211,7 @@ def route(request, route_id):
         'Routes/route.html',
         {
             'route': the_route,
+            'photos': divide_into_groups_of_three(the_route.photos()),
             'can_be_edited': the_route.can_be_edited(request.user),
             'can_be_removed': the_route.can_be_removed()
         })

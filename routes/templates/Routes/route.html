@@ -133,9 +133,10 @@
     </div>
     {% endif %}
 
-    {% if route.photos %}
+    {% if photos %}
+    {% for row in photos %}
     <div class="row">
-      {% for photo in route.photos %}
+      {% for photo in row %}
       <div class="col-md-4">
         <div class="thumbnail">
             <img src="{{ photo.photo.url }}" alt="{{ photo.description }}" style="width:100%">
@@ -146,6 +147,7 @@
       </div>
       {% endfor %}
     </div>
+    {% endfor %}
     {% endif %}
 
     <script>
