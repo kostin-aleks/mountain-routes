@@ -18,8 +18,8 @@ from routes.mountains.models import (
     Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, RoutePhoto,
     PeakPhoto, RidgeInfoLink)
 from routes.mountains.forms import (
-    RidgeForm, PeakForm, RouteForm, RouteSectionForm, RoutePointForm,
-    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm)
+    RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
+    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm)
 
 
 def divide_into_groups_of_three(lst):
@@ -322,18 +322,12 @@ def add_ridge_peak(request, slug):
         raise PermissionDenied()
 
     if request.method == 'POST':
-        form = PeakForm(request.POST)
+        form = NewPeakForm(request.POST)
 
         if form.is_valid():
             data = form.cleaned_data
-            latitude = abs(data['latitude_degree']) + data['latitude_minute'] / 60.0 \
-                + data['latitude_second'] / 3600.0
-            if data['latitude_degree'] < 0:
-                latitude = - latitude
-            longitude = abs(data['longitude_degree']) + data['longitude_minute'] / \
-                60.0 + data['longitude_second'] / 3600.0
-            if data['longitude_degree'] < 0:
-                longitude = - longitude
+            latitude = GeoPoint.coordinate_from_string(data['latitude'])
+            longitude = GeoPoint.coordinate_from_string(data['longitude'])
 
             Peak.objects.create(
                 ridge=the_ridge,
@@ -346,7 +340,7 @@ def add_ridge_peak(request, slug):
             )
             return HttpResponseRedirect(reverse('ridge', args=[the_ridge.slug]))
     else:
-        form = PeakForm()
+        form = NewPeakForm()
 
     args = {
         'form': form,
@@ -520,7 +514,7 @@ def add_peak_route(request, slug):
 
     args = {
         'form': form,
-        'peak': peak,
+        'peak': the_peak,
     }
 
     return render(
@@ -586,7 +580,7 @@ def edit_route(request, route_id):
         form = RouteForm(initial=data)
 
     form_section = RouteSectionForm()
-    form_point = RoutePointForm()
+    form_point = RouteNewPointForm()
     form_photo = RoutePhotoForm()
 
     args = {}
@@ -738,18 +732,12 @@ def add_route_point(request, route_id):
         raise PermissionDenied()
 
     if request.method == 'POST':
-        form = RoutePointForm(request.POST)
+        form = RouteNewPointForm(request.POST)
 
         if form.is_valid():
             data = form.cleaned_data
-            latitude = abs(data['latitude_degree']) + data['latitude_minute'] / 60.0 \
-                + data['latitude_second'] / 3600.0
-            if data['latitude_degree'] < 0:
-                latitude = - latitude
-            longitude = abs(data['longitude_degree']) + data['longitude_minute'] / \
-                60.0 + data['longitude_second'] / 3600.0
-            if data['longitude_degree'] < 0:
-                longitude = - longitude
+            latitude = GeoPoint.coordinate_from_string(data['latitude'])
+            longitude = GeoPoint.coordinate_from_string(data['longitude'])
             _point = GeoPoint.objects.create(
                 latitude=latitude,
                 longitude=longitude,

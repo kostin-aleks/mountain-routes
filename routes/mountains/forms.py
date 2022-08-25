@@ -68,8 +68,8 @@ class PeakPhotoForm(forms.Form):
         widget=ImagePreviewWidget())
 
 
-class PeakForm(forms.Form):
-    """ Form for Peak """
+class NewPeakForm(forms.Form):
+    """ Form for new Peak """
     name = forms.CharField(
         label=_('Name'),
         required=True,
@@ -97,6 +97,35 @@ class PeakForm(forms.Form):
         label=_('Photo'),
         required=False,
         widget=ImagePreviewWidget())
+    latitude = forms.CharField(
+        label=_('Latitude'),
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Latitude DD MM SS'),
+        }), )
+    longitude = forms.CharField(
+        label=_('Longitude'),
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Longitude DD MM SS'),
+        }), )
+
+    def clean_slug(self):
+        """
+        validate field slug
+        """
+        slug = self.cleaned_data['slug']
+        pattern = r'[^\-a-z0-9]'
+        if re.search(pattern, slug):
+            # Character other then . a-z 0-9 was found
+            raise ValidationError(
+                _("The slug must consist only of the characters (a-z, 0-9 and -)."))
+
+        return slug
+
+
+class PeakForm(NewPeakForm):
+    """ Form for Peak """
     latitude_degree = forms.IntegerField(
         label=_('degrees'),
         required=True,
@@ -140,19 +169,10 @@ class PeakForm(forms.Form):
         max_value=59,
         widget=forms.NumberInput(attrs={'size': 2})
     )
-
-    def clean_slug(self):
-        """
-        validate field slug
-        """
-        slug = self.cleaned_data['slug']
-        pattern = r'[^\-a-z0-9]'
-        if re.search(pattern, slug):
-            # Character other then . a-z 0-9 was found
-            raise ValidationError(
-                _("The slug must consist only of the characters (a-z, 0-9 and -)."))
-
-        return slug
+    latitude = forms.CharField(
+        required=False, )
+    longitude = forms.CharField(
+        required=False, )
 
 
 class RouteForm(forms.Form):
@@ -268,6 +288,31 @@ class RouteSectionForm(forms.ModelForm):
             'angle',
             'difficulty',
         )
+
+
+class RouteNewPointForm(forms.Form):
+    """ Form for new RoutePoint """
+    latitude = forms.CharField(
+        label=_('Latitude'),
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Latitude DD MM SS'),
+        }), )
+
+    longitude = forms.CharField(
+        label=_('Longitude'),
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': _('Longitude DD MM SS'),
+        }), )
+
+    description = forms.CharField(
+        label=_('Description'),
+        required=True,
+        widget=forms.Textarea(attrs={
+            'placeholder': _('Description'),
+            'rows': 2,
+        }), )
 
 
 class RoutePointForm(forms.Form):

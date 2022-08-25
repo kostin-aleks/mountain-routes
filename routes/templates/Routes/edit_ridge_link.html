@@ -1,9 +1,9 @@
 {% load i18n %}
 {% load static %}
 
-<tr>
+<tr hx-target="this" hx-swap="outerHTML">
   <td colspan="3">
-    <form hx-target="this" hx-swap="outerHTML" hx-post="{% url "update-ridge-link" ridge.slug link.id %}" >
+    <form hx-post="{% url "update-ridge-link" ridge.slug link.id %}" >
       {% csrf_token %}
         <div>
             <span class="form-group">

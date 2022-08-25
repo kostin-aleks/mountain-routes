@@ -1,6 +1,7 @@
 """ mountains models """
 
 import math
+import re
 from slugify import slugify
 
 from django.contrib.auth import get_user_model
@@ -78,7 +79,10 @@ class GeoPoint(models.Model):
         """
         items = list(map(int, re.findall(r'\d+', string)))
         if items:
-            return items[0] + items[1] / 60.0 + items[2] / 3600.0
+            degree = items[0] + items[1] / 60.0 + items[2] / 3600.0
+            if 'W' in string or 'S' in string or 'ю.ш.' in string or 'з.д.' in string:
+                degree = -degree
+            return degree
 
     def field_value(self, name='lat'):
         """

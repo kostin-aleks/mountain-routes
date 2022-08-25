@@ -16,14 +16,24 @@
       </div>
       <div class="modal-body">
         <div>
-            {% csrf_token %}
-            {% include "Routes/point_block.html" %}
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_latitude" class="text-info">{{ form_point.latitude.label }}:</label><br>
+            {{ form_point.latitude }}
+            <label id="latitude-error" class="has-error" for="id_latitude">{{ form_point.latitude.errors }}</label>
+          </div>
 
-            <div class="form-group">
-              <label for="id_description" class="text-info">{{ form_section.description.label }}:</label><br>
-                {{ form_section.description }}
-              <label id="description-error" class="has-error" for="id_description">{{ form_section.description.errors }}</label>
-            </div>
+          <div class="form-group">
+            <label for="id_longitude" class="text-info">{{ form_point.longitude.label }}:</label><br>
+            {{ form_point.longitude }}
+            <label id="longitude-error" class="has-error" for="id_longitude">{{ form_point.longitude.errors }}</label>
+          </div>
+
+          <div class="form-group">
+            <label for="id_description" class="text-info">{{ form_point.description.label }}:</label><br>
+              {{ form_point.description }}
+            <label id="description-error" class="has-error" for="id_description">{{ form_point.description.errors }}</label>
+          </div>
 
         </div>
       </div>
