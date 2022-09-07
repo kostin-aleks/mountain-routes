@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -19,7 +20,8 @@ from routes.mountains.models import (
     PeakPhoto, RidgeInfoLink)
 from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
-    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm)
+    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm, FilterPeaksForm)
+from routes.utils import ANY
 
 
 def divide_into_groups_of_three(lst):
@@ -49,9 +51,9 @@ class PeakTable(tables.Table):
     Table for peaks
     """
     slug = tables.Column(accessor='slug', verbose_name="")
-    name = tables.Column(accessor='name', verbose_name="Название")
-    height = tables.Column(accessor='height', verbose_name="Высота, м")
-    ridge = tables.Column(accessor='ridge__name', verbose_name="Район")
+    name = tables.Column(accessor='name', verbose_name=_("Peak"))
+    height = tables.Column(accessor='height', verbose_name=_("Height, m"))
+    ridge = tables.Column(accessor='ridge__name', verbose_name=_("Ridge"))
 
     def render_slug(self, value):
         """render slug"""
@@ -113,12 +115,12 @@ class RouteTable(tables.Table):
     """
     route_id = tables.Column(accessor='id', verbose_name="route_id")
     number = tables.Column(accessor='number', verbose_name="#")
-    name = tables.Column(accessor='name', verbose_name="Название")
-    difficulty = tables.Column(accessor='difficulty', verbose_name="КТ")
-    peak = tables.Column(accessor='peak__name', verbose_name="Вершина")
-    height = tables.Column(accessor='peak__height', verbose_name="Высота")
-    author = tables.Column(accessor='author', verbose_name="Автор")
-    year = tables.Column(accessor='year', verbose_name="Год")
+    name = tables.Column(accessor='name', verbose_name=_("Name"))
+    difficulty = tables.Column(accessor='difficulty', verbose_name=_("Difficulty"))
+    peak = tables.Column(accessor='peak__name', verbose_name=_("Peak"))
+    height = tables.Column(accessor='peak__height', verbose_name=_("Height"))
+    author = tables.Column(accessor='author', verbose_name=_("Author"))
+    year = tables.Column(accessor='year', verbose_name=_("Year"))
 
     def render_route_id(self, value):
         """render field route_id"""
@@ -243,16 +245,34 @@ def peaks(request):
     order_by = 'name'
     qs = Peak.objects.all().order_by(order_by)
 
-    _filter = PeakFilter(request.GET, queryset=qs)
+    # _filter = PeakFilter(request.GET, queryset=qs)
+    if 'ridge' in request.GET and request.GET.get('ridge') and request.GET.get('ridge') != ANY:
+        qs = qs.filter(ridge__slug=request.GET.get('ridge'))
 
-    peaks_table = PeakTable(_filter.qs)
+    peaks_table = PeakTable(qs)
     RequestConfig(
         request, paginate={"per_page": 100}).configure(peaks_table)
+
+    sd = request.session.get('peaks_filter') or {}
+    data = {
+        'ridge': request.GET.get('ridge'),
+    }
+    if not request.GET:
+        data = {
+            'ridge': sd.get('ridge'),
+        }
+    form = FilterPeaksForm(data)
+
+    request.session['peaks_filter'] = dict(
+        ridge=data['ridge'])
 
     return render(
         request,
         'Routes/peaks.html',
-        {'table': peaks_table})
+        {
+            'table': peaks_table,
+            'form': form, }
+    )
 
 
 @login_required

@@ -21,6 +21,7 @@ from django.views.i18n import JavaScriptCatalog
 from django.urls import include, path
 from routes.mountains.views import routes
 from routes.user.views import user_profile
+from .views import switch_language
 
 
 urlpatterns = [
@@ -38,6 +39,7 @@ urlpatterns = [
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_profile, name='account-profile'),
+    path('switch/language/<language>/', switch_language, name='switch-language'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

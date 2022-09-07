@@ -9,6 +9,10 @@ from datetime import datetime
 
 from django.conf import settings
 from django.shortcuts import _get_queryset
+from django.utils.translation import get_language, gettext_lazy as _
+
+
+ANY = 'any'
 
 
 def class_name(instance):
@@ -89,3 +93,13 @@ def random_username():
     digits = ''.join(random.choices(string.digits, k=DIGIT_COUNT))
 
     return f'{adj}_{noun}_{digits}'
+
+
+def ridges_list():
+    """
+    actual list of ridges
+    """
+    from routes.mountains.models import Ridge
+    first = [('', _('--any--'))]
+    return first + [(c.slug, c.name) for c
+            in Ridge.objects.all().order_by('name')]

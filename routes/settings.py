@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'routes.context.global_context',
             ],
         },
     },
@@ -117,11 +118,30 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+LANGUAGE_CODES = ['ru', 'en']
+
+if 'ru' in LANGUAGE_CODES:
+    LANGUAGE_CODE = 'ru'
+else:
+    LANGUAGE_CODE = 'en'
+
 LANGUAGES = (
     ('en', 'English'),
-    ('ru', 'Russian'),
+    ('ru', 'Русский'),
 )
+
+DEFINED_LANGUAGES = {
+    'en': {'title': 'English', 'short': 'ENG'},
+    'ru': {'title': 'Русский', 'short': 'РУС'},
+}
+LANGUAGES = [(k, DEFINED_LANGUAGES[k]['title']) for k in DEFINED_LANGUAGES if k in LANGUAGE_CODES]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale")
+]
+
+LANGUAGE_COOKIE_NAME = "gpsfun_lang"
 
 TIME_ZONE = 'Europe/Kiev'
 
