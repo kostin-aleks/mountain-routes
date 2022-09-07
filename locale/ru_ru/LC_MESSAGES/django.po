@@ -1,0 +1,638 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-07 12:08+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: geoname/models.py:252
+msgid "-- choose country --"
+msgstr "-- выберите страну --"
+
+#: geoname/models.py:263
+msgid "-- choose admin subject --"
+msgstr "-- выберите регион --"
+
+#: geoname/models.py:276
+msgid "-- choose city --"
+msgstr "-- выберите город --"
+
+#: mountains/forms.py:52 mountains/forms.py:123 mountains/forms.py:276
+msgid "The slug must consist only of the characters (a-z, 0-9 and -)."
+msgstr "Slug должен содержать только символы (a-z, 0-9 and -)."
+
+#: mountains/forms.py:60 mountains/forms.py:63 mountains/forms.py:89
+#: mountains/forms.py:92 mountains/forms.py:205 mountains/forms.py:208
+#: mountains/forms.py:311 mountains/forms.py:314 mountains/forms.py:366
+#: mountains/forms.py:369 mountains/forms.py:377 mountains/forms.py:380
+#: mountains/forms.py:399 mountains/forms.py:402
+msgid "Description"
+msgstr "Описание"
+
+#: mountains/forms.py:67 mountains/forms.py:98 mountains/forms.py:234
+#: mountains/forms.py:384
+msgid "Photo"
+msgstr "Фотография"
+
+#: mountains/forms.py:75 mountains/forms.py:182 mountains/views.py:118
+msgid "Name"
+msgstr "Название"
+
+#: mountains/forms.py:79
+msgid "Name of summit"
+msgstr "Название вершины"
+
+#: mountains/forms.py:82 mountains/forms.py:86 mountains/forms.py:189
+#: mountains/forms.py:193
+msgid "Slug"
+msgstr ""
+
+#: mountains/forms.py:95 mountains/views.py:121
+msgid "Height"
+msgstr "Высота"
+
+#: mountains/forms.py:102 mountains/forms.py:297
+#: templates/Routes/edit_route_point.html:10
+#: templates/Routes/point_block.html:5
+msgid "Latitude"
+msgstr "Широта"
+
+#: mountains/forms.py:105 mountains/forms.py:300
+msgid "Latitude DD MM SS"
+msgstr "Широта ГГ ММ СС"
+
+#: mountains/forms.py:108 mountains/forms.py:304
+msgid "Longitude"
+msgstr "Долгота"
+
+#: mountains/forms.py:111 mountains/forms.py:307
+msgid "Longitude DD MM SS"
+msgstr "Долгота ГГ ММ СС"
+
+#: mountains/forms.py:131 mountains/forms.py:153 mountains/forms.py:322
+#: mountains/forms.py:344
+msgid "degrees"
+msgstr "градусы"
+
+#: mountains/forms.py:138 mountains/forms.py:160 mountains/forms.py:329
+#: mountains/forms.py:351
+msgid "minutes"
+msgstr "минуты"
+
+#: mountains/forms.py:145 mountains/forms.py:167 mountains/forms.py:336
+#: mountains/forms.py:358
+msgid "seconds"
+msgstr "секунды"
+
+#: mountains/forms.py:186
+msgid "Name of route"
+msgstr "Название маршрута"
+
+#: mountains/forms.py:196
+msgid "Number"
+msgstr "Номер"
+
+#: mountains/forms.py:199
+msgid "Short Description"
+msgstr "Короткое описание"
+
+#: mountains/forms.py:202
+msgid "Short description"
+msgstr "Короткое описание"
+
+#: mountains/forms.py:211
+msgid "Recommended Equipment"
+msgstr "Рекомендуемое снаряжение"
+
+#: mountains/forms.py:214
+msgid "Recommended equipment"
+msgstr "Рекомендуемое снаряжение"
+
+#: mountains/forms.py:217 mountains/forms.py:221 mountains/views.py:119
+msgid "Difficulty"
+msgstr "Трудность"
+
+#: mountains/forms.py:224
+msgid "Maximal Difficulty"
+msgstr "Максимальная трудность"
+
+#: mountains/forms.py:228
+msgid "Maximal difficulty"
+msgstr "Максимальная трудность"
+
+#: mountains/forms.py:231
+msgid "Length"
+msgstr "Длина"
+
+#: mountains/forms.py:238
+msgid "Map"
+msgstr "Карта"
+
+#: mountains/forms.py:242 mountains/forms.py:246 mountains/views.py:122
+msgid "Author"
+msgstr "Автор"
+
+#: mountains/forms.py:249 mountains/views.py:123
+msgid "Year"
+msgstr "Год"
+
+#: mountains/forms.py:252
+msgid "Height Difference"
+msgstr "Разность высот"
+
+#: mountains/forms.py:255
+msgid "Start Height"
+msgstr "Стартовая высота"
+
+#: mountains/forms.py:258 mountains/forms.py:261
+msgid "Descent"
+msgstr "Спуск"
+
+#: mountains/forms.py:264
+msgid "Ready"
+msgstr "Готов"
+
+#: mountains/forms.py:392
+msgid "Link"
+msgstr "Ссылка"
+
+#: mountains/forms.py:421 utils.py:103
+msgid "--any--"
+msgstr "--любой--"
+
+#: mountains/models.py:41
+msgid "latitude"
+msgstr "широта"
+
+#: mountains/models.py:43 templates/Routes/edit_route_point.html:17
+#: templates/Routes/point_block.html:17
+msgid "longitude"
+msgstr "долгота"
+
+#: mountains/models.py:50
+msgid "geopoint"
+msgstr "геоточка"
+
+#: mountains/models.py:51
+msgid "geopoints"
+msgstr "геоточки"
+
+#: mountains/models.py:119 mountains/models.py:202 mountains/models.py:292
+msgid "slug"
+msgstr ""
+
+#: mountains/models.py:123 mountains/models.py:214 mountains/models.py:312
+msgid "editor"
+msgstr "редактор"
+
+#: mountains/models.py:125 mountains/models.py:216 mountains/models.py:310
+msgid "created"
+msgstr "создано"
+
+#: mountains/models.py:129 mountains/models.py:185 mountains/models.py:204
+msgid "ridge"
+msgstr "хребет"
+
+#: mountains/models.py:130
+msgid "ridges"
+msgstr "хребты"
+
+#: mountains/models.py:186
+msgid "link"
+msgstr "ссылка"
+
+#: mountains/models.py:191
+msgid "ridge link"
+msgstr "ссылка для хребта"
+
+#: mountains/models.py:192
+msgid "ridge links"
+msgstr "ссылки для хребта"
+
+#: mountains/models.py:209 mountains/models.py:268 mountains/models.py:298
+#: mountains/models.py:411
+msgid "photo"
+msgstr "фотография"
+
+#: mountains/models.py:212 mountains/models.py:436
+msgid "point"
+msgstr "точка"
+
+#: mountains/models.py:220 mountains/models.py:266 mountains/models.py:290
+msgid "peak"
+msgstr "вершина"
+
+#: mountains/models.py:221
+msgid "peaks"
+msgstr "вершины"
+
+#: mountains/models.py:273
+msgid "peak photo"
+msgstr "фотография вершины"
+
+#: mountains/models.py:274
+msgid "peak photos"
+msgstr "фотографии вершины"
+
+#: mountains/models.py:291
+msgid "name"
+msgstr "название"
+
+#: mountains/models.py:300
+msgid "map"
+msgstr "карта"
+
+#: mountains/models.py:317 mountains/models.py:369 mountains/models.py:409
+#: mountains/models.py:433
+msgid "route"
+msgstr "маршрут"
+
+#: mountains/models.py:318
+msgid "routes"
+msgstr "маршруты"
+
+#: mountains/models.py:378
+msgid "route section"
+msgstr "участок маршрута"
+
+#: mountains/models.py:379
+msgid "route sections"
+msgstr "участки маршрута"
+
+#: mountains/models.py:416
+msgid "route photo"
+msgstr "фотография маршрута"
+
+#: mountains/models.py:417
+msgid "route photos"
+msgstr "фотографии маршрута"
+
+#: mountains/models.py:441
+msgid "route point"
+msgstr "геоточка маршрута"
+
+#: mountains/models.py:442
+msgid "route points"
+msgstr "геоточки маршрутов"
+
+#: mountains/views.py:54 mountains/views.py:120
+msgid "Peak"
+msgstr "Вершина"
+
+#: mountains/views.py:55
+msgid "Height, m"
+msgstr "Высота, м"
+
+#: mountains/views.py:56 templates/Routes/peaks.html:13
+msgid "Ridge"
+msgstr "Хребет"
+
+#: templates/Routes/add_peak_photo.html:16
+#: templates/Routes/add_route_photo.html:16
+msgid "Add new photo"
+msgstr "Добавить новую фотографию"
+
+#: templates/Routes/add_peak_photo.html:41
+#: templates/Routes/add_peak_route.html:119 templates/Routes/add_ridge.html:35
+#: templates/Routes/add_ridge_link.html:45
+#: templates/Routes/add_ridge_peak.html:62
+#: templates/Routes/add_route_photo.html:41
+#: templates/Routes/add_route_point.html:41
+#: templates/Routes/add_route_section.html:53
+#: templates/Routes/edit_peak.html:63 templates/Routes/edit_ridge.html:47
+#: templates/Routes/edit_ridge_link.html:20
+#: templates/Routes/edit_route.html:164
+#: templates/Routes/edit_route_point.html:28
+#: templates/Routes/edit_route_section.html:27
+#: templates/Routes/remove_peak.html:13 templates/Routes/remove_ridge.html:13
+#: templates/Routes/remove_route.html:13 templates/User/profile_edit.html:62
+msgid "Cancel"
+msgstr "Отказаться"
+
+#: templates/Routes/add_peak_photo.html:42
+#: templates/Routes/add_route_photo.html:42 templates/Routes/edit_peak.html:54
+#: templates/Routes/edit_route.html:154
+msgid "Add photo"
+msgstr "Добавить фотографию"
+
+#: templates/Routes/add_peak_route.html:9 templates/Routes/add_ridge.html:9
+#: templates/Routes/add_ridge_peak.html:9 templates/Routes/edit_peak.html:11
+#: templates/Routes/edit_ridge.html:12 templates/Routes/edit_route.html:20
+#: templates/User/profile_edit.html:22
+msgid "Please fill fields with correct values"
+msgstr "Пожалуйста, заполните поля корректными данными"
+
+#: templates/Routes/add_peak_route.html:17
+msgid "Add new route"
+msgstr "Добавить новый маршрут"
+
+#: templates/Routes/add_peak_route.html:116 templates/Routes/add_ridge.html:32
+#: templates/Routes/add_ridge_peak.html:59
+msgid "Add"
+msgstr "Добавить"
+
+#: templates/Routes/add_ridge.html:14
+msgid "Add new ridge"
+msgstr "Добавить новый хребет"
+
+#: templates/Routes/add_ridge_link.html:15
+msgid "Add new ridge info link"
+msgstr "Добавить новую ссылку на информацию о хребте"
+
+#: templates/Routes/add_ridge_link.html:48
+msgid "Add link"
+msgstr "Добавить ссылку"
+
+#: templates/Routes/add_ridge_peak.html:14
+msgid "Add new peak"
+msgstr "Добавить новую вершину"
+
+#: templates/Routes/add_route_point.html:15
+msgid "Add new route point"
+msgstr "Добавить новую геоточку маршрута"
+
+#: templates/Routes/add_route_point.html:42
+msgid "Add point"
+msgstr "Добавить точку"
+
+#: templates/Routes/add_route_section.html:15
+msgid "Add new route section"
+msgstr "Добавить новый участок маршрута"
+
+#: templates/Routes/add_route_section.html:54
+msgid "Add section"
+msgstr "Добавить участок"
+
+#: templates/Routes/base_routes.html:6 templates/Routes/base_routes.html:68
+msgid "Routes"
+msgstr "Маршруты"
+
+#: templates/Routes/base_routes.html:54
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/Routes/base_routes.html:56
+#: templates/django_registration/login.html:5
+#: templates/registration/login.html:5
+msgid "Sign in"
+msgstr "Войти"
+
+#: templates/Routes/base_routes.html:65
+msgid "Ridges"
+msgstr "Хребты"
+
+#: templates/Routes/base_routes.html:67 templates/Routes/peaks.html:7
+msgid "Peaks"
+msgstr "Вершины"
+
+#: templates/Routes/edit_peak.html:16
+msgid "Edit summit"
+msgstr "Редактировать вершину"
+
+#: templates/Routes/edit_peak.html:60 templates/Routes/edit_ridge.html:44
+#: templates/Routes/edit_route.html:161
+msgid "Save"
+msgstr "Сохранить"
+
+#: templates/Routes/edit_ridge.html:17
+msgid "Edit ridge"
+msgstr "Редактировать хребет"
+
+#: templates/Routes/edit_ridge.html:38
+msgid "Add ridge info link"
+msgstr "Добавить ссылку на информацию о хребте"
+
+#: templates/Routes/edit_ridge_link.html:17
+#: templates/Routes/edit_route_point.html:27
+#: templates/Routes/edit_route_section.html:26
+msgid "Update"
+msgstr "Изменить"
+
+#: templates/Routes/edit_route.html:25
+msgid "Edit route"
+msgstr "Редактировать маршрут"
+
+#: templates/Routes/edit_route.html:134
+msgid "Add route section"
+msgstr "Добавить участок маршрута"
+
+#: templates/Routes/edit_route.html:144
+msgid "Add route point"
+msgstr "Добавить точку маршрута"
+
+#: templates/Routes/get_route_section.html:15
+#: templates/Routes/peak_photos.html:18 templates/Routes/ridge_links.html:19
+#: templates/Routes/route_photos.html:18 templates/Routes/route_points.html:20
+#: templates/Routes/route_sections.html:18
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: templates/Routes/peak_buttons.html:8
+msgid "Add a new route"
+msgstr "Добавить новый маршрут"
+
+#: templates/Routes/peak_buttons.html:12
+msgid "Edit the summit"
+msgstr "Редактировать вершину"
+
+#: templates/Routes/peak_buttons.html:17 templates/Routes/remove_peak.html:9
+msgid "Remove the summit"
+msgstr "Убрать вершину"
+
+#: templates/Routes/point_block.html:11 templates/Routes/point_block.html:23
+msgid "These fields are required."
+msgstr "Эти поля обязательны."
+
+#: templates/Routes/remove_peak.html:12 templates/Routes/remove_ridge.html:12
+#: templates/Routes/remove_route.html:12
+msgid "Remove"
+msgstr "Убрать"
+
+#: templates/Routes/remove_ridge.html:9 templates/Routes/ridge_buttons.html:17
+msgid "Remove the ridge"
+msgstr "Убрать хребет"
+
+#: templates/Routes/remove_route.html:9 templates/Routes/route_buttons.html:13
+msgid "Remove the route"
+msgstr "Убрать маршрут"
+
+#: templates/Routes/ridge_buttons.html:8
+msgid "Add a new summit"
+msgstr ""
+
+#: templates/Routes/ridge_buttons.html:12
+msgid "Edit the ridge"
+msgstr "Редактировать хребет"
+
+#: templates/Routes/ridges.html:11
+msgid "Add ridge"
+msgstr "Добавить хребет"
+
+#: templates/Routes/route.html:111
+msgid "Recommended equipment:"
+msgstr "Рекомендуемое снаряжение:"
+
+#: templates/Routes/route_buttons.html:8
+msgid "Edit the route"
+msgstr "Редактировать маршрут"
+
+#: templates/User/profile.html:7
+msgid "Profile"
+msgstr "Профиль"
+
+#: templates/User/profile.html:13 templates/User/profile_edit.html:30
+msgid "User name"
+msgstr "Имя пользователя"
+
+#: templates/User/profile.html:17 templates/User/profile_edit.html:37
+#: user/forms.py:27 user/forms.py:31
+msgid "First name"
+msgstr "Имя"
+
+#: templates/User/profile.html:21 templates/User/profile_edit.html:44
+#: user/forms.py:36 user/forms.py:40
+msgid "Middle name"
+msgstr "Отчество"
+
+#: templates/User/profile.html:25 templates/User/profile_edit.html:51
+#: user/forms.py:45 user/forms.py:49
+msgid "Last name"
+msgstr "Фамилия"
+
+#: templates/User/profile.html:33
+msgid "Edit my profile"
+msgstr "Редактировать профиль"
+
+#: templates/User/profile_edit.html:17
+msgid "Edit My Profile"
+msgstr "Изменить профиль"
+
+#: templates/User/profile_edit.html:65
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: templates/django_registration/activation_complete.html:6
+#: templates/registration/activation_complete.html:6
+msgid ""
+"\n"
+"<h3>Thank you for your registration</h3>\n"
+"Your registration has been confirmed and is now comlete. <br/>We look "
+"forward to see you!\n"
+msgstr ""
+"\n"
+"<h3>Благодарим Вас за регистрацию</h3>\n"
+"Ваша регистрация подтверждена и полностью завершена. <br/>"
+"Будем рады видеть Вас снова!\n"
+
+#: templates/django_registration/activation_email.txt:1
+#: templates/django_registration/activation_email_body.txt:1
+#: templates/registration/activation_email.txt:1
+#, python-format
+msgid ""
+"GPS-Fun registration process is not comlete.\n"
+"\n"
+"Go to the link:\n"
+"http://%(site)s/accounts/activate/%(activation_key)s/\n"
+"\n"
+"Thank you!\n"
+msgstr ""
+"Регистрация на GPS-Fun ещё не полностью завершена.\n"
+"\n"
+"Пройдите по ссылке:\n"
+"http://%(site)s/accounts/activate/%(activation_key)s/\n"
+"\n"
+"Благодарим Вас!\n"
+
+#: templates/django_registration/activation_email_subject.txt:1
+#: templates/registration/activation_email_subject.txt:1
+#, python-format
+msgid "Activate your account – %(site)s"
+msgstr "Активируйте ваш аккоунт – %(site)s"
+
+#: templates/django_registration/login.html:9
+#: templates/registration/login.html:9
+#, python-format
+msgid ""
+"\n"
+"You are signed in as <strong>%(username)s</strong>.\n"
+"Do you want <a href=\"/accounts/logout/\">to log out</a>?\n"
+msgstr ""
+"\n"
+"Вы залогинились как <strong>%(username)s</strong>.\n"
+"Вы хотите <a href=\"/accounts/logout/\">выйти</a>?\n"
+
+#: templates/django_registration/login.html:35
+#: templates/registration/login.html:35
+msgid "sign in"
+msgstr "войти"
+
+#: templates/django_registration/login.html:56
+#: templates/registration/login.html:56
+msgid "Sign up"
+msgstr "Регистрация"
+
+#: templates/django_registration/logout.html:6
+#: templates/registration/logout.html:6
+msgid ""
+"\n"
+"<h3>You are logged out</h3>\n"
+"Thanks for being with us. We are waiting for you again.\n"
+msgstr ""
+"\n"
+"<h3>Вы вышли</h3>\n"
+"Благодарим за использование сайта. Мы ждём Вас на сайте.\n"
+
+#: templates/django_registration/logout.html:14
+#: templates/registration/logout.html:14
+#, python-format
+msgid ""
+"\n"
+"You are signed in as <strong>%(username)s</strong>.  \n"
+"Do you want <a href=\"/accounts/logout/\">to log out</a>?\n"
+msgstr ""
+"\n"
+"Вы вошли как <strong>%(username)s</strong>.  \n"
+"Вы хотите <a href=\"/accounts/logout/\">выйти</a>?\n"
+
+#: templates/django_registration/registration_complete.html:6
+#: templates/registration/registration_complete.html:6
+msgid ""
+"<h3>Registration complete.</h3> \n"
+"Thank you for registering.<br/>\n"
+"We email you with a link to complete your registration.\n"
+"Check your email box.<br/>\n"
+msgstr ""
+"<h3>Регистрация завершена.</h3> \n"
+"Благодарим Вас за регистрацию.<br/>\n"
+"Мы выслали Вам email со ссылкой чтобы завершить Вашу регистрацию.\n"
+"Проверьте Вашу почту.<br/>\n"
+
+#: templates/django_registration/registration_form.html:11
+#: templates/registration/registration_form.html:10
+msgid "Registration"
+msgstr "Регистрация"
+
+#: templates/django_registration/registration_form.html:31
+#: templates/registration/registration_form.html:30
+msgid "Create My Account"
+msgstr "Создать аккоунт"
+
+#: user/forms.py:17 user/forms.py:22
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: user/models.py:20
+msgid "user"
+msgstr "пользователь"
