@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from routes.mountains.models import Ridge, RouteSection
-from routes.utils import ridges_list, ANY
+from routes.utils import ridges_list, peaks_list, ANY
 
 
 class ImagePreviewWidget(forms.widgets.FileInput):
@@ -425,8 +425,32 @@ class FilterPeaksForm(forms.Form):
             initial='',
             widget=forms.Select(attrs={
                 'class': '',
-                # 'hx-get': '/ridges/options/',
-                # 'hx-target': '#id_city',
+                'hx-indicator': '.htmx-indicator',
+                'onchange': 'this.form.submit()'
+            })
+        )
+
+
+class FilterRoutesForm(forms.Form):
+    """
+    Form to filter list of routes
+    """
+
+    peak = forms.ChoiceField(
+        required=False,
+        initial='', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        items = peaks_list()
+        items[0] = (ANY, _('--any--'))
+        self.fields['peak'] = forms.ChoiceField(
+            choices=items,
+            required=False,
+            initial='',
+            widget=forms.Select(attrs={
+                'class': '',
                 'hx-indicator': '.htmx-indicator',
                 'onchange': 'this.form.submit()'
             })

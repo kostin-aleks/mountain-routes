@@ -103,3 +103,13 @@ def ridges_list():
     first = [('', _('--any--'))]
     return first + [(c.slug, c.name) for c
             in Ridge.objects.all().order_by('name')]
+
+
+def peaks_list():
+    """
+    actual list of peaks
+    """
+    from routes.mountains.models import Peak
+    first = [('', _('--any--'))]
+    return first + [(c.slug, c.name) for c
+            in Peak.objects.all().order_by('name')]

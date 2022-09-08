@@ -20,7 +20,8 @@ from routes.mountains.models import (
     PeakPhoto, RidgeInfoLink)
 from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
-    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm, FilterPeaksForm)
+    PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm,
+    FilterPeaksForm, FilterRoutesForm)
 from routes.utils import ANY
 
 
@@ -226,16 +227,28 @@ def routes(request):
     order_by = 'number'
     qs = Route.objects.all().order_by(order_by)
 
-    _filter = RouteFilter(request.GET, queryset=qs)
+    if 'peak' in request.GET and request.GET.get('peak') and request.GET.get('peak') != ANY:
+        qs = qs.filter(peak__slug=request.GET.get('peak'))
 
-    routes_table = RouteTable(_filter.qs)
+    routes_table = RouteTable(qs)
     RequestConfig(
         request, paginate={"per_page": 100}).configure(routes_table)
+
+    sd = request.session.get('routes_filter') or {}
+    data = {'peak': request.GET.get('peak')}
+    if not request.GET:
+        data = {'peak': sd.get('peak')}
+    form = FilterRoutesForm(data)
+
+    request.session['routes_filter'] = dict(peak=data['peak'])
 
     return render(
         request,
         'Routes/routes.html',
-        {'table': routes_table})
+        {
+            'table': routes_table,
+            'form': form,
+        })
 
 
 def peaks(request):
@@ -245,7 +258,6 @@ def peaks(request):
     order_by = 'name'
     qs = Peak.objects.all().order_by(order_by)
 
-    # _filter = PeakFilter(request.GET, queryset=qs)
     if 'ridge' in request.GET and request.GET.get('ridge') and request.GET.get('ridge') != ANY:
         qs = qs.filter(ridge__slug=request.GET.get('ridge'))
 
@@ -258,13 +270,10 @@ def peaks(request):
         'ridge': request.GET.get('ridge'),
     }
     if not request.GET:
-        data = {
-            'ridge': sd.get('ridge'),
-        }
+        data = {'ridge': sd.get('ridge')}
     form = FilterPeaksForm(data)
 
-    request.session['peaks_filter'] = dict(
-        ridge=data['ridge'])
+    request.session['peaks_filter'] = dict(ridge=data['ridge'])
 
     return render(
         request,
