@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 import os
 from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +27,7 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-srl+h^&#5c__3bmt!pd$!#!s6t=oz6ivk1nn)t*4(s)_=$ipsc'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,6 +91,11 @@ WSGI_APPLICATION = 'routes.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+DATABASE_NAME = env('DATABASE_NAME')
+DATABASE_USER = env('DATABASE_USER')
+DATABASE_PASSWORD = env('DATABASE_PASSWORD')
+DATABASE_HOST = env('DATABASE_HOST')
+DATABASE_PORT = env('DATABASE_PORT')
 
 DATABASES = {
     'default': {
@@ -95,6 +104,16 @@ DATABASES = {
     }
 }
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": DATABASE_NAME,
+        "USER": DATABASE_USER,
+        "PASSWORD": DATABASE_PASSWORD,
+        "HOST": DATABASE_HOST,
+        "PORT": DATABASE_PORT,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -171,6 +190,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ACCOUNT_ACTIVATION_DAYS = 2
 
+ADMINS = ()
+
+SAFE_EMAILS = env.list('SAFE_EMAILS')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 try:
     from .custom_settings import *
