@@ -2,7 +2,7 @@
 Models for geoname
 """
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import translation
 from routes.utils import get_object_or_none
 
