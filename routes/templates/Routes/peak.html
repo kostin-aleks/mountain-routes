@@ -66,9 +66,9 @@
         <table class="table table-hover table-striped">
         {% for route in peak.routes %}
         <tr>
-          <td>{{ route.number }}</td>
-          <td><a href="{% url "route" route.id %}">{{ route.name }}</a></td>
-          <td>{{ route.difficulty }} {{ route.max_difficulty }}</td>
+          <td>{{ route.number|default_if_none:'' }}</td>
+          <td><a href="{% url "route" route.id %}">{{ route.name|default_if_none:'' }}</a></td>
+          <td>{{ route.difficulty|default_if_none:'' }} {{ route.max_difficulty|default_if_none:'' }}</td>
         </tr>
         {% endfor %}
         </table>
