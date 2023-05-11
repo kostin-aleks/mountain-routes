@@ -1,6 +1,6 @@
 awesome-slugify
 certifi
-Django==3.2.13
+Django==4.2
 django-crispy-forms
 django-easy-maps
 django-environ

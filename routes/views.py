@@ -13,7 +13,6 @@ def switch_language(request, language):
     switch language of interface
     """
     translation.activate(language)
-    request.session[translation.LANGUAGE_SESSION_KEY] = language
 
     response = HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     max_age = 365 * 24 * 60 * 60  # 10 years
