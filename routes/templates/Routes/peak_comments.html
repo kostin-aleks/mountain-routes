@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load static %}
+
+
+    <div id="comments-page">
+    {% for comment_ in comments %}
+    {% include "Routes/peak_comment.html" %}
+    {% endfor %}
+    
+    {% if comments.has_other_pages %}
+      <ul class="pagination">
+        {% if comments.has_previous %}
+        <li><a hx-get="{% url "peak-comments" peak.id comments.previous_page_number %}" hx-trigger="click"
+              hx-target="#comments-page" hx-swap="outerHTML">&laquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in comments.paginator.page_range %}
+          {% if comments.number == i %}
+          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+          <li ><a hx-get="{% url "peak-comments" peak.id i %}" hx-trigger="click"
+              hx-target="#comments-page" hx-swap="outerHTML">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if comments.has_next %}
+          <li><a hx-get="{% url "peak-comments" peak.id comments.next_page_number %}" hx-trigger="click"
+              hx-target="#comments-page" hx-swap="outerHTML">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+    </div>
+    
+

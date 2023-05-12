@@ -13,6 +13,7 @@ urlpatterns = [
     path('remove/ridge/<slug>/', views.remove_ridge, name="remove-ridge"),
     path('edit/ridge/<slug>/', views.edit_ridge, name="edit-ridge"),
     path('peak/<slug>/', views.peak, name="peak"),
+    path('peak/<int:peak_id>/<int:page>/', views.peak_comments, name="peak-comments"),
     path('remove/summit/<slug>/', views.remove_peak, name="remove-peak"),
     path('edit/summit/<slug>/', views.edit_peak, name="edit-peak"),
     path('add/summit/ridge/<slug>/', views.add_ridge_peak, name="add-ridge-peak"),

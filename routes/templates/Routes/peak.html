@@ -92,7 +92,22 @@
     </div>
     {% endfor %}
     {% endif %}
-
+    
+    <div class="panel">
+      <div class="panel-body">
+        <button type="button" class="btn btn-primary"
+                hx-get="{% url "peak-comments" peak.id 3 %}" hx-trigger="click"
+                  hx-target="#comments-page" hx-swap="outerHTML"
+                  >
+            {% trans "Add a new comment" %}
+        </button>
+      </div>
+    </div>
+    
+    {% if comments %}
+    {% include "Routes/peak_comments.html" %}
+    {% endif %}
+    
     <script>
       var mymap = L.map('mapid').setView(
           [{{ peak.point.latitude }}, {{ peak.point.longitude }}], 15);

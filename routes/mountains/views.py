@@ -3,6 +3,7 @@ views related to carpathians
 """
 
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
@@ -192,13 +193,17 @@ def peak(request, slug):
     return page for the peak
     """
     the_peak = get_object_or_404(Peak, slug=slug)
-
+    comments = the_peak.comments()
+    paginator = Paginator(comments, per_page=20)
+    comment_list = paginator.page(paginator.num_pages)
+    
     return render(
         request,
         'Routes/peak.html',
         {
             'peak': the_peak,
             'photos': divide_into_groups_of_three(the_peak.photos()),
+            'comments': comment_list,
             'can_be_edited': the_peak.can_be_edited(request.user),
             'can_be_removed': the_peak.can_be_removed()})
 
@@ -1199,3 +1204,20 @@ def update_route_section(request, route_id, section_id):
 
     return render(
         request, 'Routes/get_route_section.html', args)
+
+
+def peak_comments(request, peak_id, page):
+    """
+    return page for peak comments
+    """
+    the_peak = get_object_or_404(Peak, id=peak_id)
+    comments = the_peak.comments()
+    paginator = Paginator(comments, per_page=20)
+    comment_list = paginator.page(page)
+    
+    return render(
+        request,
+        'Routes/peak_comments.html',
+        {
+            'peak': the_peak,
+            'comments': comment_list, })
