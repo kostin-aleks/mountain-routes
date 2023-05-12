@@ -2,6 +2,7 @@
 Admin classes for models from mountains
 """
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from routes.mountains.models import (
     Ridge, GeoPoint, RidgeInfoLink, Peak, PeakPhoto, PeakComment, 
     Route, RouteSection, RoutePhoto, RoutePoint)
@@ -68,6 +69,20 @@ class PeakAdmin(admin.ModelAdmin):
 admin.site.register(Peak, PeakAdmin)
 
 
+class PeakFilter(admin.SimpleListFilter):
+    """ PeakFilter """
+    title = _('Peak')
+    parameter_name = 'peak'
+
+    def lookups(self, request, model_admin):
+        return Peak.objects.values_list('id', 'name').order_by('name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.distinct().filter(peak__id=self.value())
+        return queryset
+
+
 class PeakPhotoAdmin(admin.ModelAdmin):
     """ PeakPhotoAdmin """
     list_display = ('id', 'peak', 'photo', 'description')
@@ -84,10 +99,11 @@ class PeakCommentAdmin(admin.ModelAdmin):
                     'email', 'photo', 'created_on', 'active')
     search_fields = ('body', )
     ordering = ('-id', )
-    actions = ['approve_comments']
+    list_filter = (PeakFilter, )
+    actions = ['hide_comments']
     
-    def approve_comments(self, request, queryset):
-        queryset.update(active=True)
+    def hide_comments(self, request, queryset):
+        queryset.update(active=False)
 
 admin.site.register(PeakComment, PeakCommentAdmin)
 

@@ -12,6 +12,7 @@ django-profiles
 django-registration
 django-social-auth
 django-tables2
+Faker
 geopy
 lxml
 mysqlclient

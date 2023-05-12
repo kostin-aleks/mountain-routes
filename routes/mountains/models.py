@@ -2,6 +2,7 @@
 
 import math
 import re
+import random
 from slugify import slugify
 
 from django.contrib.auth import get_user_model
@@ -10,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.urls import reverse
 
+from faker import Faker
 from routes.utils import get_image_path
 
 
@@ -297,7 +299,7 @@ class PeakComment(models.Model):
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
     created_on = models.DateTimeField(_("created"), auto_now_add=True)
-    active = models.BooleanField(_("active"), default=False)
+    active = models.BooleanField(_("active"), default=True)
 
     class Meta:
         ordering = ['created_on']
@@ -313,7 +315,23 @@ class PeakComment(models.Model):
         """ get author name """
         return self.author.username if self.author else self.nickname
 
+    @classmethod
+    def add_test_comments(cls, peak, count=20):
+        """
+        add some test comments to the peak
+        """
+        fake = Faker()
 
+        for _ in range(count):
+            man = fake.simple_profile()
+            comment = cls(
+                peak=peak, 
+                nickname=man['username'], 
+                email=man['mail'], 
+                body=fake.text(max_nb_chars=80))
+            comment.save()
+            
+            
 class Route(models.Model):
     """
     Route model

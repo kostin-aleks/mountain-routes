@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.files import File
 from routes.mountains.models import (Ridge, Peak, Route, RouteSection, 
-    RoutePoint, GeoPoint)
+    RoutePoint, GeoPoint, PeakComment)
 
 
 class Command(BaseCommand):
@@ -55,6 +55,7 @@ class Command(BaseCommand):
                 — ледникового кара с остатками морены и ледниковых озер.''',
                 'point': {'lat': '48 13 18', 'lon': '24 13 57'},
                 'photo': 'Bliznica.jpg',
+                'comments': True,
                 'route': {
                     'name': 'Близница из Восточного цирка',
                     'slug': 'bliznitsa-iz-vostochnogo-tsirka',
@@ -184,6 +185,9 @@ class Command(BaseCommand):
             # inage
             if 'photo' in item:
                 self.set_image(peak, item['photo'], 'peak', 'rst')
+            
+            if item.get('comments'):
+                PeakComment.add_test_comments(peak)
             
             if 'route' in item:
                 route_item = item['route']
