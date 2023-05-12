@@ -81,10 +81,13 @@ admin.site.register(PeakPhoto, PeakPhotoAdmin)
 class PeakCommentAdmin(admin.ModelAdmin):
     """ PeakCommentAdmin """
     list_display = ('id', 'peak', 'body', 'author', 'nickname', 
-                    'email', 'created_on', 'active')
+                    'email', 'photo', 'created_on', 'active')
     search_fields = ('body', )
     ordering = ('-id', )
-
+    actions = ['approve_comments']
+    
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)
 
 admin.site.register(PeakComment, PeakCommentAdmin)
 

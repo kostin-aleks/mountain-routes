@@ -294,6 +294,8 @@ class PeakComment(models.Model):
     nickname = models.CharField(_("nickname"), max_length=80, null=True)
     email = models.EmailField(_("email"), null=True)
     body = models.TextField(_("body"))
+    photo = models.ImageField(
+        _("photo"), upload_to=get_image_path, blank=True, null=True)
     created_on = models.DateTimeField(_("created"), auto_now_add=True)
     active = models.BooleanField(_("active"), default=False)
 
