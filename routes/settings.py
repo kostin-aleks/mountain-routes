@@ -180,6 +180,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "routes/static/"),
 )
+STATIC_TEST_DATA = os.path.join(STATICFILES_DIRS[0], 'test_images/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -6,8 +6,10 @@ NAME
 DESCRIPTION
      Add init data
 """
-
+from os.path import isfile, join as path_join
+from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.core.files import File
 from routes.mountains.models import (Ridge, Peak, Route, RouteSection, 
     RoutePoint, GeoPoint)
 
@@ -16,6 +18,16 @@ class Command(BaseCommand):
     """ Command """
     help = 'Adds initial data into database'
 
+    def set_image(self, item, file_name, kind, idx):
+        """
+        set object image
+        """
+        dir_path = path_join(settings.STATIC_TEST_DATA, '')
+        img_path = path_join(dir_path, file_name)
+        f = open(img_path, 'rb')
+        item.photo.save(f'{kind}{idx}.jpg', File(f))
+        item.save()
+        
     def handle(self, *args, **options):
         items = [
             {'slug': 'chernogora', 'name': 'Черногорский хребет'},
@@ -42,16 +54,18 @@ class Command(BaseCommand):
                 Южные и западные склоны пологие, восточные — круто обрываются в сторону расширенного верховья долины
                 — ледникового кара с остатками морены и ледниковых озер.''',
                 'point': {'lat': '48 13 18', 'lon': '24 13 57'},
+                'photo': 'Bliznica.jpg',
                 'route': {
                     'name': 'Близница из Восточного цирка',
                     'slug': 'bliznitsa-iz-vostochnogo-tsirka',
                     'number': 1,
+                    'photo': 'Bliznica-route.jpg',
                     'short_description': '''
                         Маршрут лавиноопасный. 
                         Посещается очень редко. 
                         Рекомендуется восхождение в малоснежный период''',
                     'description': '''
-                        Техническая часть маршрута начинается на полонине Свивец.
+                        Техническая часть маршрута начинается на полонине Свидовец.
                         Надёжный ориентир - озеро Ивор, расположенное в котле с востока от вершины Близница Северная.
                         На полонину Свидовец можно подняться от горнолыжного курорта Драгобрат снежными полями под крутыми склонами северного гребня в. Близница Северная.
                         Издалека хорошо видно крутые скальные стены Жандармов.
@@ -166,6 +180,11 @@ class Command(BaseCommand):
                 longitude=GeoPoint.degree_from_string(item['point']['lon']),
             )
             peak.save()
+            
+            # inage
+            if 'photo' in item:
+                self.set_image(peak, item['photo'], 'peak', 'rst')
+            
             if 'route' in item:
                 route_item = item['route']
                 route = Route.objects.get_or_create(
@@ -190,6 +209,10 @@ class Command(BaseCommand):
 
                 route.save()
                 
+                # inage
+                if 'photo' in route_item:
+                    self.set_image(route, item['photo'], 'route', 'rst')
+                
                 if 'sections' in route_item:
                     for section_item in route_item['sections']:
                         section = RouteSection.objects.get_or_create(
@@ -202,6 +225,8 @@ class Command(BaseCommand):
                         section.length = section_item.get('length')
                         section.angle = section_item.get('angle')
                         section.difficulty = section_item.get('difficulty') or ''
+                        section.save()
+                        
                 if 'points' in route_item:
                     route.points.delete()
                     for point_item in route_item['points']:

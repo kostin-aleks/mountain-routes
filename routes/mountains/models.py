@@ -389,16 +389,17 @@ class RouteSection(models.Model):
     @property
     def details(self):
         """ get route section details """
-        len_km = self.length // 1000
-        len_m = self.length % 1000
-        length = f'{len_m}м'
+        len_km = self.length // 1000 if self.length else None
+        len_m = self.length % 1000 if  self.length else None
+        length = f'{len_m}м' if self.length else ''
         if len_km:
             length = f'{len_km}км ' + length
         items = [length]
         if self.angle:
             items.append(f'{self.angle}&deg;')
         items.append(self.difficulty)
-        return ', '.join(items)
+        print(items)
+        return ', '.join(items) if all(items) else ''
 
 
 class RoutePhoto(models.Model):
