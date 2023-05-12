@@ -3,8 +3,8 @@ Admin classes for models from mountains
 """
 from django.contrib import admin
 from routes.mountains.models import (
-    Ridge, GeoPoint, RidgeInfoLink, Peak, PeakPhoto, Route, RouteSection,
-    RoutePhoto, RoutePoint)
+    Ridge, GeoPoint, RidgeInfoLink, Peak, PeakPhoto, PeakComment, 
+    Route, RouteSection, RoutePhoto, RoutePoint)
 
 
 class RidgeFilter(admin.SimpleListFilter):
@@ -76,6 +76,17 @@ class PeakPhotoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PeakPhoto, PeakPhotoAdmin)
+
+
+class PeakCommentAdmin(admin.ModelAdmin):
+    """ PeakCommentAdmin """
+    list_display = ('id', 'peak', 'body', 'author', 'nickname', 
+                    'email', 'created_on', 'active')
+    search_fields = ('body', )
+    ordering = ('-id', )
+
+
+admin.site.register(PeakComment, PeakCommentAdmin)
 
 
 class SectionInline(admin.TabularInline):

@@ -282,6 +282,36 @@ class PeakPhoto(models.Model):
         return thumbnail(self.photo.width, self.photo.height)
 
 
+class PeakComment(models.Model):
+    """
+    Peak Comment model
+    """
+    peak = models.ForeignKey(Peak, verbose_name=_("peak"), 
+        on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(
+        get_user_model(), on_delete=models.PROTECT, 
+        verbose_name=_("author"), null=True)    
+    nickname = models.CharField(_("nickname"), max_length=80, null=True)
+    email = models.EmailField(_("email"), null=True)
+    body = models.TextField(_("body"))
+    created_on = models.DateTimeField(_("created"), auto_now_add=True)
+    active = models.BooleanField(_("active"), default=False)
+
+    class Meta:
+        ordering = ['created_on']
+        db_table = 'peak_comment'
+        verbose_name = _("peak comment")
+        verbose_name_plural = _("peak comments")
+        
+    def __str__(self):
+        return f'comment {self.body} by {self.nickname}'
+        
+    @property
+    def name(self):
+        """ get author name """
+        return self.author.username if self.author else self.nickname
+
+
 class Route(models.Model):
     """
     Route model
