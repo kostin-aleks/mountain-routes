@@ -232,6 +232,10 @@ class Peak(models.Model):
     def photos(self):
         """ peak photos """
         return self.peakphoto_set.order_by('id')
+    
+    def comments(self):
+        """ peak comments """
+        return self.peakcomment_set.order_by('id')
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -289,7 +293,7 @@ class PeakComment(models.Model):
     Peak Comment model
     """
     peak = models.ForeignKey(Peak, verbose_name=_("peak"), 
-        on_delete=models.CASCADE, related_name='comments')
+        on_delete=models.CASCADE)
     author = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, 
         verbose_name=_("author"), null=True)    

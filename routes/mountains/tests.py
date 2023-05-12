@@ -95,7 +95,10 @@ class RouteTestCase(unittest.TestCase):
         lst1 = divide_into_groups_of_three(lst)
         self.assertEqual(lst1[1], [4, 5, 6])
 
-
+    def test_18_peak_comments(self):
+        self.assertTrue(self.peak.comments())
+        
+        
 if __name__ == '__main__':
     unittest.main()
 
