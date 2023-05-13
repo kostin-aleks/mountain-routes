@@ -100,10 +100,13 @@ class PeakCommentAdmin(admin.ModelAdmin):
     search_fields = ('body', )
     ordering = ('-id', )
     list_filter = (PeakFilter, )
-    actions = ['hide_comments']
+    actions = ['hide_comments', 'show_comments']
     
     def hide_comments(self, request, queryset):
         queryset.update(active=False)
+    
+    def show_comments(self, request, queryset):
+        queryset.update(active=True)
 
 admin.site.register(PeakComment, PeakCommentAdmin)
 

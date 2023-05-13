@@ -235,7 +235,7 @@ class Peak(models.Model):
     
     def comments(self):
         """ peak comments """
-        return self.peakcomment_set.order_by('id')
+        return self.peakcomment_set.filter(active=True).order_by('id')
 
     def save(self, *args, **kwargs):
         if not self.slug:
