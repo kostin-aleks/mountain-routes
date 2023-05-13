@@ -2,10 +2,31 @@
 {% load static %}
 
 
-    <div id="comments-page">
-    {% for comment_ in comments %}
-    {% include "Routes/peak_comment.html" %}
-    {% endfor %}
+  <div id="comments-page">
+  
+    <h3><span class="label label-success">{{ comments_count }} {% trans "comments" %}</span></h3>
+    
+    <div class="panel">
+      <div class="panel-body">
+        {% if request.user.is_authenticated %}
+        {% include "Routes/form-user-comment.html" %}
+        {% else %}
+        {% include "Routes/form-comment.html" %}
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="table table-striped">
+        {% for comment_ in comments %}
+        <tr>
+          <td>
+        {% include "Routes/peak_comment.html" %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
     
     {% if comments.has_other_pages %}
       <ul class="pagination">
@@ -37,6 +58,6 @@
         {% endif %}
       </ul>
     {% endif %}
-    </div>
+  </div>
     
 

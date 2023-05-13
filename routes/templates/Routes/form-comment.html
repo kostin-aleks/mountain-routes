@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load static %}
+    <div class="panel panel-success">
+      <div class="panel-body">
+        <form hx-post="{% url "add-peak-comment" peak.slug %}" hx-target="#comments-page"
+            hx-swap="outerHTML">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form_comment.body }}
+            <label id="body-error" class="has-error" for="id_body">
+              {{ form_comment.body.errors }}
+            </label>
+          </div>
+    
+          <div class="form-group">
+            <label for="id_name" class="text-info">
+              {{ form_comment.name.label }}:
+            </label><br>
+            {{ form_comment.name }}
+            <label id="comment-name-error" class="has-error" for="id_name">
+              {{ form_comment.name.errors }}
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label for="id_email" class="text-info">
+              {{ form_comment.email.label }}:
+            </label><br>
+            {{ form_comment.email }}
+            <label id="comment-email-error" class="has-error" for="id_email">
+              {{ form_comment.email.errors }}
+            </label>
+          </div>    
+
+          <div class="">
+            <button class="btn btn-success" type="submit" name="add" >
+              {% trans "Add comment" %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

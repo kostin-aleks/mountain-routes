@@ -18,11 +18,11 @@ from django_tables2.config import RequestConfig
 
 from routes.mountains.models import (
     Ridge, Peak, Route, GeoPoint, RouteSection, RoutePoint, RoutePhoto,
-    PeakPhoto, RidgeInfoLink)
+    PeakPhoto, RidgeInfoLink, PeakComment)
 from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
     PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm,
-    FilterPeaksForm, FilterRoutesForm)
+    FilterPeaksForm, FilterRoutesForm, PeakUserCommentForm, PeakCommentForm)
 from routes.utils import ANY
 
 
@@ -196,6 +196,7 @@ def peak(request, slug):
     comments = the_peak.comments()
     paginator = Paginator(comments, per_page=20)
     comment_list = paginator.page(paginator.num_pages)
+    form_comment = PeakUserCommentForm() if request.user.is_authenticated else PeakCommentForm()
     
     return render(
         request,
@@ -204,6 +205,8 @@ def peak(request, slug):
             'peak': the_peak,
             'photos': divide_into_groups_of_three(the_peak.photos()),
             'comments': comment_list,
+            'form_comment': form_comment,
+            'comments_count': comments.count(),
             'can_be_edited': the_peak.can_be_edited(request.user),
             'can_be_removed': the_peak.can_be_removed()})
 
@@ -721,6 +724,94 @@ def add_peak_photo(request, slug):
 
     return render(
         request, 'Routes/peak_photos.html', args)
+
+
+@login_required
+def add_peak_route(request, slug):
+    """
+    add a new route to the peak
+    """
+    user = request.user
+    the_peak = get_object_or_404(Peak, slug=slug)
+    if not (user.is_superuser or \
+            (user.climber.is_editor and the_peak.editor == user)):
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = RouteForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            Route.objects.create(
+                peak=the_peak,
+                slug=data['slug'],
+                name=data['name'],
+                description=data['description'],
+                short_description=data['short_description'],
+                length=data['length'],
+                difficulty=data['difficulty'],
+                max_difficulty=data['max_difficulty'],
+                author=data['author'],
+                year=data['year'],
+                height_difference=data['height_difference'],
+                start_height=data['start_height'],
+                descent=data['descent'],
+                editor=user,
+                ready=data['ready'],
+            )
+            return HttpResponseRedirect(reverse('peak', args=[the_peak.slug]))
+    else:
+        form = RouteForm()
+
+    args = {
+        'form': form,
+        'peak': the_peak,
+    }
+
+    return render(
+        request, 'Routes/add_peak_route.html', args)
+
+
+def add_peak_comment(request, slug):
+    """
+    add a new peak comment
+    """
+    user = request.user
+    form_class = PeakUserCommentForm if user.is_authenticated else PeakCommentForm
+    the_peak = get_object_or_404(Peak, slug=slug)
+
+    if request.method == 'POST':
+        form = form_class(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            peak_comment = PeakComment.objects.create(
+                peak=the_peak,
+                body=data['body'],
+            )
+            if user.is_authenticated:
+                peak_comment.author = request.user
+            else:
+                peak_comment.nickname = data['name']
+                peak_comment.email = data['email']
+            peak_comment.save() 
+
+    else:
+        form = form_class()
+
+    args = {}
+    args['peak'] = the_peak
+    args['form_comment'] = form
+    
+    comments = the_peak.comments()
+    paginator = Paginator(comments, per_page=20)
+    comment_list = paginator.page(paginator.num_pages)  
+    args['comments'] = comment_list
+    args['comments_count'] = comments.count()
+
+    return render(
+                request, 'Routes/peak_comments.html', 
+                args)
 
 
 @login_required

@@ -1,7 +1,9 @@
-<div class="panel">
+<div class="panel panel-info">
   <div class="panel-body">
-    {{ comment_.name }}
-        <p class="">{{ comment_.body }}</p>
-    {{ comment_.created_on }}
+    <div class="">
+      <strong>{{ comment_.name }}</strong>
+      <p class="bg-info">{{ comment_.body }}</p>
+      <p class="text-muted"><small>{{ comment_.created_on }}</small></p>
+    </div>
   </div>
 </div>

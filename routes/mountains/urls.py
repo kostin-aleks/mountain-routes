@@ -42,6 +42,7 @@ urlpatterns = [
     path('update/route/<int:route_id>/section/<int:section_id>/',
          views.update_route_section, name="update-route-section"),
     path('add/peak/<slug>/photo/', views.add_peak_photo, name="add-peak-photo"),
+    path('add/peak/<slug>/comment/', views.add_peak_comment, name="add-peak-comment"),
     path('remove/peak/<slug>/photo/<int:photo_id>/',
          views.remove_peak_photo, name="remove-peak-photo"),
     path('add/ridge/<slug>/link/', views.add_ridge_link, name="add-ridge-link"),
