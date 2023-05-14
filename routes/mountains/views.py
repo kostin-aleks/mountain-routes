@@ -1363,9 +1363,9 @@ def get_replay_form(request, comment_id):
     user = request.user
     comment = get_object_or_404(PeakComment, id=comment_id)
     if user.is_authenticated:
-        form = CommentUserReplayForm({'parent': comment.id })
+        form = CommentUserReplayForm()
     else:
-        form = CommentReplayForm({'parent': comment.id })
+        form = CommentReplayForm()
     
     return render(
         request,
