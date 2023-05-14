@@ -294,6 +294,8 @@ class PeakComment(models.Model):
     """
     peak = models.ForeignKey(Peak, verbose_name=_("peak"), 
         on_delete=models.CASCADE)
+    parent = models.ForeignKey("PeakComment", verbose_name=_("parent"), 
+        null=True, on_delete=models.CASCADE)
     author = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, 
         verbose_name=_("author"), null=True)    
@@ -318,6 +320,12 @@ class PeakComment(models.Model):
     def name(self):
         """ get author name """
         return self.author.username if self.author else self.nickname
+    
+    @property
+    def replies(self):
+        """ get replies for the this comment """
+        return PeakComment.objects.filter(
+            parent=self).filter(active=True).order_by('id')
 
     @classmethod
     def add_test_comments(cls, peak, count=20):
@@ -334,6 +342,14 @@ class PeakComment(models.Model):
                 email=man['mail'], 
                 body=fake.text(max_nb_chars=80))
             comment.save()
+            if random.random() < 0.5:
+                replay = cls(
+                    peak=peak, 
+                    parent=comment,
+                    nickname=man['username'], 
+                    email=man['mail'], 
+                    body=fake.text(max_nb_chars=80))
+                replay.save()
             
             
 class Route(models.Model):

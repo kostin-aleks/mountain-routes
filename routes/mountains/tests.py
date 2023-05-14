@@ -3,7 +3,7 @@ Test case to test models related to mountain routes
 """
 
 import unittest
-from .models import GeoPoint, Ridge, thumbnail, slugify_name
+from .models import GeoPoint, Ridge, thumbnail, slugify_name, PeakComment
 from .views import divide_into_groups_of_three
 
 
@@ -97,6 +97,14 @@ class RouteTestCase(unittest.TestCase):
 
     def test_18_peak_comments(self):
         self.assertTrue(self.peak.comments())
+        
+    def test_19_children_comments(self):
+        comments = PeakComment.objects.filter(parent__isnull=False, active=True)
+        self.assertTrue(comments.count())
+        comment = comments[0]
+        self.assertTrue(comment.body)
+        parent = comment.parent
+        self.assertTrue(parent.replies.count())
         
         
 if __name__ == '__main__':
