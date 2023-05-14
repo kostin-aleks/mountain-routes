@@ -319,7 +319,50 @@ class PeakCommentForm(forms.Form):
         initial='someuser@some.server.com'
     )
 
+
+class CommentReplayForm(forms.Form):
+    """ Form for New Comment Replay """
+   
+    body = forms.CharField(
+        label=_('Body'),
+        required=True,
+        max_length=1024,
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': _('New comment'),
+                'rows': 5, 'cols': 50,
+        }), )
+
+    name = forms.CharField(
+        label=_('Nickname*'),
+        required=True,
+        max_length=128,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': _('Nickname'),
+        }), )
     
+    email = forms.EmailField(
+        label=_('Email*'),
+        required=True,
+        widget=forms.TextInput(),
+        initial='someuser@some.server.com'
+    )
+
+class CommentUserReplayForm(forms.Form):
+    """ Form for New User Comment Replay """
+   
+    body = forms.CharField(
+        label=_('Body'),
+        required=True,
+        max_length=1024,
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': _('New comment'),
+                'rows': 5, 'cols': 50,
+        }), )
+
+
 class RouteSectionForm(forms.ModelForm):
     """ Form for RouteSection """
     class Meta:

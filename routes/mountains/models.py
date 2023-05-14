@@ -234,8 +234,12 @@ class Peak(models.Model):
         return self.peakphoto_set.order_by('id')
     
     def comments(self):
-        """ peak comments """
-        return self.peakcomment_set.filter(active=True).order_by('id')
+        """ 
+        peak comments only
+        no replies
+        """
+        return self.peakcomment_set.filter(
+            active=True).filter(parent__isnull=True).order_by('id')
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -314,7 +318,7 @@ class PeakComment(models.Model):
         verbose_name_plural = _("peak comments")
         
     def __str__(self):
-        return f'comment {self.body} by {self.nickname}'
+        return f'comment {self.id} by {self.nickname}'
         
     @property
     def name(self):

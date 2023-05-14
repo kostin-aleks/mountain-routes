@@ -203,6 +203,8 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = env('EMAIL_USE_SSL')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
+COMMENTS_PER_PAGE = env('COMMENTS_PER_PAGE')
+
 try:
     from .custom_settings import *
 

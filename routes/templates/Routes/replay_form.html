@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load static %}
+
+<div id="form_{{ comment_.id }}" class="">
+    {% if request.user.is_authenticated %}
+    {% include "Routes/form-user-replay.html" %}
+    {% else %}
+    {% include "Routes/form-replay.html" %}
+    {% endif %}
+</div>

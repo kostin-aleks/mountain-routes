@@ -43,6 +43,7 @@ urlpatterns = [
          views.update_route_section, name="update-route-section"),
     path('add/peak/<slug>/photo/', views.add_peak_photo, name="add-peak-photo"),
     path('add/peak/<slug>/comment/', views.add_peak_comment, name="add-peak-comment"),
+    path('add/comment/reply/<int:comment_id>/', views.add_comment_reply, name="add-comment-reply"),
     path('remove/peak/<slug>/photo/<int:photo_id>/',
          views.remove_peak_photo, name="remove-peak-photo"),
     path('add/ridge/<slug>/link/', views.add_ridge_link, name="add-ridge-link"),
@@ -58,4 +59,6 @@ urlpatterns = [
          views.add_route_photo, name="add-route-photo"),
     path('remove/route/<int:route_id>/photo/<int:photo_id>/',
          views.remove_route_photo, name="remove-route-photo"),
+    path('replay/form/<int:comment_id>/',
+         views.get_replay_form, name="get-reply-form"),
 ]

@@ -1,0 +1,37 @@
+{% load i18n %}
+{% load static %}
+
+<div id="replies_{{ comment_.id }}" class="row">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        {% if show_form %}
+        {% include "Routes/form_user_replay.html" %}
+        {% else %}
+        {% include "Routes/button_replay.html" %}
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div id="table_{{ comment_.id }}">
+            <table class="table table-bordered  table-condensed">
+            {% for reply in comment_.replies %}
+                <tr>
+                    <td>
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <div class="">
+                                    <strong>{{ reply.name }}</strong> <strong>It is reply</strong>
+                                    <p class="bg-info">{{ reply.body }}</p>
+                                    <p class="text-muted"><small>{{ reply.created_on }}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>

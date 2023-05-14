@@ -1,3 +1,6 @@
+{% load i18n %}
+{% load static %}
+
 <div class="panel panel-info">
   <div class="panel-body">
     <div class="">
@@ -5,5 +8,6 @@
       <p class="bg-info">{{ comment_.body }}</p>
       <p class="text-muted"><small>{{ comment_.created_on }}</small></p>
     </div>
+    {% include "Routes/comment-replies.html" %}
   </div>
 </div>

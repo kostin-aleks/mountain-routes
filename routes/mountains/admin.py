@@ -96,10 +96,11 @@ admin.site.register(PeakPhoto, PeakPhotoAdmin)
 class PeakCommentAdmin(admin.ModelAdmin):
     """ PeakCommentAdmin """
     list_display = ('id', 'peak', 'body', 'author', 'nickname', 
-                    'email', 'photo', 'created_on', 'active')
+                    'email', 'parent', 'photo', 'created_on', 'active')
     search_fields = ('body', )
     ordering = ('-id', )
     list_filter = (PeakFilter, )
+    raw_id_fields = ('parent',)
     actions = ['hide_comments', 'show_comments']
     
     def hide_comments(self, request, queryset):

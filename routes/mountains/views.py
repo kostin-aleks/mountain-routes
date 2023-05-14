@@ -2,6 +2,7 @@
 views related to carpathians
 """
 
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,8 @@ from routes.mountains.models import (
 from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
     PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm,
-    FilterPeaksForm, FilterRoutesForm, PeakUserCommentForm, PeakCommentForm)
+    FilterPeaksForm, FilterRoutesForm, 
+    PeakUserCommentForm, PeakCommentForm, CommentReplayForm, CommentUserReplayForm)
 from routes.utils import ANY
 
 
@@ -194,7 +196,7 @@ def peak(request, slug):
     """
     the_peak = get_object_or_404(Peak, slug=slug)
     comments = the_peak.comments()
-    paginator = Paginator(comments, per_page=20)
+    paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
     comment_list = paginator.page(paginator.num_pages)
     form_comment = PeakUserCommentForm() if request.user.is_authenticated else PeakCommentForm()
     
@@ -804,7 +806,7 @@ def add_peak_comment(request, slug):
     args['form_comment'] = form
     
     comments = the_peak.comments()
-    paginator = Paginator(comments, per_page=20)
+    paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
     comment_list = paginator.page(paginator.num_pages)  
     args['comments'] = comment_list
     args['comments_count'] = comments.count()
@@ -812,6 +814,46 @@ def add_peak_comment(request, slug):
     return render(
                 request, 'Routes/peak_comments.html', 
                 args)
+
+
+def add_comment_reply(request, comment_id):
+    """
+    add a new replay to the comment
+    """
+    user = request.user
+    form_class = CommentUserReplayForm if user.is_authenticated else CommentReplayForm
+    comment = get_object_or_404(PeakComment, id=comment_id)
+    args = {}
+    
+    if request.method == 'POST':
+        form = form_class(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            replay = PeakComment.objects.create(
+                parent=comment,
+                peak=comment.peak,
+                body=data['body'],
+            )
+            if user.is_authenticated:
+                replay.author = request.user
+            else:
+                replay.nickname = data['name']
+                replay.email = data['email']
+            replay.save() 
+            args['show_form'] = False
+
+    else:
+        form = form_class()
+
+    
+    args['comment_'] = comment
+    args['form'] = form
+     
+    args['replies'] = comment.replies
+
+    return render(
+        request, 'Routes/comment-replies.html', args)
 
 
 @login_required
@@ -1303,7 +1345,7 @@ def peak_comments(request, peak_id, page):
     """
     the_peak = get_object_or_404(Peak, id=peak_id)
     comments = the_peak.comments()
-    paginator = Paginator(comments, per_page=20)
+    paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
     comment_list = paginator.page(page)
     
     return render(
@@ -1312,3 +1354,23 @@ def peak_comments(request, peak_id, page):
         {
             'peak': the_peak,
             'comments': comment_list, })
+
+
+def get_replay_form(request, comment_id):
+    """
+    return template with form to replay to the comment
+    """
+    user = request.user
+    comment = get_object_or_404(PeakComment, id=comment_id)
+    if user.is_authenticated:
+        form = CommentUserReplayForm({'parent': comment.id })
+    else:
+        form = CommentReplayForm({'parent': comment.id })
+    
+    return render(
+        request,
+        'Routes/replay_form.html',
+        {'form': form,
+         'comment': comment
+        }
+    )

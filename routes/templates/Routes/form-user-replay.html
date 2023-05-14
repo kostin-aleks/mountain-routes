@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load static %}
+    <div class="panel panel-success">
+      <div class="panel-body">
+        <form hx-post="{% url "add-comment-reply" comment.id %}" hx-target="#replies_{{ comment.id }}"
+            hx-swap="outerHTML">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.body }}
+            <label id="body-error" class="has-error" for="id_body">
+              {{ form.errors }}
+            </label>
+          </div>  
+
+          {{ form.parent }}
+          
+          <div class="">
+            <button class="btn btn-success" type="submit" name="add" >
+              {% trans "Reply" %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
