@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django_registration',
     'routes.user',
     'routes.geoname',
+    'captcha',
 ]
 
 MIDDLEWARE = [

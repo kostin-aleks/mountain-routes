@@ -10,6 +10,7 @@ django-location-field
 django-olwidget
 django-profiles
 django-registration
+django-simple-captcha
 django-social-auth
 django-tables2
 Faker
