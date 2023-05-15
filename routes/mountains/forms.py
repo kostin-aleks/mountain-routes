@@ -9,6 +9,8 @@ from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
+from captcha.fields import CaptchaField
+
 from routes.mountains.models import Ridge, RouteSection
 from routes.utils import ridges_list, peaks_list, ANY
 
@@ -319,7 +321,9 @@ class PeakCommentForm(forms.Form):
         initial='someuser@some.server.com'
     )
 
-
+    captcha=CaptchaField()
+    
+    
 class CommentReplyForm(forms.Form):
     """ Form for New Comment Reply """
    
