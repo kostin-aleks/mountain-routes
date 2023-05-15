@@ -1,9 +1,9 @@
 {% load i18n %}
 {% load static %}
 
-<div id="replies_{{ comment.id }}" class="row">
-    <div class="row">
-        <div class="col-md-4">
+<div id="replies_{{ comment.id }}" class="">
+    <div class="">
+        <div class="">
         </div>
         {% if show_form %}
         {% include "Routes/reply_form.html" %}
@@ -11,35 +11,29 @@
         {% include "Routes/button_reply.html" %}
         {% endif %}
     </div>
-    <div class="row">
-        <div class="col-md-4">
+
+    {% for reply in comment.replies %}
+    <div class="geser">
+      <div class="media">
+        <!--div class="media-left">
+          <img src="http://fakeimg.pl/50x50" class="media-object" style="width:40px">
+        </div-->
+        <div class="media-body">
+          <h6 class="media-heading title">{{ reply.name }}</h6>
+          <p class="">
+            {{ reply.body }} <br />
+            <span class="text-muted"><small>{{ reply.created_on }}</small></span>
+            {% if request.user.is_authenticated and reply.author == request.user %}
+            <button class="btn btn-danger btn-xs" type="button" name="delete"  aria-label="Left Align"
+                  hx-get="{% url "delete-reply" reply.id %}" 
+                  hx-confirm="{% trans "Are you sure?" %}"
+                  hx-target="closest tr" hx-swap="outerHTML swap:1s">
+              {% trans "Delete" %}
+              <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+            </button>
+            {% endif %}
+          </p>
         </div>
-        <div id="table_{{ comment.id }}">
-            <table class="table table-condensed">
-            {% for reply in comment.replies %}
-                <tr>
-                    <td>
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="">
-                                    <strong>{{ reply.name }}</strong>
-                                    <p class="bg-info">{{ reply.body }}</p>
-                                    <p class="text-muted"><small>{{ reply.created_on }}</small></p>
-                                    {% if request.user.is_authenticated and reply.author == request.user %}
-                                    <button class="btn btn-danger btn-xs" type="button" name="delete" 
-                                            hx-get="{% url "delete-reply" reply.id %}" 
-                                            hx-confirm="{% trans "Are you sure?" %}"
-                                            hx-target="closest tr" hx-swap="outerHTML swap:1s">
-                                            {% trans "Delete" %}
-                                    </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </table>
-        </div>
+      </div>
     </div>
-</div>
+    {% endfor %}

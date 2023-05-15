@@ -1,23 +1,34 @@
 {% load i18n %}
 {% load static %}
 
-<div class="panel panel-info" id="comment_{{ comment.id }}">
-  <div class="panel-body">
-    <div class="">
-      <strong>{{ comment.name }}</strong>
-      <p class="bg-info">{{ comment.body }}</p>
-      <p class="text-muted"><small>{{ comment.created_on }}</small></p>
-    </div>
-    {% if request.user.is_authenticated and comment.author == request.user %}
-    <div>
-      <button class="btn btn-danger btn-xs" type="button" name="delete" 
+<div class="container" id="comment_{{ comment.id }}">
+  <div class="row">
+  
+    <div class="media">
+      <!--div class="media-left">
+        <img src="http://fakeimg.pl/50x50" class="media-object" style="width:40px">
+      </div-->
+      <div class="media-body">
+        <h6 class="media-heading title">{{ comment.name }}</h6>
+        <p class="">
+          {{ comment.body }} <br />
+          <span class="text-muted"><small>{{ comment.created_on }}</small></span>
+          
+          {% if request.user.is_authenticated and comment.author == request.user %}
+          <button class="btn btn-danger btn-xs" type="button" name="delete" aria-label="Left Align"
               hx-get="{% url "delete-comment" comment.id %}" 
               hx-confirm="{% trans "This comment and all replies will be deleted. Are you sure?" %}"
               hx-target="#comment_{{ comment.id }}" hx-swap="outerHTML swap:1s">
               {% trans "Delete" %}
-      </button>
+            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+          </button>
+          {% endif %}
+        </p>
+        
+      </div>
     </div>
-    {% endif %}
+    
     {% include "Routes/comment-replies.html" %}
+    
   </div>
 </div>

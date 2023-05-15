@@ -2,9 +2,10 @@
 {% load static %}
 
 <div id="form_{{ comment.id }}" class="">
-    <button class="btn btn-success btn-xs" type="submit" name="add" 
+    <button class="btn btn-success btn-xs" type="submit" name="add" aria-label="Left Align"
         hx-get="{% url "get-reply-form" comment.id %}" 
         hx-target="#form_{{ comment.id }}" hx-swap="outerHTML">
         {% trans "Reply" %}
+        <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
     </button>
 </div>
