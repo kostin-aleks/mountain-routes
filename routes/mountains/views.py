@@ -24,7 +24,7 @@ from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
     PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm,
     FilterPeaksForm, FilterRoutesForm, 
-    PeakUserCommentForm, PeakCommentForm, CommentReplayForm, CommentUserReplayForm)
+    PeakUserCommentForm, PeakCommentForm, CommentReplyForm, CommentUserReplyForm)
 from routes.utils import ANY
 
 
@@ -818,38 +818,36 @@ def add_peak_comment(request, slug):
 
 def add_comment_reply(request, comment_id):
     """
-    add a new replay to the comment
+    add a new reply to the comment
     """
     user = request.user
-    form_class = CommentUserReplayForm if user.is_authenticated else CommentReplayForm
+    form_class = CommentUserReplyForm if user.is_authenticated else CommentReplyForm
     comment = get_object_or_404(PeakComment, id=comment_id)
-    args = {}
+    args = {'show_form': True}
     
     if request.method == 'POST':
         form = form_class(request.POST)
 
         if form.is_valid():
             data = form.cleaned_data
-            replay = PeakComment.objects.create(
+            reply = PeakComment.objects.create(
                 parent=comment,
                 peak=comment.peak,
                 body=data['body'],
             )
             if user.is_authenticated:
-                replay.author = request.user
+                reply.author = request.user
             else:
-                replay.nickname = data['name']
-                replay.email = data['email']
-            replay.save() 
+                reply.nickname = data['name']
+                reply.email = data['email']
+            reply.save() 
             args['show_form'] = False
 
     else:
         form = form_class()
 
-    
-    args['comment_'] = comment
+    args['comment'] = comment
     args['form'] = form
-     
     args['replies'] = comment.replies
 
     return render(
@@ -1356,20 +1354,20 @@ def peak_comments(request, peak_id, page):
             'comments': comment_list, })
 
 
-def get_replay_form(request, comment_id):
+def get_reply_form(request, comment_id):
     """
-    return template with form to replay to the comment
+    return template with form to reply to the comment
     """
     user = request.user
     comment = get_object_or_404(PeakComment, id=comment_id)
     if user.is_authenticated:
-        form = CommentUserReplayForm()
+        form = CommentUserReplyForm()
     else:
-        form = CommentReplayForm()
+        form = CommentReplyForm()
     
     return render(
         request,
-        'Routes/replay_form.html',
+        'Routes/reply_form.html',
         {'form': form,
          'comment': comment
         }

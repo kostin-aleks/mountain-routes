@@ -33,8 +33,7 @@ def user_profile_edit(request):
             user.save()
 
             messages.success(request, 'Profile details updated.')
-        else:
-            print(form.errors)
+
         return HttpResponseRedirect(reverse('user-profile'))
 
     data = {

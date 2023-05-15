@@ -320,8 +320,8 @@ class PeakCommentForm(forms.Form):
     )
 
 
-class CommentReplayForm(forms.Form):
-    """ Form for New Comment Replay """
+class CommentReplyForm(forms.Form):
+    """ Form for New Comment Reply """
    
     body = forms.CharField(
         label=_('Body'),
@@ -349,8 +349,8 @@ class CommentReplayForm(forms.Form):
         initial='someuser@some.server.com'
     )
 
-class CommentUserReplayForm(forms.Form):
-    """ Form for New User Comment Replay """
+class CommentUserReplyForm(forms.Form):
+    """ Form for New User Comment Reply """
    
     body = forms.CharField(
         label=_('Body'),

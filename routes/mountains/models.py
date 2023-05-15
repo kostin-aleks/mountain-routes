@@ -347,13 +347,13 @@ class PeakComment(models.Model):
                 body=fake.text(max_nb_chars=80))
             comment.save()
             if random.random() < 0.5:
-                replay = cls(
+                reply = cls(
                     peak=peak, 
                     parent=comment,
                     nickname=man['username'], 
                     email=man['mail'], 
                     body=fake.text(max_nb_chars=80))
-                replay.save()
+                reply.save()
             
             
 class Route(models.Model):
@@ -472,7 +472,7 @@ class RouteSection(models.Model):
         if self.angle:
             items.append(f'{self.angle}&deg;')
         items.append(self.difficulty)
-        print(items)
+
         return ', '.join(items) if all(items) else ''
 
 

@@ -1,28 +1,28 @@
 {% load i18n %}
 {% load static %}
 
-<div id="replies_{{ comment_.id }}" class="row">
+<div id="replies_{{ comment.id }}" class="row">
     <div class="row">
         <div class="col-md-4">
         </div>
         {% if show_form %}
-        {% include "Routes/form_user_replay.html" %}
+        {% include "Routes/reply_form.html" %}
         {% else %}
-        {% include "Routes/button_replay.html" %}
+        {% include "Routes/button_reply.html" %}
         {% endif %}
     </div>
     <div class="row">
         <div class="col-md-4">
         </div>
-        <div id="table_{{ comment_.id }}">
+        <div id="table_{{ comment.id }}">
             <table class="table table-bordered  table-condensed">
-            {% for reply in comment_.replies %}
+            {% for reply in comment.replies %}
                 <tr>
                     <td>
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <div class="">
-                                    <strong>{{ reply.name }}</strong> <strong>It is reply</strong>
+                                    <strong>{{ reply.name }}</strong>
                                     <p class="bg-info">{{ reply.body }}</p>
                                     <p class="text-muted"><small>{{ reply.created_on }}</small></p>
                                 </div>
