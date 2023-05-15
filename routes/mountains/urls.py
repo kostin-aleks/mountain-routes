@@ -61,4 +61,10 @@ urlpatterns = [
          views.remove_route_photo, name="remove-route-photo"),
     path('reply/form/<int:comment_id>/',
          views.get_reply_form, name="get-reply-form"),
+    path('reply/button/<int:comment_id>/',
+         views.get_reply_button, name="get-reply-button"),
+    path('delete/reply/<int:reply_id>/',
+         views.delete_reply, name="delete-reply"),
+    path('delete/comment/<int:comment_id>/',
+         views.delete_comment, name="delete-comment"),    
 ]

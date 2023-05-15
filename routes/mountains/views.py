@@ -1372,3 +1372,47 @@ def get_reply_form(request, comment_id):
          'comment': comment
         }
     )
+
+def get_reply_button(request, comment_id):
+    """
+    return template with button [reply]
+    """
+    comment = get_object_or_404(PeakComment, id=comment_id)
+    
+    return render(
+        request,
+        'Routes/button_reply.html',
+        {'comment': comment}
+    )
+
+
+def delete_reply(request, reply_id):
+    """
+    delete own comment reply
+    """
+    user = request.user
+    reply = get_object_or_404(PeakComment, id=reply_id)
+    if user.is_authenticated:
+        if reply.author == user and reply.parent is not None:
+            reply.active = False
+            reply.save()
+    
+    return render(request, 'Routes/empty.html', {})
+
+
+def delete_comment(request, comment_id):
+    """
+    delete own comment and all replies
+    """
+    user = request.user
+    comment = get_object_or_404(PeakComment, id=comment_id)
+    if user.is_authenticated:
+        if comment.author == user:
+            comment.active = False
+            comment.save()
+            for reply in comment.replies:
+                reply.active = False
+                reply.save()
+    
+    return render(request, 'Routes/empty.html', {})
+

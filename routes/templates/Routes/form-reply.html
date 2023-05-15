@@ -31,9 +31,15 @@
               {{ form.email.errors }}
             </label>
           </div>    
-          
-          {{ form.parent }}
-          
+                
+          <div class="">
+            <button class="btn btn-default" name="cancel"
+                    hx-get="{% url "get-reply-button" comment.id %}" 
+                    hx-target="#form_{{ comment.id }}" hx-swap="outerHTML">
+              {% trans "Cancel" %}
+            </button>
+          </div>
+           
           <div class="">
             <button class="btn btn-success" type="submit" name="add" >
               {% trans "Send" %}
@@ -42,3 +48,9 @@
         </form>
       </div>
     </div>
+
+<button class="btn btn-success btn-xs" type="submit" name="add" 
+        hx-get="{% url "get-reply-form" comment.id %}" 
+        hx-target="#form_{{ comment.id }}" hx-swap="outerHTML">
+        {% trans "Reply" %}
+    </button>
