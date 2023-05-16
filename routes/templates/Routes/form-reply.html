@@ -31,7 +31,14 @@
               {{ form.email.errors }}
             </label>
           </div>    
-                
+          
+          <div class="form-group">
+            {{ form.captcha }}
+            <label id="comment-captcha-error" class="has-error" for="id_captcha">
+              {{ form.captcha.errors }}
+            </label>
+          </div> 
+          
           <div class="">
             <button class="btn btn-default" name="cancel"
                     hx-get="{% url "get-reply-button" comment.id %}" 
