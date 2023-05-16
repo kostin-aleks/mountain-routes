@@ -56,7 +56,7 @@
       </div>
     </div>
 
-<button class="btn btn-success btn-xs" type="submit" name="add" 
+    <button class="btn btn-success btn-xs" type="submit" name="add" 
         hx-get="{% url "get-reply-form" comment.id %}" 
         hx-target="#form_{{ comment.id }}" hx-swap="outerHTML">
         {% trans "Reply" %}

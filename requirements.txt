@@ -1,4 +1,5 @@
 awesome-slugify
+beautifulsoup4
 certifi
 Django==4.2
 django-crispy-forms

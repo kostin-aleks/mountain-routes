@@ -27,7 +27,7 @@
             <button class="btn btn-danger btn-xs" type="button" name="delete"  aria-label="Left Align"
                   hx-get="{% url "delete-reply" reply.id %}" 
                   hx-confirm="{% trans "Are you sure?" %}"
-                  hx-target="closest tr" hx-swap="outerHTML swap:1s">
+                  hx-target="closest tr" hx-swap="outerHTML">
               {% trans "Delete" %}
               <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
             </button>

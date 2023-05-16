@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
+from bs4 import BeautifulSoup
 from captcha.fields import CaptchaField
 
 from routes.mountains.models import Ridge, RouteSection
@@ -291,6 +292,27 @@ class PeakUserCommentForm(forms.Form):
                 'rows': 5, 'cols': 50,
         }), )
 
+    def clean_body(self):
+        """
+        Avoid using restricted tags in comment body
+        """
+        TAGS = ['a', 'code', 'i', 'strong']
+        txt = self.cleaned_data.get('body')
+        soup = BeautifulSoup (txt, 'lxml')
+        while True:
+            replaced = False
+            for tag in soup.descendants:
+                if tag.name and tag.name not in TAGS:
+                    tag.unwrap()
+                    replaced = True
+            if replaced:
+                break
+            
+        if False:
+            raise ValidationError(_("Deprecated tags are used."))
+
+        return str(soup)
+    
     
 class PeakCommentForm(forms.Form):
     """ Form for New Comment """
