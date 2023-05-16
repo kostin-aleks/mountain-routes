@@ -1,9 +1,10 @@
 """
 Module stores utilities
 """
-
+import json
 import os
 import random
+import requests
 import string
 from datetime import datetime
 
@@ -113,3 +114,14 @@ def peaks_list():
     first = [('', _('--any--'))]
     return first + [(c.slug, c.name) for c
             in Peak.objects.all().order_by('name')]
+
+
+def ip_geolocation(ip_address):
+    """
+    get user geolocation by IP address
+    """
+    request_url = f'https://geolocation-db.com/jsonp/{ip_address}'
+    response = requests.get(request_url)
+    result = response.content.decode()
+    result = result.split("(")[1].strip(")")
+    return json.loads(result)

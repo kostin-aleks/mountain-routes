@@ -308,6 +308,10 @@ class PeakComment(models.Model):
     body = models.TextField(_("body"))
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
+    ip_address = models.GenericIPAddressField(_("IP address"), blank=True, null=True)
+    country_code = models.CharField(_("country code"), max_length=16, null=True)
+    country = models.CharField(_("country"), max_length=255, null=True)
+    city = models.CharField(_("city"), max_length=255, null=True)
     created_on = models.DateTimeField(_("created"), auto_now_add=True)
     active = models.BooleanField(_("active"), default=True)
 

@@ -41,6 +41,19 @@ def divide_into_groups_of_three(lst):
     return chunked_list
 
 
+def get_ip_from_request(request):
+    """
+    get IP address from request
+    """
+    forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
+    if forwarded:
+        ip = forwarded.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    return ip
+
+
 class PeakFilter(django_filters.FilterSet):
     """
     Filter Set to filter by peak
@@ -798,6 +811,8 @@ def add_peak_comment(request, slug):
                 peak_comment.email = data['email']
             peak_comment.save() 
 
+            peak_comment.ip_address = get_ip_from_request(request)
+            peak_comment.save()
     else:
         form = form_class()
 
@@ -841,6 +856,10 @@ def add_comment_reply(request, comment_id):
                 reply.nickname = data['name']
                 reply.email = data['email']
             reply.save() 
+            
+            reply.ip_address = get_ip_from_request(request)
+            reply.save()
+            
             args['show_form'] = False
 
     else:

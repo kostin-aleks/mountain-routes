@@ -21,3 +21,5 @@ Pillow
 pylint-django
 pymysql
 python-memcached
+requests
+
