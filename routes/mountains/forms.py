@@ -285,7 +285,6 @@ class PeakUserCommentForm(forms.Form):
     body = forms.CharField(
         label=_('Body'),
         required=True,
-        max_length=128,
         widget=forms.Textarea(
             attrs={
                 'placeholder': _('New comment'),
@@ -298,7 +297,6 @@ class PeakCommentForm(forms.Form):
     body = forms.CharField(
         label=_('Body'),
         required=True,
-        max_length=1024,
         widget=forms.Textarea(
             attrs={
                 'placeholder': _('New comment'),
@@ -330,7 +328,6 @@ class CommentReplyForm(forms.Form):
     body = forms.CharField(
         label=_('Body'),
         required=True,
-        max_length=1024,
         widget=forms.Textarea(
             attrs={
                 'placeholder': _('New comment'),
@@ -359,7 +356,6 @@ class CommentUserReplyForm(forms.Form):
     body = forms.CharField(
         label=_('Body'),
         required=True,
-        max_length=1024,
         widget=forms.Textarea(
             attrs={
                 'placeholder': _('New comment'),

@@ -322,7 +322,7 @@ class PeakComment(models.Model):
         verbose_name_plural = _("peak comments")
         
     def __str__(self):
-        return f'comment {self.id} by {self.nickname}'
+        return f'comment {self.id} by {self.name}'
         
     @property
     def name(self):
