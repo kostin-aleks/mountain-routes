@@ -319,7 +319,7 @@ class PeakCommentForm(forms.Form):
         initial='someuser@some.server.com'
     )
 
-    captcha=CaptchaField()
+    captcha=CaptchaField(required=True)
     
     
 class CommentReplyForm(forms.Form):
@@ -349,6 +349,9 @@ class CommentReplyForm(forms.Form):
         widget=forms.TextInput(),
         initial='someuser@some.server.com'
     )
+    
+    captcha=CaptchaField(required=True)
+    
 
 class CommentUserReplyForm(forms.Form):
     """ Form for New User Comment Reply """

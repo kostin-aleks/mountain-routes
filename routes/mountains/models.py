@@ -311,6 +311,7 @@ class PeakComment(models.Model):
     ip_address = models.GenericIPAddressField(_("IP address"), blank=True, null=True)
     country_code = models.CharField(_("country code"), max_length=16, null=True)
     country = models.CharField(_("country"), max_length=255, null=True)
+    region = models.CharField(_("region"), max_length=255, null=True)
     city = models.CharField(_("city"), max_length=255, null=True)
     created_on = models.DateTimeField(_("created"), auto_now_add=True)
     active = models.BooleanField(_("active"), default=True)
@@ -348,6 +349,7 @@ class PeakComment(models.Model):
                 peak=peak, 
                 nickname=man['username'], 
                 email=man['mail'], 
+                ip_address = fake.ipv4(),
                 body=fake.text(max_nb_chars=80))
             comment.save()
             if random.random() < 0.5:
@@ -356,6 +358,7 @@ class PeakComment(models.Model):
                     parent=comment,
                     nickname=man['username'], 
                     email=man['mail'], 
+                    ip_address = fake.ipv4(),
                     body=fake.text(max_nb_chars=80))
                 reply.save()
             

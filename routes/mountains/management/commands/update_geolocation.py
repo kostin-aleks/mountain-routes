@@ -26,6 +26,7 @@ class Command(BaseCommand):
                 geolocation = ip_geolocation(comment.ip_address)
                 comment.country_code = geolocation.get('country_code')
                 comment.country = geolocation.get('country')
+                comment.region = geolocation.get('region')
                 comment.city = geolocation.get('city')
                 comment.save()  
                 cnt += 1

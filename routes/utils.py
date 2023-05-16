@@ -116,12 +116,20 @@ def peaks_list():
             in Peak.objects.all().order_by('name')]
 
 
-def ip_geolocation(ip_address):
-    """
-    get user geolocation by IP address
-    """
-    request_url = f'https://geolocation-db.com/jsonp/{ip_address}'
-    response = requests.get(request_url)
-    result = response.content.decode()
-    result = result.split("(")[1].strip(")")
-    return json.loads(result)
+def get_ip():
+    response = requests.get('https://api64.ipify.org?format=json').json()
+    return response["ip"]
+
+
+def ip_geolocation(ip_address='127.0.0.1'):
+    if ip_address == '127.0.0.1':
+        ip_address = get_ip()
+    response = requests.get(f'https://ipapi.co/{ip_address}/json/').json()
+    location_data = {
+        "ip": ip_address,
+        "city": response.get("city"),
+        "region": response.get("region"),
+        "country": response.get("country_name"),
+        "country_code": response.get("country_code"),
+    }
+    return location_data
