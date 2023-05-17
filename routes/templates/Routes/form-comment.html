@@ -8,9 +8,9 @@
           {% csrf_token %}
           <div class="form-group">
             {{ form_comment.body }}
-            <label id="body-error" class="has-error" for="id_body">
+            <div id="body-error" class="has-error" for="id_body">
               {{ form_comment.body.errors }}
-            </label>
+            </div>
           </div>
     
           <div class="form-group">
@@ -18,9 +18,9 @@
               {{ form_comment.name.label }}:
             </label><br>
             {{ form_comment.name }}
-            <label id="comment-name-error" class="has-error" for="id_name">
+            <div id="comment-name-error" class="has-error" for="id_name">
               {{ form_comment.name.errors }}
-            </label>
+            </div>
           </div>
           
           <div class="form-group">
@@ -28,9 +28,9 @@
               {{ form_comment.email.label }}:
             </label><br>
             {{ form_comment.email }}
-            <label id="comment-email-error" class="has-error" for="id_email">
+            <div id="comment-email-error" class="has-error" for="id_email">
               {{ form_comment.email.errors }}
-            </label>
+            </div>
           </div>  
           
           <div class="form-group">
@@ -38,16 +38,16 @@
               {{ form_comment.homepage.label }}:
             </label><br>
             {{ form_comment.homepage }}
-            <label id="comment-homepage-error" class="has-error" for="id_homepage">
+            <div id="comment-homepage-error" class="has-error">
               {{ form_comment.homepage.errors }}
-            </label>
+            </div>
           </div>  
           
           <div class="form-group">
             {{ form_comment.captcha }}
-            <label id="comment-captcha-error" class="has-error" for="id_captcha">
+            <div id="comment-captcha-error" class="has-error" for="id_captcha">
               {{ form_comment.captcha.errors }}
-            </label>
+            </div>
           </div>  
 
           <div class="">

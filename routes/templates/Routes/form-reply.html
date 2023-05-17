@@ -17,9 +17,9 @@
               {{ form.name.label }}:
             </label><br>
             {{ form.name }}
-            <label id="comment-name-error" class="has-error" for="id_name">
+            <div id="comment-name-error" class="has-error" for="id_name">
               {{ form.name.errors }}
-            </label>
+            </div>
           </div>
           
           <div class="form-group">
@@ -27,9 +27,9 @@
               {{ form.email.label }}:
             </label><br>
             {{ form.email }}
-            <label id="comment-email-error" class="has-error" for="id_email">
+            <div id="comment-email-error" class="has-error" for="id_email">
               {{ form.email.errors }}
-            </label>
+            </div>
           </div>    
           
           <div class="form-group">
@@ -37,30 +37,30 @@
               {{ form.homepage.label }}:
             </label><br>
             {{ form.homepage }}
-            <label id="comment-homepage-error" class="has-error" for="id_homepage">
+            <div id="comment-homepage-error" class="has-error" for="id_homepage">
               {{ form.homepage.errors }}
-            </label>
+            </div>
           </div> 
           
           <div class="form-group">
             {{ form.captcha }}
-            <label id="comment-captcha-error" class="has-error" for="id_captcha">
+            <div id="comment-captcha-error" class="has-error" for="id_captcha">
               {{ form.captcha.errors }}
-            </label>
+            </div>
           </div> 
           
-          <div class="">
-            <button class="btn btn-default" name="cancel"
+          <div class="btn-group" role="group">
+
+            <button class="btn btn-secondary" name="cancel"
                     hx-get="{% url "get-reply-button" comment.id %}" 
                     hx-target="#form_{{ comment.id }}" hx-swap="outerHTML">
               {% trans "Cancel" %}
             </button>
-          </div>
            
-          <div class="">
             <button class="btn btn-success" type="submit" name="add" >
               {% trans "Send" %}
             </button>
+
           </div>
         </form>
       </div>
