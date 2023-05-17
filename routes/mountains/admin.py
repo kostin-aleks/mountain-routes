@@ -96,8 +96,8 @@ admin.site.register(PeakPhoto, PeakPhotoAdmin)
 class PeakCommentAdmin(admin.ModelAdmin):
     """ PeakCommentAdmin """
     list_display = ('id', 'peak', 'body', 'author', 'nickname', 
-                    'email', 'parent', 'photo', 
-                    'ip_address', 'country_code', 'country', 'city', 
+                    'email', 'homepage', 'parent', 'photo', 
+                    'ip_address', 'country_code', 'country', 'region', 'city', 
                     'created_on', 'active')
     search_fields = ('body', )
     ordering = ('-id', )

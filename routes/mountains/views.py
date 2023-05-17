@@ -810,6 +810,7 @@ def add_peak_comment(request, slug):
             else:
                 peak_comment.nickname = data['name']
                 peak_comment.email = data['email']
+                peak_comment.homepage = data['homepage']
             peak_comment.save() 
 
             peak_comment.ip_address = get_ip_from_request(request)
@@ -857,6 +858,7 @@ def add_comment_reply(request, comment_id):
             else:
                 reply.nickname = data['name']
                 reply.email = data['email']
+                reply.homepage = data['homepage']
             reply.save() 
             
             reply.ip_address = get_ip_from_request(request)

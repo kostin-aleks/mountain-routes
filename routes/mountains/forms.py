@@ -326,12 +326,12 @@ class PeakCommentForm(forms.Form):
         }), )
 
     name = forms.CharField(
-        label=_('Nickname*'),
+        label=_('User name*'),
         required=True,
         max_length=128,
         widget=forms.TextInput(
             attrs={
-                'placeholder': _('Nickname'),
+                'placeholder': _('User name'),
         }), )
     
     email = forms.EmailField(
@@ -340,8 +340,30 @@ class PeakCommentForm(forms.Form):
         widget=forms.TextInput(),
         initial='someuser@some.server.com'
     )
+    
+    homepage = forms.URLField(
+        label=_('Home page'),
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': _('Home page'),
+        })
+    )
 
     captcha=CaptchaField(required=True)
+    
+    def clean_name(self):
+        """
+        validate field name
+        """
+        name = self.cleaned_data['name']
+        pattern = r'[^a-zA-Z0-9]'
+        if re.search(pattern, name):
+            # Character other then a-z A-Z 0-9 was found
+            raise ValidationError(
+                _("The user name must consist only of the characters (a-z, A-Z, 0-9)."))
+
+        return name
     
     
 class CommentReplyForm(forms.Form):
@@ -357,12 +379,12 @@ class CommentReplyForm(forms.Form):
         }), )
 
     name = forms.CharField(
-        label=_('Nickname*'),
+        label=_('User name*'),
         required=True,
         max_length=128,
         widget=forms.TextInput(
             attrs={
-                'placeholder': _('Nickname'),
+                'placeholder': _('User name'),
         }), )
     
     email = forms.EmailField(
@@ -372,9 +394,31 @@ class CommentReplyForm(forms.Form):
         initial='someuser@some.server.com'
     )
     
+    homepage = forms.URLField(
+        label=_('Home page'),
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': _('Home page'),
+        })
+    )
+    
     captcha=CaptchaField(required=True)
     
+    def clean_name(self):
+        """
+        validate field name
+        """
+        name = self.cleaned_data['name']
+        pattern = r'[^a-zA-Z0-9]'
+        if re.search(pattern, name):
+            # Character other then a-z A-Z 0-9 was found
+            raise ValidationError(
+                _("The user name must consist only of the characters (a-z, A-Z, 0-9)."))
 
+        return name
+    
+        
 class CommentUserReplyForm(forms.Form):
     """ Form for New User Comment Reply """
    

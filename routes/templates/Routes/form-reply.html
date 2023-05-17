@@ -33,6 +33,16 @@
           </div>    
           
           <div class="form-group">
+            <label for="id_homepage" class="text-info">
+              {{ form.homepage.label }}:
+            </label><br>
+            {{ form.homepage }}
+            <label id="comment-homepage-error" class="has-error" for="id_homepage">
+              {{ form.homepage.errors }}
+            </label>
+          </div> 
+          
+          <div class="form-group">
             {{ form.captcha }}
             <label id="comment-captcha-error" class="has-error" for="id_captcha">
               {{ form.captcha.errors }}
