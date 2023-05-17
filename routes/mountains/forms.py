@@ -2,6 +2,7 @@
 forms related to mountains
 """
 
+from lxml import etree
 import re
 
 from django import forms
@@ -296,20 +297,43 @@ class PeakUserCommentForm(forms.Form):
         """
         Avoid using restricted tags in comment body
         """
-        TAGS = ['a', 'code', 'i', 'strong']
+        ALLOWED_TAGS = ['a', 'code', 'i', 'strong']
         txt = self.cleaned_data.get('body')
+        
+        tags = re.search("<[^>]*>", txt)
+        if not tags:
+            return txt
+        
+        tags = re.findall("<[^>]*>", txt)
+        for item in tags:
+            tag = re.search("<[\s,\/]*([a-z,A-Z]+)\s*[^>]*>", item)
+            tag_name = tag.groups()[0]
+
+            if tag_name not in ALLOWED_TAGS:
+                raise ValidationError(
+                _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
+   
+        parser = etree.XMLParser()
+        try:
+            tree = etree.XML(f'<html>{txt}</html>', parser)
+        except etree.XMLSyntaxError:
+            print(parser.error_log)
+            raise ValidationError(
+                _("Fix syntax errors in html tags."))
+            
         soup = BeautifulSoup (txt, 'lxml')
         while True:
             replaced = False
             for tag in soup.descendants:
-                if tag.name and tag.name not in TAGS:
+                if tag.name and tag.name not in ALLOWED_TAGS:
                     tag.unwrap()
                     replaced = True
             if replaced:
                 break
             
         if False:
-            raise ValidationError(_("Deprecated tags are used."))
+            raise ValidationError(
+                _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
 
         return str(soup)
     

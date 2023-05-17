@@ -794,7 +794,8 @@ def add_peak_comment(request, slug):
     user = request.user
     form_class = PeakUserCommentForm if user.is_authenticated else PeakCommentForm
     the_peak = get_object_or_404(Peak, slug=slug)
-
+    args = {}
+    
     if request.method == 'POST':
         form = form_class(request.POST)
 
@@ -815,10 +816,10 @@ def add_peak_comment(request, slug):
 
             peak_comment.ip_address = get_ip_from_request(request)
             peak_comment.save()
+            args['form_message'] = _('You have successfully added a comment')
     else:
         form = form_class()
 
-    args = {}
     args['peak'] = the_peak
     args['form_comment'] = form
     
