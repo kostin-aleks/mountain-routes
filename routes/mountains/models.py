@@ -305,6 +305,7 @@ class PeakComment(models.Model):
         verbose_name=_("author"), null=True)    
     nickname = models.CharField(_("nickname"), max_length=80, null=True)
     email = models.EmailField(_("email"), null=True)
+    homepage = models.URLField(_("home page"), max_length=200, blank=True, null=True)
     body = models.TextField(_("body"))
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
