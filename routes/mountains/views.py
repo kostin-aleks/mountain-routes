@@ -24,7 +24,7 @@ from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
     PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm,
     FilterPeaksForm, FilterRoutesForm, 
-    PeakUserCommentForm, PeakCommentForm, CommentReplyForm, CommentUserReplyForm)
+    PeakUserCommentForm, PeakCommentForm)
 from routes.utils import ANY
 
 
@@ -838,7 +838,7 @@ def add_comment_reply(request, comment_id):
     add a new reply to the comment
     """
     user = request.user
-    form_class = CommentUserReplyForm if user.is_authenticated else CommentReplyForm
+    form_class = PeakUserCommentForm if user.is_authenticated else PeakCommentForm
     comment = get_object_or_404(PeakComment, id=comment_id)
     args = {'show_form': True}
     
@@ -1384,9 +1384,9 @@ def get_reply_form(request, comment_id):
     user = request.user
     comment = get_object_or_404(PeakComment, id=comment_id)
     if user.is_authenticated:
-        form = CommentUserReplyForm()
+        form = PeakUserCommentForm()
     else:
-        form = CommentReplyForm()
+        form = PeakCommentForm()
     
     return render(
         request,

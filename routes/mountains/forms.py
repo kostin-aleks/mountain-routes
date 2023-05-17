@@ -314,16 +314,8 @@ class PeakUserCommentForm(forms.Form):
         return str(soup)
     
     
-class PeakCommentForm(forms.Form):
-    """ Form for New Comment """
-    body = forms.CharField(
-        label=_('Body'),
-        required=True,
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': _('New comment'),
-                'rows': 5, 'cols': 50,
-        }), )
+class PeakCommentForm(PeakUserCommentForm):
+    """ Form for New Comment for Anonimous """
 
     name = forms.CharField(
         label=_('User name*'),
@@ -365,72 +357,6 @@ class PeakCommentForm(forms.Form):
 
         return name
     
-    
-class CommentReplyForm(forms.Form):
-    """ Form for New Comment Reply """
-   
-    body = forms.CharField(
-        label=_('Body'),
-        required=True,
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': _('New comment'),
-                'rows': 5, 'cols': 50,
-        }), )
-
-    name = forms.CharField(
-        label=_('User name*'),
-        required=True,
-        max_length=128,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': _('User name'),
-        }), )
-    
-    email = forms.EmailField(
-        label=_('Email*'),
-        required=True,
-        widget=forms.TextInput(),
-        initial='someuser@some.server.com'
-    )
-    
-    homepage = forms.URLField(
-        label=_('Home page'),
-        required=False,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': _('Home page'),
-        })
-    )
-    
-    captcha=CaptchaField(required=True)
-    
-    def clean_name(self):
-        """
-        validate field name
-        """
-        name = self.cleaned_data['name']
-        pattern = r'[^a-zA-Z0-9]'
-        if re.search(pattern, name):
-            # Character other then a-z A-Z 0-9 was found
-            raise ValidationError(
-                _("The user name must consist only of the characters (a-z, A-Z, 0-9)."))
-
-        return name
-    
-        
-class CommentUserReplyForm(forms.Form):
-    """ Form for New User Comment Reply """
-   
-    body = forms.CharField(
-        label=_('Body'),
-        required=True,
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': _('New comment'),
-                'rows': 5, 'cols': 50,
-        }), )
-
 
 class RouteSectionForm(forms.ModelForm):
     """ Form for RouteSection """

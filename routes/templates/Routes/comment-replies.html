@@ -21,7 +21,7 @@
         <div class="media-body">
           <h6 class="media-heading title">{{ reply.name }}</h6>
           <p class="">
-            {{ reply.body }} <br />
+            {{ reply.body|safe|linebreaks }} <br />
             <span class="text-muted"><small>{{ reply.created_on }}</small></span>
             {% if request.user.is_authenticated and reply.author == request.user %}
             <button class="btn btn-danger btn-xs" type="button" name="delete"  aria-label="Left Align"
