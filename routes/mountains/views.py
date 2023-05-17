@@ -805,7 +805,8 @@ def add_peak_comment(request, slug):
                 body=data['body'],
             )
             if user.is_authenticated:
-                peak_comment.author = request.user
+                peak_comment.author = user
+                peak_comment.nickname = user.username
             else:
                 peak_comment.nickname = data['name']
                 peak_comment.email = data['email']
@@ -851,7 +852,8 @@ def add_comment_reply(request, comment_id):
                 body=data['body'],
             )
             if user.is_authenticated:
-                reply.author = request.user
+                reply.author = user
+                reply.nickname = user.username
             else:
                 reply.nickname = data['name']
                 reply.email = data['email']
