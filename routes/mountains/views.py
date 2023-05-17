@@ -53,6 +53,27 @@ def get_ip_from_request(request):
 
     return ip
 
+def sorting_info(sort):
+    """
+    get string about sorting
+    """
+    direction = ''
+    if sort:
+        direction = _('in descending order') \
+            if sort.startswith('-') else _('in ascending order') 
+    if sort.startswith('-'):
+        sort = sort[1:]
+
+    sortby = ''
+    
+    if 'nickname' == sort:
+        sortby = _('Comments sorted by user name')
+    if 'email' == sort:
+        sortby = _('Comments sorted by email')
+    if 'id' == sort:
+        sortby = _('Comments sorted by creation date')
+    return f"{sortby} {direction}"
+        
 
 class PeakFilter(django_filters.FilterSet):
     """
@@ -209,6 +230,12 @@ def peak(request, slug):
     """
     the_peak = get_object_or_404(Peak, slug=slug)
     comments = the_peak.comments()
+    
+    sort_ = request.GET.get('sort', request.session.get('comments_sorting', 'nickname'))
+    if sort_:
+        request.session['comments_sorting'] = sort_
+        comments = comments.order_by(sort_)  
+        
     paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
     comment_list = paginator.page(paginator.num_pages)
     form_comment = PeakUserCommentForm() if request.user.is_authenticated else PeakCommentForm()
@@ -222,6 +249,8 @@ def peak(request, slug):
             'comments': comment_list,
             'form_comment': form_comment,
             'comments_count': comments.count(),
+            'sort': sort_,
+            'sorted': sorting_info(sort_),            
             'can_be_edited': the_peak.can_be_edited(request.user),
             'can_be_removed': the_peak.can_be_removed()})
 
@@ -1367,7 +1396,12 @@ def peak_comments(request, peak_id, page):
     """
     the_peak = get_object_or_404(Peak, id=peak_id)
     comments = the_peak.comments()
+    sort_ = request.GET.get('sort', request.session.get('comments_sorting', 'nickname'))
+    if sort_:
+        request.session['comments_sorting'] = sort_
+        comments = comments.order_by(sort_)
     paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
+    
     comment_list = paginator.page(page)
     
     return render(
@@ -1375,6 +1409,8 @@ def peak_comments(request, peak_id, page):
         'Routes/peak_comments.html',
         {
             'peak': the_peak,
+            'sort': sort_,
+            'sorted': sorting_info(sort_),
             'comments': comment_list, })
 
 

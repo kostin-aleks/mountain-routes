@@ -16,6 +16,30 @@
       </div>
     </div>
     
+    <div class="btn-group btn-group-sm">
+      <button type="button" class="btn btn-primary"
+              hx-get="{% url "peak-comments" peak.id comments.number %}?sort={% if sort == 'nickname'%}-{%endif%}nickname"
+              hx-trigger="click" hx-target="#comments-page" hx-swap="outerHTML">
+        <span class="glyphicon glyphicon-sort-by-alphabet{% if sort == 'nickname'%}-alt{%endif%}"></span>
+        {% trans "User name" %}
+      </button>
+
+      <button type="button" class="btn btn-primary"
+              hx-get="{% url "peak-comments" peak.id comments.number %}?sort={% if sort == 'email'%}-{%endif%}email"
+              hx-trigger="click" hx-target="#comments-page" hx-swap="outerHTML">
+        <span class="glyphicon glyphicon-sort-by-alphabet{% if sort == 'email'%}-alt{%endif%}"></span>
+        {% trans "Email" %}
+      </button>
+      
+      <button type="button" class="btn btn-primary"
+              hx-get="{% url "peak-comments" peak.id comments.number %}?sort={% if sort == 'id' %}-{%endif%}id"
+              hx-trigger="click" hx-target="#comments-page" hx-swap="outerHTML">
+        <span class="glyphicon glyphicon-sort-by-alphabet{% if sort == 'id' %}-alt{%endif%}"></span>
+        {% trans "Created" %}
+      </button>
+    </div> 
+    <h5><span class="label label-info">{{ sorted }}</span></h5>
+    
     <div class="table-responsive">
       <table class="table table-striped">
         {% for comment in comments %}
