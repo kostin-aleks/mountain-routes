@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-08 12:37+0300\n"
+"POT-Creation-Date: 2023-05-19 16:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,295 +29,501 @@ msgstr "-- выберите регион --"
 msgid "-- choose city --"
 msgstr "-- выберите город --"
 
-#: routes/mountains/forms.py:52 routes/mountains/forms.py:123
-#: routes/mountains/forms.py:276
+#: routes/mountains/admin.py:74 routes/mountains/views.py:99
+#: routes/mountains/views.py:165 routes/templates/Routes/routes.html:97
+msgid "Peak"
+msgstr "Вершина"
+
+#: routes/mountains/forms.py:57 routes/mountains/forms.py:128
+#: routes/mountains/forms.py:281
 msgid "The slug must consist only of the characters (a-z, 0-9 and -)."
 msgstr "Slug должен содержать только символы (a-z, 0-9 and -)."
 
-#: routes/mountains/forms.py:60 routes/mountains/forms.py:63
-#: routes/mountains/forms.py:89 routes/mountains/forms.py:92
-#: routes/mountains/forms.py:205 routes/mountains/forms.py:208
-#: routes/mountains/forms.py:311 routes/mountains/forms.py:314
-#: routes/mountains/forms.py:366 routes/mountains/forms.py:369
-#: routes/mountains/forms.py:377 routes/mountains/forms.py:380
-#: routes/mountains/forms.py:399 routes/mountains/forms.py:402
+#: routes/mountains/forms.py:65 routes/mountains/forms.py:68
+#: routes/mountains/forms.py:94 routes/mountains/forms.py:97
+#: routes/mountains/forms.py:210 routes/mountains/forms.py:213
+#: routes/mountains/forms.py:425 routes/mountains/forms.py:428
+#: routes/mountains/forms.py:480 routes/mountains/forms.py:483
+#: routes/mountains/forms.py:491 routes/mountains/forms.py:494
+#: routes/mountains/forms.py:513 routes/mountains/forms.py:516
 msgid "Description"
 msgstr "Описание"
 
-#: routes/mountains/forms.py:67 routes/mountains/forms.py:98
-#: routes/mountains/forms.py:234 routes/mountains/forms.py:384
+#: routes/mountains/forms.py:72 routes/mountains/forms.py:103
+#: routes/mountains/forms.py:239 routes/mountains/forms.py:298
+#: routes/mountains/forms.py:498
 msgid "Photo"
 msgstr "Фотография"
 
-#: routes/mountains/forms.py:75 routes/mountains/forms.py:182
-#: routes/mountains/views.py:119
+#: routes/mountains/forms.py:80 routes/mountains/forms.py:187
+#: routes/mountains/views.py:163
 msgid "Name"
 msgstr "Название"
 
-#: routes/mountains/forms.py:79
+#: routes/mountains/forms.py:84
 msgid "Name of summit"
 msgstr "Название вершины"
 
-#: routes/mountains/forms.py:82 routes/mountains/forms.py:86
-#: routes/mountains/forms.py:189 routes/mountains/forms.py:193
+#: routes/mountains/forms.py:87 routes/mountains/forms.py:91
+#: routes/mountains/forms.py:194 routes/mountains/forms.py:198
 msgid "Slug"
 msgstr ""
 
-#: routes/mountains/forms.py:95 routes/mountains/views.py:122
+#: routes/mountains/forms.py:100 routes/mountains/views.py:166
 msgid "Height"
 msgstr "Высота"
 
-#: routes/mountains/forms.py:102 routes/mountains/forms.py:297
+#: routes/mountains/forms.py:107 routes/mountains/forms.py:411
 #: routes/templates/Routes/edit_route_point.html:10
 #: routes/templates/Routes/point_block.html:5
 msgid "Latitude"
 msgstr "Широта"
 
-#: routes/mountains/forms.py:105 routes/mountains/forms.py:300
+#: routes/mountains/forms.py:110 routes/mountains/forms.py:414
 msgid "Latitude DD MM SS"
 msgstr "Широта ГГ ММ СС"
 
-#: routes/mountains/forms.py:108 routes/mountains/forms.py:304
+#: routes/mountains/forms.py:113 routes/mountains/forms.py:418
 msgid "Longitude"
 msgstr "Долгота"
 
-#: routes/mountains/forms.py:111 routes/mountains/forms.py:307
+#: routes/mountains/forms.py:116 routes/mountains/forms.py:421
 msgid "Longitude DD MM SS"
 msgstr "Долгота ГГ ММ СС"
 
-#: routes/mountains/forms.py:131 routes/mountains/forms.py:153
-#: routes/mountains/forms.py:322 routes/mountains/forms.py:344
+#: routes/mountains/forms.py:136 routes/mountains/forms.py:158
+#: routes/mountains/forms.py:436 routes/mountains/forms.py:458
 msgid "degrees"
 msgstr "градусы"
 
-#: routes/mountains/forms.py:138 routes/mountains/forms.py:160
-#: routes/mountains/forms.py:329 routes/mountains/forms.py:351
+#: routes/mountains/forms.py:143 routes/mountains/forms.py:165
+#: routes/mountains/forms.py:443 routes/mountains/forms.py:465
 msgid "minutes"
 msgstr "минуты"
 
-#: routes/mountains/forms.py:145 routes/mountains/forms.py:167
-#: routes/mountains/forms.py:336 routes/mountains/forms.py:358
+#: routes/mountains/forms.py:150 routes/mountains/forms.py:172
+#: routes/mountains/forms.py:450 routes/mountains/forms.py:472
 msgid "seconds"
 msgstr "секунды"
 
-#: routes/mountains/forms.py:186
+#: routes/mountains/forms.py:191
 msgid "Name of route"
 msgstr "Название маршрута"
 
-#: routes/mountains/forms.py:196
+#: routes/mountains/forms.py:201
 msgid "Number"
 msgstr "Номер"
 
-#: routes/mountains/forms.py:199
+#: routes/mountains/forms.py:204
 msgid "Short Description"
 msgstr "Короткое описание"
 
-#: routes/mountains/forms.py:202
+#: routes/mountains/forms.py:207
 msgid "Short description"
 msgstr "Короткое описание"
 
-#: routes/mountains/forms.py:211
+#: routes/mountains/forms.py:216
 msgid "Recommended Equipment"
 msgstr "Рекомендуемое снаряжение"
 
-#: routes/mountains/forms.py:214
+#: routes/mountains/forms.py:219
 msgid "Recommended equipment"
 msgstr "Рекомендуемое снаряжение"
 
-#: routes/mountains/forms.py:217 routes/mountains/forms.py:221
-#: routes/mountains/views.py:120
+#: routes/mountains/forms.py:222 routes/mountains/forms.py:226
+#: routes/mountains/views.py:164
 msgid "Difficulty"
 msgstr "Трудность"
 
-#: routes/mountains/forms.py:224
+#: routes/mountains/forms.py:229
 msgid "Maximal Difficulty"
 msgstr "Максимальная трудность"
 
-#: routes/mountains/forms.py:228
+#: routes/mountains/forms.py:233
 msgid "Maximal difficulty"
 msgstr "Максимальная трудность"
 
-#: routes/mountains/forms.py:231
+#: routes/mountains/forms.py:236
 msgid "Length"
 msgstr "Длина"
 
-#: routes/mountains/forms.py:238
+#: routes/mountains/forms.py:243
 msgid "Map"
 msgstr "Карта"
 
-#: routes/mountains/forms.py:242 routes/mountains/forms.py:246
-#: routes/mountains/views.py:123
+#: routes/mountains/forms.py:247 routes/mountains/forms.py:251
+#: routes/mountains/views.py:167
 msgid "Author"
 msgstr "Автор"
 
-#: routes/mountains/forms.py:249 routes/mountains/views.py:124
+#: routes/mountains/forms.py:254 routes/mountains/views.py:168
 msgid "Year"
 msgstr "Год"
 
-#: routes/mountains/forms.py:252
+#: routes/mountains/forms.py:257
 msgid "Height Difference"
 msgstr "Разность высот"
 
-#: routes/mountains/forms.py:255
+#: routes/mountains/forms.py:260
 msgid "Start Height"
 msgstr "Стартовая высота"
 
-#: routes/mountains/forms.py:258 routes/mountains/forms.py:261
+#: routes/mountains/forms.py:263 routes/mountains/forms.py:266
 msgid "Descent"
 msgstr "Спуск"
 
-#: routes/mountains/forms.py:264
+#: routes/mountains/forms.py:269
 msgid "Ready"
 msgstr "Готов"
 
-#: routes/mountains/forms.py:392
+#: routes/mountains/forms.py:289
+msgid "Body"
+msgstr "Текст"
+
+#: routes/mountains/forms.py:293
+msgid "New comment"
+msgstr "Новый комментарий"
+
+#: routes/mountains/forms.py:303
+msgid "Text"
+msgstr "Текст"
+
+#: routes/mountains/forms.py:325 routes/mountains/forms.py:346
+msgid ""
+"You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."
+msgstr ""
+"Вы используете запрещённые теги. Вы можете использовать только теги <i>, "
+"<code>, <strong> и <a>."
+
+#: routes/mountains/forms.py:332
+msgid "Fix syntax errors in html tags."
+msgstr "Исправьте ошибки в html"
+
+#: routes/mountains/forms.py:355
+msgid "User name*"
+msgstr "Имя пользователя*"
+
+#: routes/mountains/forms.py:360 routes/templates/Routes/peak_comments.html:24
+#: routes/templates/User/profile.html:13
+#: routes/templates/User/profile_edit.html:30
+msgid "User name"
+msgstr "Имя пользователя"
+
+#: routes/mountains/forms.py:364
+msgid "Email*"
+msgstr ""
+
+#: routes/mountains/forms.py:371 routes/mountains/forms.py:375
+msgid "Home page"
+msgstr "Домашняя страница"
+
+#: routes/mountains/forms.py:390
+msgid "The user name must consist only of the characters (a-z, A-Z, 0-9)."
+msgstr "Имя пользователя должно содержать только символы (a-z, A-Z, 0-9)."
+
+#: routes/mountains/forms.py:506
 msgid "Link"
 msgstr "Ссылка"
 
-#: routes/mountains/forms.py:421 routes/mountains/forms.py:447
-#: routes/utils.py:103 routes/utils.py:113
+#: routes/mountains/forms.py:535 routes/mountains/forms.py:561
+#: routes/utils.py:104 routes/utils.py:114
 msgid "--any--"
 msgstr "--все--"
 
-#: routes/mountains/models.py:41
+#: routes/mountains/models.py:44
 msgid "latitude"
 msgstr "широта"
 
-#: routes/mountains/models.py:43
+#: routes/mountains/models.py:46
 #: routes/templates/Routes/edit_route_point.html:17
 #: routes/templates/Routes/point_block.html:17
 msgid "longitude"
 msgstr "долгота"
 
-#: routes/mountains/models.py:50
+#: routes/mountains/models.py:53
 msgid "geopoint"
 msgstr "геоточка"
 
-#: routes/mountains/models.py:51
+#: routes/mountains/models.py:54
 msgid "geopoints"
 msgstr "геоточки"
 
-#: routes/mountains/models.py:119 routes/mountains/models.py:202
-#: routes/mountains/models.py:292
+#: routes/mountains/models.py:122 routes/mountains/models.py:206
+#: routes/mountains/models.py:400
 msgid "slug"
 msgstr ""
 
-#: routes/mountains/models.py:123 routes/mountains/models.py:214
-#: routes/mountains/models.py:312
-msgid "editor"
-msgstr "редактор"
-
-#: routes/mountains/models.py:125 routes/mountains/models.py:216
-#: routes/mountains/models.py:310
-msgid "created"
-msgstr "создано"
-
-#: routes/mountains/models.py:129 routes/mountains/models.py:185
-#: routes/mountains/models.py:204
-msgid "ridge"
-msgstr "хребет"
-
-#: routes/mountains/models.py:130
-msgid "ridges"
-msgstr "хребты"
-
-#: routes/mountains/models.py:186
-msgid "link"
-msgstr "ссылка"
-
-#: routes/mountains/models.py:191
-msgid "ridge link"
-msgstr "ссылка для хребта"
-
-#: routes/mountains/models.py:192
-msgid "ridge links"
-msgstr "ссылки для хребта"
-
-#: routes/mountains/models.py:209 routes/mountains/models.py:268
-#: routes/mountains/models.py:298 routes/mountains/models.py:411
-msgid "photo"
-msgstr "фотография"
-
-#: routes/mountains/models.py:212 routes/mountains/models.py:436
-msgid "point"
-msgstr "точка"
-
-#: routes/mountains/models.py:220 routes/mountains/models.py:266
-#: routes/mountains/models.py:290
-msgid "peak"
-msgstr "вершина"
-
-#: routes/mountains/models.py:221
-msgid "peaks"
-msgstr "вершины"
-
-#: routes/mountains/models.py:273
-msgid "peak photo"
-msgstr "фотография вершины"
-
-#: routes/mountains/models.py:274
-msgid "peak photos"
-msgstr "фотографии вершины"
-
-#: routes/mountains/models.py:291
+#: routes/mountains/models.py:123 routes/mountains/models.py:209
+#: routes/mountains/models.py:399
 msgid "name"
 msgstr "название"
 
-#: routes/mountains/models.py:300
+#: routes/mountains/models.py:124 routes/mountains/models.py:191
+#: routes/mountains/models.py:211 routes/mountains/models.py:281
+#: routes/mountains/models.py:403 routes/mountains/models.py:479
+#: routes/mountains/models.py:522 routes/mountains/models.py:548
+msgid "description"
+msgstr "описание"
+
+#: routes/mountains/models.py:126 routes/mountains/models.py:218
+#: routes/mountains/models.py:420
+msgid "editor"
+msgstr "редактор"
+
+#: routes/mountains/models.py:128 routes/mountains/models.py:220
+#: routes/mountains/models.py:321 routes/mountains/models.py:418
+msgid "created"
+msgstr "создано"
+
+#: routes/mountains/models.py:132 routes/mountains/models.py:188
+#: routes/mountains/models.py:208
+msgid "ridge"
+msgstr "хребет"
+
+#: routes/mountains/models.py:133
+msgid "ridges"
+msgstr "хребты"
+
+#: routes/mountains/models.py:189
+msgid "link"
+msgstr "ссылка"
+
+#: routes/mountains/models.py:195
+msgid "ridge link"
+msgstr "ссылка для хребта"
+
+#: routes/mountains/models.py:196
+msgid "ridge links"
+msgstr "ссылки для хребта"
+
+#: routes/mountains/models.py:210
+msgid "height"
+msgstr "высота"
+
+#: routes/mountains/models.py:213 routes/mountains/models.py:280
+#: routes/mountains/models.py:313 routes/mountains/models.py:406
+#: routes/mountains/models.py:520
+msgid "photo"
+msgstr "фотография"
+
+#: routes/mountains/models.py:216 routes/mountains/models.py:546
+msgid "point"
+msgstr "точка"
+
+#: routes/mountains/models.py:224 routes/mountains/models.py:278
+#: routes/mountains/models.py:301 routes/mountains/models.py:398
+msgid "peak"
+msgstr "вершина"
+
+#: routes/mountains/models.py:225
+msgid "peaks"
+msgstr "вершины"
+
+#: routes/mountains/models.py:285
+msgid "peak photo"
+msgstr "фотография вершины"
+
+#: routes/mountains/models.py:286
+msgid "peak photos"
+msgstr "фотографии вершины"
+
+#: routes/mountains/models.py:303
+msgid "parent"
+msgstr "родительский"
+
+#: routes/mountains/models.py:307 routes/mountains/models.py:412
+msgid "author"
+msgstr "автор"
+
+#: routes/mountains/models.py:308
+msgid "nickname"
+msgstr "ник"
+
+#: routes/mountains/models.py:309
+msgid "email"
+msgstr ""
+
+#: routes/mountains/models.py:310
+msgid "home page"
+msgstr "домашняя страница"
+
+#: routes/mountains/models.py:311
+msgid "body"
+msgstr "текст"
+
+#: routes/mountains/models.py:315
+msgid "doc"
+msgstr "документ"
+
+#: routes/mountains/models.py:316
+msgid "IP address"
+msgstr "адрес IP"
+
+#: routes/mountains/models.py:317
+msgid "country code"
+msgstr "код страны"
+
+#: routes/mountains/models.py:318
+msgid "country"
+msgstr "страна"
+
+#: routes/mountains/models.py:319
+msgid "region"
+msgstr "регион"
+
+#: routes/mountains/models.py:320
+msgid "city"
+msgstr "город"
+
+#: routes/mountains/models.py:322
+msgid "active"
+msgstr "активный"
+
+#: routes/mountains/models.py:327
+msgid "peak comment"
+msgstr "комментарий"
+
+#: routes/mountains/models.py:328
+msgid "peak comments"
+msgstr "комментарии"
+
+#: routes/mountains/models.py:401 routes/mountains/models.py:478
+msgid "number"
+msgstr "номер"
+
+#: routes/mountains/models.py:402
+msgid "short description"
+msgstr "короткое описание"
+
+#: routes/mountains/models.py:404
+msgid "recommended equipment"
+msgstr "рекомендуемое снаряжение"
+
+#: routes/mountains/models.py:408
 msgid "map"
 msgstr "карта"
 
-#: routes/mountains/models.py:317 routes/mountains/models.py:369
-#: routes/mountains/models.py:409 routes/mountains/models.py:433
+#: routes/mountains/models.py:409 routes/mountains/models.py:482
+msgid "difficulty"
+msgstr "трудность"
+
+#: routes/mountains/models.py:410
+msgid "max difficulty"
+msgstr "макс. трудность"
+
+#: routes/mountains/models.py:411 routes/mountains/models.py:480
+msgid "length"
+msgstr "длина"
+
+#: routes/mountains/models.py:413
+msgid "year"
+msgstr "год"
+
+#: routes/mountains/models.py:414
+msgid "height_difference"
+msgstr "разность высот"
+
+#: routes/mountains/models.py:415
+msgid "start_height"
+msgstr "стартовая высота"
+
+#: routes/mountains/models.py:416
+msgid "descent"
+msgstr "спуск"
+
+#: routes/mountains/models.py:421
+msgid "ready"
+msgstr "готовый"
+
+#: routes/mountains/models.py:425 routes/mountains/models.py:477
+#: routes/mountains/models.py:518 routes/mountains/models.py:543
 msgid "route"
 msgstr "маршрут"
 
-#: routes/mountains/models.py:318
+#: routes/mountains/models.py:426
 msgid "routes"
 msgstr "маршруты"
 
-#: routes/mountains/models.py:378
+#: routes/mountains/models.py:481
+msgid "angle"
+msgstr "угол"
+
+#: routes/mountains/models.py:486
 msgid "route section"
 msgstr "участок маршрута"
 
-#: routes/mountains/models.py:379
+#: routes/mountains/models.py:487
 msgid "route sections"
 msgstr "участки маршрута"
 
-#: routes/mountains/models.py:416
+#: routes/mountains/models.py:526
 msgid "route photo"
 msgstr "фотография маршрута"
 
-#: routes/mountains/models.py:417
+#: routes/mountains/models.py:527
 msgid "route photos"
 msgstr "фотографии маршрута"
 
-#: routes/mountains/models.py:441
+#: routes/mountains/models.py:552
 msgid "route point"
 msgstr "геоточка маршрута"
 
-#: routes/mountains/models.py:442
+#: routes/mountains/models.py:553
 msgid "route points"
 msgstr "геоточки маршрутов"
 
-#: routes/mountains/views.py:55 routes/mountains/views.py:121
-#: routes/templates/Routes/routes.html:97
-msgid "Peak"
-msgstr "Вершина"
+#: routes/mountains/views.py:69
+msgid "in descending order"
+msgstr "в порядке убывания"
 
-#: routes/mountains/views.py:56
+#: routes/mountains/views.py:70
+msgid "in ascending order"
+msgstr "в порядке возрастания"
+
+#: routes/mountains/views.py:77
+msgid "Comments sorted by user name"
+msgstr "Комментарии отсортированы по имени пользователя"
+
+#: routes/mountains/views.py:79
+msgid "Comments sorted by email"
+msgstr "Комментарии отсортированы по email"
+
+#: routes/mountains/views.py:81
+msgid "Comments sorted by creation date"
+msgstr "Комментарии отсортированы по дате добавления"
+
+#: routes/mountains/views.py:100
 msgid "Height, m"
 msgstr "Высота, м"
 
-#: routes/mountains/views.py:57 routes/templates/Routes/peaks.html:14
+#: routes/mountains/views.py:101 routes/templates/Routes/peaks.html:14
 msgid "Ridge"
 msgstr "Хребет"
 
-#: routes/templates/Routes/add_peak_photo.html:16
-#: routes/templates/Routes/add_route_photo.html:16
-msgid "Add new photo"
-msgstr "Добавить новую фотографию"
+#: routes/mountains/views.py:833
+msgid "You can upload only images in jpg, gif or png format."
+msgstr ""
+"Вы можете загрузить только файлы изображений в формате jpeg, gif или png"
 
+#: routes/mountains/views.py:838
+msgid "You can upload only text file."
+msgstr "Вы можете загрузить только текстовый файл."
+
+#: routes/mountains/views.py:842
+#, python-brace-format
+msgid "File size must be less than {settings.COMMENT_TXT_SIZE_KB} KB."
+msgstr ""
+"Размер файла должен быть меньше, чем {settings.COMMENT_TXT_SIZE_KB} КБ."
+
+#: routes/mountains/views.py:941
+msgid "You have successfully added a comment"
+msgstr "Добавлен новый комментарий"
+
+#: routes/templates/Routes/add_peak_comment.html:16
+msgid "Add new comment"
+msgstr "Добавить новый комментарий"
+
+#: routes/templates/Routes/add_peak_comment.html:41
 #: routes/templates/Routes/add_peak_photo.html:41
 #: routes/templates/Routes/add_peak_route.html:119
 #: routes/templates/Routes/add_ridge.html:35
@@ -332,12 +538,25 @@ msgstr "Добавить новую фотографию"
 #: routes/templates/Routes/edit_route.html:164
 #: routes/templates/Routes/edit_route_point.html:28
 #: routes/templates/Routes/edit_route_section.html:27
+#: routes/templates/Routes/form-reply.html:69
+#: routes/templates/Routes/form-user-reply.html:31
 #: routes/templates/Routes/remove_peak.html:13
 #: routes/templates/Routes/remove_ridge.html:13
 #: routes/templates/Routes/remove_route.html:13
 #: routes/templates/User/profile_edit.html:62
 msgid "Cancel"
 msgstr "Отмена"
+
+#: routes/templates/Routes/add_peak_comment.html:42
+#: routes/templates/Routes/form-comment.html:67
+#: routes/templates/Routes/form-user-comment.html:30
+msgid "Add comment"
+msgstr "Добавить комментарий"
+
+#: routes/templates/Routes/add_peak_photo.html:16
+#: routes/templates/Routes/add_route_photo.html:16
+msgid "Add new photo"
+msgstr "Добавить новую фотографию"
 
 #: routes/templates/Routes/add_peak_photo.html:42
 #: routes/templates/Routes/add_route_photo.html:42
@@ -399,28 +618,48 @@ msgid "Add section"
 msgstr "Добавить участок"
 
 #: routes/templates/Routes/base_routes.html:6
-#: routes/templates/Routes/base_routes.html:68
+#: routes/templates/Routes/base_routes.html:69
 msgid "Routes"
 msgstr "Маршруты"
 
-#: routes/templates/Routes/base_routes.html:54
+#: routes/templates/Routes/base_routes.html:55
 msgid "Log out"
 msgstr "Выйти"
 
-#: routes/templates/Routes/base_routes.html:56
+#: routes/templates/Routes/base_routes.html:57
 #: routes/templates/django_registration/login.html:5
 #: routes/templates/registration/login.html:5
 msgid "Sign in"
 msgstr "Войти"
 
-#: routes/templates/Routes/base_routes.html:65
+#: routes/templates/Routes/base_routes.html:66
 msgid "Ridges"
 msgstr "Хребты"
 
-#: routes/templates/Routes/base_routes.html:67
+#: routes/templates/Routes/base_routes.html:68
 #: routes/templates/Routes/peaks.html:7
 msgid "Peaks"
 msgstr "Вершины"
+
+#: routes/templates/Routes/button_reply.html:8
+#: routes/templates/Routes/form-reply.html:84
+msgid "Reply"
+msgstr "Ответить"
+
+#: routes/templates/Routes/comment-replies.html:27
+#: routes/templates/Routes/get_route_section.html:15
+#: routes/templates/Routes/peak_photos.html:18
+#: routes/templates/Routes/ridge_links.html:19
+#: routes/templates/Routes/route_photos.html:18
+#: routes/templates/Routes/route_points.html:20
+#: routes/templates/Routes/route_sections.html:18
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: routes/templates/Routes/comment-replies.html:29
+#: routes/templates/Routes/peak_comment.html:20
+msgid "Delete"
+msgstr "Удалить"
 
 #: routes/templates/Routes/edit_peak.html:16
 msgid "Edit summit"
@@ -458,14 +697,10 @@ msgstr "Добавить участок маршрута"
 msgid "Add route point"
 msgstr "Добавить точку маршрута"
 
-#: routes/templates/Routes/get_route_section.html:15
-#: routes/templates/Routes/peak_photos.html:18
-#: routes/templates/Routes/ridge_links.html:19
-#: routes/templates/Routes/route_photos.html:18
-#: routes/templates/Routes/route_points.html:20
-#: routes/templates/Routes/route_sections.html:18
-msgid "Are you sure?"
-msgstr "Вы уверены?"
+#: routes/templates/Routes/form-reply.html:73
+#: routes/templates/Routes/form-user-reply.html:35
+msgid "Send"
+msgstr "Отослать"
 
 #: routes/templates/Routes/peak_buttons.html:8
 msgid "Add a new route"
@@ -479,6 +714,22 @@ msgstr "Редактировать вершину"
 #: routes/templates/Routes/remove_peak.html:9
 msgid "Remove the summit"
 msgstr "Убрать вершину"
+
+#: routes/templates/Routes/peak_comment.html:18
+msgid "This comment and all replies will be deleted. Are you sure?"
+msgstr "Этот комментарий и все ответы на него будут удалены. Вы подтверждаете?"
+
+#: routes/templates/Routes/peak_comments.html:7
+msgid "comments count:"
+msgstr "количество комментариев:"
+
+#: routes/templates/Routes/peak_comments.html:31
+msgid "Email"
+msgstr ""
+
+#: routes/templates/Routes/peak_comments.html:38
+msgid "Created"
+msgstr "Добавлен"
 
 #: routes/templates/Routes/point_block.html:11
 #: routes/templates/Routes/point_block.html:23
@@ -538,7 +789,8 @@ msgid ""
 "I bring to your attention a list of descriptions of the routes of winter "
 "ascents to the peaks of the Ukrainian Carpathians."
 msgstr ""
-"Предлагаю вашему вниманию список описаний маршрутов зимних восхождений на вершины украинских Карпат."
+"Предлагаю вашему вниманию список описаний маршрутов зимних восхождений на "
+"вершины украинских Карпат."
 
 #: routes/templates/Routes/routes.html:35
 msgid ""
@@ -546,22 +798,22 @@ msgid ""
 "Other descriptions are compiled from the information of people who passed "
 "these routes."
 msgstr ""
-"Часть описаний маршрутов составлена после прохождения мною маршрута."
-"Другие описания составлены по информации людей, проходивших эти маршруты."
+"Часть описаний маршрутов составлена после прохождения мною маршрута.Другие "
+"описания составлены по информации людей, проходивших эти маршруты."
 
 #: routes/templates/Routes/routes.html:38
 msgid ""
 "There are photos from different sources, let me know if your photo is used "
 "without author's permission."
 msgstr ""
-"Фотографии из разных источников, сообщите мне, если использована ваша фотография без указания автора."
+"Фотографии из разных источников, сообщите мне, если использована ваша "
+"фотография без указания автора."
 
 #: routes/templates/Routes/routes.html:41
 msgid ""
 "The information on this website serves as a supplement and update to the "
 "guidebook"
-msgstr ""
-"Информация на этом сайте служит дополнением и обновлением путеводителя"
+msgstr "Информация на этом сайте служит дополнением и обновлением путеводителя"
 
 #: routes/templates/Routes/routes.html:44
 msgid "Mountaineering routes of the Carpathians"
@@ -580,7 +832,8 @@ msgid ""
 "Climbing routes in the Carpathians are classified only for the period from "
 "December 15 to March 31."
 msgstr ""
-"Маршруты восхождений в Карпатах классифицированы только для периода с 15 декабря по 31 марта."
+"Маршруты восхождений в Карпатах классифицированы только для периода с 15 "
+"декабря по 31 марта."
 
 #: routes/templates/Routes/routes.html:59
 msgid "Therefore, the descriptions of routes correspond to the winter period."
@@ -592,22 +845,25 @@ msgid ""
 "on the sections of the route, coordinates of points and recommendations on "
 "the necessary equipment."
 msgstr ""
-"Описания маршрутов содержат фотографии с ниткой маршрута, краткие сведения по подходу под маршрут,"
-" детальную информацию по участкам маршрута, координаты точек и рекомендации по необходимому снаряжению."
+"Описания маршрутов содержат фотографии с ниткой маршрута, краткие сведения "
+"по подходу под маршрут, детальную информацию по участкам маршрута, "
+"координаты точек и рекомендации по необходимому снаряжению."
 
 #: routes/templates/Routes/routes.html:65
 msgid ""
 "It should be borne in mind that the condition of the route is highly "
 "dependent on the state of the snow cover and weather conditions."
 msgstr ""
-"Следует учитывать, что состояние маршрута сильно зависит от состояния снежного покрова и погодных условий."
+"Следует учитывать, что состояние маршрута сильно зависит от состояния "
+"снежного покрова и погодных условий."
 
 #: routes/templates/Routes/routes.html:68
 msgid ""
 "The table of climbing routes in the Ukrainian Carpathians is available in "
 "the list of documents on the website "
 msgstr ""
-"Таблица альпинистских маршрутов в украинских Карпатах доступна в списке документов на сайте"
+"Таблица альпинистских маршрутов в украинских Карпатах доступна в списке "
+"документов на сайте"
 
 #: routes/templates/Routes/routes.html:71
 msgid "of the Mountaineering and Climbing Federation of Ukraine"
@@ -624,8 +880,10 @@ msgid ""
 "                  "
 msgstr ""
 "Каждое зимнее восхождение связано с риском для здоровья.\n"
-"          Нужно физически и тактически готовиться к конкретному восхождению.\n"
-"          Не торопитесь повышать сложность восхождения, постепенно набирайте необходимый опыт.\n"
+"          Нужно физически и тактически готовиться к конкретному "
+"восхождению.\n"
+"          Не торопитесь повышать сложность восхождения, постепенно набирайте "
+"необходимый опыт.\n"
 "Подбирайте снаряжение, соответствующее восхождению."
 
 #: routes/templates/Routes/routes.html:90
@@ -635,11 +893,6 @@ msgstr "Маршруты восхождений"
 #: routes/templates/User/profile.html:7
 msgid "Profile"
 msgstr "Профиль"
-
-#: routes/templates/User/profile.html:13
-#: routes/templates/User/profile_edit.html:30
-msgid "User name"
-msgstr "Имя пользователя"
 
 #: routes/templates/User/profile.html:17
 #: routes/templates/User/profile_edit.html:37 routes/user/forms.py:27

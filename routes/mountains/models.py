@@ -120,8 +120,8 @@ class Ridge(models.Model):
     Ridge model
     """
     slug = models.SlugField(_("slug"), max_length=128, unique=True)
-    name = models.CharField(max_length=128)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField(_("name"), max_length=128)
+    description = models.TextField(_("description"), blank=True, null=True)
     editor = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
     changed = models.DateTimeField(
@@ -187,7 +187,8 @@ class RidgeInfoLink(models.Model):
     ridge = models.ForeignKey(
         Ridge, on_delete=models.PROTECT, verbose_name=_("ridge"))
     link = models.URLField(_("link"), max_length=128)
-    description = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(
+        _("description"), max_length=128, blank=True, null=True)
 
     class Meta:
         db_table = 'ridge_info_link'
@@ -205,9 +206,9 @@ class Peak(models.Model):
     slug = models.SlugField(_("slug"), max_length=64, unique=True)
     ridge = models.ForeignKey(
         Ridge, on_delete=models.PROTECT, verbose_name=_("ridge"))
-    name = models.CharField(max_length=64, blank=True, null=True)
-    height = models.IntegerField(blank=True, null=True, default=0)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField(_("name"), max_length=64, blank=True, null=True)
+    height = models.IntegerField(_("height"), blank=True, null=True, default=0)
+    description = models.TextField(_("description"), blank=True, null=True)
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
     point = models.ForeignKey(
@@ -277,7 +278,7 @@ class PeakPhoto(models.Model):
         Peak, on_delete=models.PROTECT, verbose_name=_("peak"))
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
-    description = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(_("description"), max_length=128, blank=True, null=True)
 
     class Meta:
         db_table = 'peak_photo'
@@ -397,27 +398,27 @@ class Route(models.Model):
         Peak, on_delete=models.PROTECT, verbose_name=_("peak"))
     name = models.CharField(_("name"), max_length=64, blank=True, null=True)
     slug = models.SlugField(_("slug"), max_length=64, unique=True, null=True)
-    number = models.PositiveSmallIntegerField(blank=True, null=True)
-    short_description = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    recommended_equipment = models.TextField(blank=True, null=True)
+    number = models.PositiveSmallIntegerField(_("number"), blank=True, null=True)
+    short_description = models.TextField(_("short description"), blank=True, null=True)
+    description = models.TextField(_("description"), blank=True, null=True)
+    recommended_equipment = models.TextField(_("recommended equipment"), blank=True, null=True)
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
     map_image = models.ImageField(
         _("map"), upload_to=get_image_path, blank=True, null=True)
-    difficulty = models.CharField(max_length=3, null=True)
-    max_difficulty = models.CharField(max_length=16, null=True)
-    length = models.IntegerField(blank=True, null=True)
-    author = models.CharField(max_length=64, blank=True, null=True)
-    year = models.IntegerField(blank=True, null=True)
-    height_difference = models.IntegerField(blank=True, null=True)
-    start_height = models.IntegerField(blank=True, null=True)
-    descent = models.TextField(blank=True, null=True)
+    difficulty = models.CharField(_("difficulty"), max_length=3, null=True)
+    max_difficulty = models.CharField(_("max difficulty"), max_length=16, null=True)
+    length = models.IntegerField(_("length"), blank=True, null=True)
+    author = models.CharField(_("author"), max_length=64, blank=True, null=True)
+    year = models.IntegerField(_("year"), blank=True, null=True)
+    height_difference = models.IntegerField(_("height_difference"), blank=True, null=True)
+    start_height = models.IntegerField(_("start_height"), blank=True, null=True)
+    descent = models.TextField(_("descent"), blank=True, null=True)
     changed = models.DateTimeField(
         _("created"), default=timezone.now, db_index=True)
     editor = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
-    ready = models.BooleanField(default=False)
+    ready = models.BooleanField(_("ready"), default=False)
 
     class Meta:
         db_table = 'route'
@@ -474,11 +475,11 @@ class RouteSection(models.Model):
     """
     route = models.ForeignKey(
         Route, on_delete=models.PROTECT, verbose_name=_("route"))
-    num = models.IntegerField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    length = models.IntegerField(blank=True, null=True)
-    angle = models.CharField(max_length=32, blank=True, null=True)
-    difficulty = models.CharField(max_length=32, blank=True, null=True)
+    num = models.IntegerField(_("number"), blank=True, null=True)
+    description = models.TextField(_("description"), blank=True, null=True)
+    length = models.IntegerField(_("length"), blank=True, null=True)
+    angle = models.CharField(_("angle"), max_length=32, blank=True, null=True)
+    difficulty = models.CharField(_("difficulty"), max_length=32, blank=True, null=True)
 
     class Meta:
         db_table = 'route_section'
@@ -517,7 +518,8 @@ class RoutePhoto(models.Model):
         Route, on_delete=models.PROTECT, verbose_name=_("route"))
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
-    description = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(
+        _("description"), max_length=128, blank=True, null=True)
 
     class Meta:
         db_table = 'route_photo'
@@ -542,7 +544,8 @@ class RoutePoint(models.Model):
     point = models.ForeignKey(
         GeoPoint, blank=True, null=True, on_delete=models.SET_NULL,
         verbose_name=_("point"))
-    description = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(
+        _("description"), max_length=128, blank=True, null=True)
 
     class Meta:
         db_table = 'route_point'

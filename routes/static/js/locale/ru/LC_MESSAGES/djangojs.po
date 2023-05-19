@@ -1200,8 +1200,6 @@ msgid "Rwanda"
 msgstr "Руанда"
 
 #: static/js/regions.js:892
-#, fuzzy
-#| msgid "Saint Barthélemy"
 msgid "Saint Barthelemy"
 msgstr "Сен-Бартелеми"
 
