@@ -958,25 +958,33 @@ def add_comment_reply(request, comment_id):
         form = form_class(request.POST)
 
         if form.is_valid():
-            data = form.cleaned_data
-            reply = PeakComment.objects.create(
-                parent=comment,
-                peak=comment.peak,
-                body=data['body'],
-            )
-            if user.is_authenticated:
-                reply.author = user
-                reply.nickname = user.username
-            else:
-                reply.nickname = data['name']
-                reply.email = data['email']
-                reply.homepage = data['homepage']
-            reply.save()
-
-            reply.ip_address = get_ip_from_request(request)
-            reply.save()
-
-            args['show_form'] = False
+            form = validate_photo_form(request, form)
+            if not form.errors:
+                data = form.cleaned_data
+                reply = PeakComment.objects.create(
+                    parent=comment,
+                    peak=comment.peak,
+                    body=data['body'],
+                )
+                if user.is_authenticated:
+                    reply.author = user
+                    reply.nickname = user.username
+                else:
+                    reply.nickname = data['name']
+                    reply.email = data['email']
+                    reply.homepage = data['homepage']
+                
+                if request.FILES.get('photo'):
+                    image = request.FILES['photo']
+                    reply.photo = resize_uploaded_image(
+                        image, settings.COMMENT_IMG_WIDTH, settings.COMMENT_IMG_HEIGHT)
+                    
+                reply.save()
+    
+                reply.ip_address = get_ip_from_request(request)
+                reply.save()
+    
+                args['show_form'] = False
 
     else:
         form = form_class()

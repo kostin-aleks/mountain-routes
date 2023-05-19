@@ -3,7 +3,7 @@
     <div class="panel panel-success">
       <div class="panel-body">
         <form hx-post="{% url "add-comment-reply" comment.id %}" hx-target="#replies_{{ comment.id }}"
-            hx-swap="outerHTML">
+            hx-swap="outerHTML" hx-encoding="multipart/form-data">
           {% csrf_token %}
           <div class="form-group">
             {{ form.body }}
@@ -11,7 +11,13 @@
               {{ form.body.errors }}
             </div>
           </div>
-    
+          
+          <div class="form-group">
+            <label for="id_photo" class="text-info">{{ form.photo.label }}:</label><br>
+            {{ form.photo }}
+            <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
+          </div>
+          
           <div class="form-group">
             <label for="id_name" class="text-info">
               {{ form.name.label }}:
