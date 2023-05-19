@@ -16,3 +16,15 @@ form .errorlist {
     margin: auto;
 }
 
+.bordered-comment {
+  border: 1px solid #b9cdd7; 
+  background: #d9edf7;
+  margin-top: 1px;
+  padding-block: 5px;
+}
+
+.bordered-replay {
+  border: 1px solid #b4c8d1; 
+  background: #d4e8f1;
+  padding-block: 5px;
+}

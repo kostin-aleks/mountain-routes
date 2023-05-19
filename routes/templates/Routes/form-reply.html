@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load static %}
-    <div class="panel panel-success">
+    <div class="panel panel-success bordered-reply">
       <div class="panel-body">
         <form hx-post="{% url "add-comment-reply" comment.id %}" hx-target="#replies_{{ comment.id }}"
             hx-swap="outerHTML" hx-encoding="multipart/form-data">

@@ -233,7 +233,7 @@ class Peak(models.Model):
     def photos(self):
         """ peak photos """
         return self.peakphoto_set.order_by('id')
-    
+
     def comments(self):
         """ 
         peak comments only
@@ -297,13 +297,13 @@ class PeakComment(models.Model):
     """
     Peak Comment model
     """
-    peak = models.ForeignKey(Peak, verbose_name=_("peak"), 
-        on_delete=models.CASCADE)
-    parent = models.ForeignKey("PeakComment", verbose_name=_("parent"), 
-        null=True, on_delete=models.CASCADE)
+    peak = models.ForeignKey(Peak, verbose_name=_("peak"),
+                             on_delete=models.CASCADE)
+    parent = models.ForeignKey("PeakComment", verbose_name=_("parent"),
+                               null=True, on_delete=models.CASCADE)
     author = models.ForeignKey(
-        get_user_model(), on_delete=models.PROTECT, 
-        verbose_name=_("author"), null=True)    
+        get_user_model(), on_delete=models.PROTECT,
+        verbose_name=_("author"), null=True)
     nickname = models.CharField(_("nickname"), max_length=80, null=True)
     email = models.EmailField(_("email"), null=True)
     homepage = models.URLField(_("home page"), max_length=200, blank=True, null=True)
@@ -325,15 +325,15 @@ class PeakComment(models.Model):
         db_table = 'peak_comment'
         verbose_name = _("peak comment")
         verbose_name_plural = _("peak comments")
-        
+
     def __str__(self):
         return f'comment {self.id} by {self.name}'
-        
+
     @property
     def name(self):
         """ get author name """
         return self.author.username if self.author else self.nickname
-    
+
     @property
     def replies(self):
         """ get replies for the this comment """
@@ -344,7 +344,24 @@ class PeakComment(models.Model):
     def doc_name(self):
         """ get doc's file name """
         return os.path.basename(self.doc.name)
-    
+
+    @property
+    def tsize(self):
+        """ get thumbnail size """
+        width = self.photo.width
+        height = self.photo.height
+        MAX = 100
+        ratio = width / height
+
+        if width > MAX:
+            width = MAX
+            height = int(width / ratio)
+        if height > MAX:
+            height = MAX
+            width = int(height * ratio)
+
+        return {'w': width, 'h': height}
+
     @classmethod
     def add_test_comments(cls, peak, count=20):
         """
@@ -355,23 +372,23 @@ class PeakComment(models.Model):
         for _ in range(count):
             man = fake.simple_profile()
             comment = cls(
-                peak=peak, 
-                nickname=man['username'], 
-                email=man['mail'], 
-                ip_address = fake.ipv4(),
+                peak=peak,
+                nickname=man['username'],
+                email=man['mail'],
+                ip_address=fake.ipv4(),
                 body=fake.text(max_nb_chars=80))
             comment.save()
             if random.random() < 0.5:
                 reply = cls(
-                    peak=peak, 
+                    peak=peak,
                     parent=comment,
-                    nickname=man['username'], 
-                    email=man['mail'], 
-                    ip_address = fake.ipv4(),
+                    nickname=man['username'],
+                    email=man['mail'],
+                    ip_address=fake.ipv4(),
                     body=fake.text(max_nb_chars=80))
                 reply.save()
-            
-            
+
+
 class Route(models.Model):
     """
     Route model
@@ -480,7 +497,7 @@ class RouteSection(models.Model):
     def details(self):
         """ get route section details """
         len_km = self.length // 1000 if self.length else None
-        len_m = self.length % 1000 if  self.length else None
+        len_m = self.length % 1000 if self.length else None
         length = f'{len_m}м' if self.length else ''
         if len_km:
             length = f'{len_km}км ' + length

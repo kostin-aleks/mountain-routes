@@ -14,11 +14,8 @@
 
     {% for reply in comment.replies %}
     <div class="geser">
-      <div class="media">
-        <!--div class="media-left">
-          <img src="http://fakeimg.pl/50x50" class="media-object" style="width:40px">
-        </div-->
-        <div class="media-body">
+      <div class="media bordered-replay" style="">
+        <div class="media-body" style="margin: 5px">
           <h6 class="media-heading title">{{ reply.name }}</h6>
           <p class="">
             {{ reply.body|safe|linebreaks }} <br />

@@ -1507,12 +1507,14 @@ def peak_comments(request, peak_id, page):
     paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
 
     comment_list = paginator.page(page)
+    form_comment = PeakUserCommentForm() if request.user.is_authenticated else PeakCommentForm()
 
     return render(
         request,
         'Routes/peak_comments.html',
         {
             'peak': the_peak,
+            'form_comment': form_comment,
             'sort': sort_,
             'sorted': sorting_info(sort_),
             'comments': comment_list, })

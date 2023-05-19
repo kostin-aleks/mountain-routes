@@ -1,48 +1,52 @@
 {% load i18n %}
 {% load static %}
 
-<div class="container" id="comment_{{ comment.id }}">
-  <div class="row">
+<div class="container bordered-comment" id="comment_{{ comment.id }}">
+  <div class="row" style="margin: 5px">
   
     <div class="media">
       <div class="media-body">
-        <h6 class="media-heading title">{{ comment.name }}</h6>
-        <p class="">
-          {{ comment.body|safe|linebreaks }} <br />
-          <span class="text-muted"><small>{{ comment.created_on }}</small></span>
+        
+        <div class="row">
+          <div class="col-md-2"><h6 class="media-heading title">{{ comment.name }}</h6></div>
+          <div class="text-muted col-md-2"><small>{{ comment.created_on }}</small></div>
           
           {% if request.user.is_authenticated and comment.author == request.user %}
-          <button class="btn btn-danger btn-xs" type="button" name="delete" aria-label="Left Align"
-              hx-get="{% url "delete-comment" comment.id %}" 
-              hx-confirm="{% trans "This comment and all replies will be deleted. Are you sure?" %}"
-              hx-target="#comment_{{ comment.id }}" hx-swap="outerHTML swap:1s">
-              {% trans "Delete" %}
-            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
-          </button>
+          <div class="col-md-2">
+            <button class="btn btn-danger btn-xs" type="button" name="delete" aria-label="Left Align"
+                hx-get="{% url "delete-comment" comment.id %}" 
+                hx-confirm="{% trans "This comment and all replies will be deleted. Are you sure?" %}"
+                hx-target="#comment_{{ comment.id }}" hx-swap="outerHTML swap:1s">
+                {% trans "Delete" %}
+              <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+            </button>
+          </div>
           {% endif %}
-        </p>
-        {% if comment.photo %}
-        <div class="row">
-          <div class="col-xs-6 col-md-3">
-            <div class="thumbnail thumbnail-img">
-              <img src="{{ comment.photo.url }}" alt="photo" style="width:100%" >
-            </div>
-          </div>
         </div>
-        {% endif %}
-        {% if comment.doc %}
-        <div class="row">
-          <div class="col-xs-6 col-md-3">
-            <div class="thumbnail thumbnail-img">
-              <a href="{{ comment.doc.url }}" target="_blank">{{ comment.doc_name }}</a>
-            </div>
-          </div>
+        <div class="">
+          {{ comment.body|safe|linebreaks }}
         </div>
-        {% endif %}
+        
+        
       </div>
     </div>
-    
+    <div class="row" style="margin: 10px;">
+      {% if comment.photo %}
+            <div class="col-md-2">
+              <img src="{{ comment.photo.url }}" alt="photo" 
+                   width="{{ comment.tsize.w }}" height="{{ comment.tsize.h }}" />
+            </div>
+      {% endif %}
+      {% if comment.doc %}
+            <div class="col-md-2">
+              <a href="{{ comment.doc.url }}" target="_blank">
+                <span class="glyphicon glyphicon-paperclip"></span>
+                <span class="label label-default">{{ comment.doc_name }}</span>
+              </a>
+            </div>
+      {% endif %}
+    </div>
     {% include "Routes/comment-replies.html" %}
-    
+
   </div>
 </div>
