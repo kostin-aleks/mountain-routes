@@ -5,9 +5,6 @@
   <div class="row">
   
     <div class="media">
-      <!--div class="media-left">
-        <img src="http://fakeimg.pl/50x50" class="media-object" style="width:40px">
-      </div-->
       <div class="media-body">
         <h6 class="media-heading title">{{ comment.name }}</h6>
         <p class="">
@@ -24,7 +21,15 @@
           </button>
           {% endif %}
         </p>
-        
+        {% if comment.photo %}
+        <div class="row">
+          <div class="col-xs-6 col-md-3">
+            <div class="thumbnail thumbnail-img">
+              <img src="{{ comment.photo.url }}" alt="photo" style="width:100%" >
+            </div>
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
     

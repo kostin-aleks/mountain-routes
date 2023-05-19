@@ -2,16 +2,23 @@
 {% load static %}
     <div class="panel panel-success">
       <div class="panel-body">
-        <form hx-post="{% url "add-peak-comment" peak.slug %}" hx-target="#comments-page"
-            hx-swap="outerHTML">
+        <form 
+              hx-post="{% url "add-peak-comment" peak.slug %}" hx-target="#comments-page"
+              hx-swap="outerHTML" hx-encoding='multipart/form-data'>
           {% csrf_token %}
           <div class="form-group">
             {{ form_comment.body }}
             <label id="body-error" class="has-error" for="id_body">
-              {{ form_comment.errors }}
+              {{ form_comment.body.errors }}
             </label>
           </div>  
-
+          
+          <div class="form-group">
+            <label for="id_photo" class="text-info">{{ form_comment.photo.label }}:</label><br>
+            {{ form_comment.photo }}
+            <label id="photo-error" class="has-error" for="id_photo">{{ form_comment.photo.errors }}</label>
+          </div>
+        
           <div class="">
             <button class="btn btn-success" type="submit" name="add" >
               {% trans "Add comment" %}

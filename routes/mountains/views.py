@@ -1,11 +1,17 @@
 """
 views related to carpathians
 """
+import os
+from io import BytesIO
+from PIL import Image as PilImage
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.forms.utils import ErrorDict
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils.html import format_html
@@ -23,7 +29,7 @@ from routes.mountains.models import (
 from routes.mountains.forms import (
     RidgeForm, PeakForm, NewPeakForm, RouteForm, RouteSectionForm, RoutePointForm,
     PeakPhotoForm, RidgeLinkForm, RoutePhotoForm, RouteNewPointForm,
-    FilterPeaksForm, FilterRoutesForm, 
+    FilterPeaksForm, FilterRoutesForm,
     PeakUserCommentForm, PeakCommentForm)
 from routes.utils import ANY
 
@@ -53,6 +59,7 @@ def get_ip_from_request(request):
 
     return ip
 
+
 def sorting_info(sort):
     """
     get string about sorting
@@ -60,12 +67,12 @@ def sorting_info(sort):
     direction = ''
     if sort:
         direction = _('in descending order') \
-            if sort.startswith('-') else _('in ascending order') 
+            if sort.startswith('-') else _('in ascending order')
     if sort.startswith('-'):
         sort = sort[1:]
 
     sortby = ''
-    
+
     if 'nickname' == sort:
         sortby = _('Comments sorted by user name')
     if 'email' == sort:
@@ -73,7 +80,7 @@ def sorting_info(sort):
     if 'id' == sort:
         sortby = _('Comments sorted by creation date')
     return f"{sortby} {direction}"
-        
+
 
 class PeakFilter(django_filters.FilterSet):
     """
@@ -230,16 +237,16 @@ def peak(request, slug):
     """
     the_peak = get_object_or_404(Peak, slug=slug)
     comments = the_peak.comments()
-    
+
     sort_ = request.GET.get('sort', request.session.get('comments_sorting', 'nickname'))
     if sort_:
         request.session['comments_sorting'] = sort_
-        comments = comments.order_by(sort_)  
-        
+        comments = comments.order_by(sort_)
+
     paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
     comment_list = paginator.page(paginator.num_pages)
     form_comment = PeakUserCommentForm() if request.user.is_authenticated else PeakCommentForm()
-    
+
     return render(
         request,
         'Routes/peak.html',
@@ -250,7 +257,7 @@ def peak(request, slug):
             'form_comment': form_comment,
             'comments_count': comments.count(),
             'sort': sort_,
-            'sorted': sorting_info(sort_),            
+            'sorted': sorting_info(sort_),
             'can_be_edited': the_peak.can_be_edited(request.user),
             'can_be_removed': the_peak.can_be_removed()})
 
@@ -441,8 +448,8 @@ def edit_ridge(request, slug):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -563,8 +570,8 @@ def add_peak_route(request, slug):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -609,8 +616,8 @@ def edit_route(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -683,8 +690,8 @@ def remove_route(request, route_id):
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
     the_peak = the_route.peak
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -713,8 +720,8 @@ def add_route_section(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -777,8 +784,8 @@ def add_peak_route(request, slug):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -816,6 +823,74 @@ def add_peak_route(request, slug):
         request, 'Routes/add_peak_route.html', args)
 
 
+def validate_photo_form(request, form):
+    """
+    validate photo content type
+    """
+    allowed_image_types = ['image/jpeg', 'image/gif', 'image/png']
+    if 'photo' in request.FILES:
+        photo = request.FILES['photo']
+        message = _("You can upload only images in jpg, gif or png format.")
+        if photo.content_type not in allowed_image_types:
+            form.errors['photo'] = message
+
+    return form
+
+
+def resize_uploaded_image(image, max_width, max_height):
+    """
+    resize uploaded image file before saving
+    """
+    def new_image_size(image, max_width, max_height):
+        width, height = image.width, image.height
+        need_resize = False
+
+        if width > max_width:
+            height = int(max_width / width * height)
+            width = max_width
+            need_resize = True
+
+        if height > max_height:
+            width = int(max_height / height * width)
+            height = max_height
+            need_resize = True
+
+        return (width, height), need_resize
+
+    # Uploaded file is in memory
+    if isinstance(image, InMemoryUploadedFile):
+        memory_image = BytesIO(image.read())
+        pil_image = PilImage.open(memory_image)
+        img_format = os.path.splitext(image.name)[1][1:].upper()
+        img_format = 'JPEG' if img_format == 'JPG' else img_format
+
+        size, need_resize = new_image_size(
+            pil_image, max_width, max_height)
+        if need_resize:
+            pil_image.thumbnail(size)
+
+            new_image = BytesIO()
+            pil_image.save(new_image, format=img_format)
+
+            new_image = ContentFile(new_image.getvalue())
+            return InMemoryUploadedFile(
+                new_image, None, image.name, image.content_type, None, None)
+
+    # Uploaded file is in disk
+    elif isinstance(image, TemporaryUploadedFile):
+        path = image.temporary_file_path()
+        pil_image = PilImage.open(path)
+
+        size, need_resize = new_image_size(
+            pil_image, max_width, max_height)
+        if need_resize:
+            pil_image.thumbnail(size)
+            pil_image.save(path)
+            image.size = os.stat(path).st_size
+
+    return image
+
+
 def add_peak_comment(request, slug):
     """
     add a new peak comment
@@ -824,43 +899,50 @@ def add_peak_comment(request, slug):
     form_class = PeakUserCommentForm if user.is_authenticated else PeakCommentForm
     the_peak = get_object_or_404(Peak, slug=slug)
     args = {}
-    
+
     if request.method == 'POST':
         form = form_class(request.POST)
 
         if form.is_valid():
-            data = form.cleaned_data
-            peak_comment = PeakComment.objects.create(
-                peak=the_peak,
-                body=data['body'],
-            )
-            if user.is_authenticated:
-                peak_comment.author = user
-                peak_comment.nickname = user.username
-            else:
-                peak_comment.nickname = data['name']
-                peak_comment.email = data['email']
-                peak_comment.homepage = data['homepage']
-            peak_comment.save() 
+            form = validate_photo_form(request, form)
+            if not form.errors:
+                data = form.cleaned_data
+                peak_comment = PeakComment.objects.create(
+                    peak=the_peak,
+                    body=data['body'],
+                )
+                if user.is_authenticated:
+                    peak_comment.author = user
+                    peak_comment.nickname = user.username
+                else:
+                    peak_comment.nickname = data['name']
+                    peak_comment.email = data['email']
+                    peak_comment.homepage = data['homepage']
+                if request.FILES.get('photo'):
+                    image = request.FILES['photo']
+                    peak_comment.photo = resize_uploaded_image(
+                        image, settings.COMMENT_IMG_WIDTH, settings.COMMENT_IMG_HEIGHT)
 
-            peak_comment.ip_address = get_ip_from_request(request)
-            peak_comment.save()
-            args['form_message'] = _('You have successfully added a comment')
+                peak_comment.save()
+
+                peak_comment.ip_address = get_ip_from_request(request)
+                peak_comment.save()
+                args['form_message'] = _('You have successfully added a comment')
     else:
         form = form_class()
 
     args['peak'] = the_peak
     args['form_comment'] = form
-    
+
     comments = the_peak.comments()
     paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
-    comment_list = paginator.page(paginator.num_pages)  
+    comment_list = paginator.page(paginator.num_pages)
     args['comments'] = comment_list
     args['comments_count'] = comments.count()
 
     return render(
-                request, 'Routes/peak_comments.html', 
-                args)
+        request, 'Routes/peak_comments.html',
+        args)
 
 
 def add_comment_reply(request, comment_id):
@@ -871,7 +953,7 @@ def add_comment_reply(request, comment_id):
     form_class = PeakUserCommentForm if user.is_authenticated else PeakCommentForm
     comment = get_object_or_404(PeakComment, id=comment_id)
     args = {'show_form': True}
-    
+
     if request.method == 'POST':
         form = form_class(request.POST)
 
@@ -889,11 +971,11 @@ def add_comment_reply(request, comment_id):
                 reply.nickname = data['name']
                 reply.email = data['email']
                 reply.homepage = data['homepage']
-            reply.save() 
-            
+            reply.save()
+
             reply.ip_address = get_ip_from_request(request)
             reply.save()
-            
+
             args['show_form'] = False
 
     else:
@@ -914,8 +996,8 @@ def add_route_photo(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -945,8 +1027,8 @@ def add_route_point(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -979,8 +1061,8 @@ def add_ridge_link(request, slug):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -1010,8 +1092,8 @@ def remove_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1031,8 +1113,8 @@ def remove_route_photo(request, route_id, photo_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_photo = get_object_or_404(RoutePhoto, id=photo_id)
     if the_photo.route.id != the_route.id:
@@ -1052,8 +1134,8 @@ def remove_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1073,8 +1155,8 @@ def remove_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1094,8 +1176,8 @@ def remove_peak_photo(request, slug, photo_id):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
     the_photo = get_object_or_404(PeakPhoto, id=photo_id)
     if the_photo.peak.id != the_peak.id:
@@ -1126,8 +1208,8 @@ def edit_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1151,8 +1233,8 @@ def edit_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1178,8 +1260,8 @@ def edit_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1208,8 +1290,8 @@ def get_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1228,8 +1310,8 @@ def get_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1248,8 +1330,8 @@ def get_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1269,8 +1351,8 @@ def update_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1318,8 +1400,8 @@ def update_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1357,8 +1439,8 @@ def update_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser or \
-            (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1401,9 +1483,9 @@ def peak_comments(request, peak_id, page):
         request.session['comments_sorting'] = sort_
         comments = comments.order_by(sort_)
     paginator = Paginator(comments, per_page=settings.COMMENTS_PER_PAGE)
-    
+
     comment_list = paginator.page(page)
-    
+
     return render(
         request,
         'Routes/peak_comments.html',
@@ -1424,21 +1506,22 @@ def get_reply_form(request, comment_id):
         form = PeakUserCommentForm()
     else:
         form = PeakCommentForm()
-    
+
     return render(
         request,
         'Routes/reply_form.html',
         {'form': form,
          'comment': comment
-        }
+         }
     )
+
 
 def get_reply_button(request, comment_id):
     """
     return template with button [reply]
     """
     comment = get_object_or_404(PeakComment, id=comment_id)
-    
+
     return render(
         request,
         'Routes/button_reply.html',
@@ -1456,7 +1539,7 @@ def delete_reply(request, reply_id):
         if reply.author == user and reply.parent is not None:
             reply.active = False
             reply.save()
-    
+
     return render(request, 'Routes/empty.html', {})
 
 
@@ -1473,6 +1556,6 @@ def delete_comment(request, comment_id):
             for reply in comment.replies:
                 reply.active = False
                 reply.save()
-    
+
     return render(request, 'Routes/empty.html', {})
 

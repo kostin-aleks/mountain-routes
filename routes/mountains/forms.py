@@ -21,6 +21,7 @@ class ImagePreviewWidget(forms.widgets.FileInput):
     """
     Widget ImagePreview
     """
+
     def render(self, name, value, attrs=None, **kwargs):
         """
         render
@@ -291,7 +292,12 @@ class PeakUserCommentForm(forms.Form):
             attrs={
                 'placeholder': _('New comment'),
                 'rows': 5, 'cols': 50,
-        }), )
+            }), )
+
+    photo = forms.ImageField(
+        label=_('Photo'),
+        required=False,
+        widget=ImagePreviewWidget())
 
     def clean_body(self):
         """
@@ -299,11 +305,11 @@ class PeakUserCommentForm(forms.Form):
         """
         ALLOWED_TAGS = ['a', 'code', 'i', 'strong']
         txt = self.cleaned_data.get('body')
-        
+
         tags = re.search("<[^>]*>", txt)
         if not tags:
             return txt
-        
+
         tags = re.findall("<[^>]*>", txt)
         for item in tags:
             tag = re.search("<[\s,\/]*([a-z,A-Z]+)\s*[^>]*>", item)
@@ -311,17 +317,16 @@ class PeakUserCommentForm(forms.Form):
 
             if tag_name not in ALLOWED_TAGS:
                 raise ValidationError(
-                _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
-   
+                    _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
+
         parser = etree.XMLParser()
         try:
             tree = etree.XML(f'<html>{txt}</html>', parser)
         except etree.XMLSyntaxError:
-            print(parser.error_log)
             raise ValidationError(
                 _("Fix syntax errors in html tags."))
-            
-        soup = BeautifulSoup (txt, 'lxml')
+
+        soup = BeautifulSoup(txt, 'lxml')
         while True:
             replaced = False
             for tag in soup.descendants:
@@ -330,14 +335,14 @@ class PeakUserCommentForm(forms.Form):
                     replaced = True
             if replaced:
                 break
-            
+
         if False:
             raise ValidationError(
                 _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
 
         return str(soup)
-    
-    
+
+
 class PeakCommentForm(PeakUserCommentForm):
     """ Form for New Comment for Anonimous """
 
@@ -348,26 +353,26 @@ class PeakCommentForm(PeakUserCommentForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': _('User name'),
-        }), )
-    
+            }), )
+
     email = forms.EmailField(
         label=_('Email*'),
         required=True,
         widget=forms.TextInput(),
         initial='someuser@some.server.com'
     )
-    
+
     homepage = forms.URLField(
         label=_('Home page'),
         required=False,
         widget=forms.TextInput(
             attrs={
                 'placeholder': _('Home page'),
-        })
+            })
     )
 
-    captcha=CaptchaField(required=True)
-    
+    captcha = CaptchaField(required=True)
+
     def clean_name(self):
         """
         validate field name
@@ -380,7 +385,7 @@ class PeakCommentForm(PeakUserCommentForm):
                 _("The user name must consist only of the characters (a-z, A-Z, 0-9)."))
 
         return name
-    
+
 
 class RouteSectionForm(forms.ModelForm):
     """ Form for RouteSection """

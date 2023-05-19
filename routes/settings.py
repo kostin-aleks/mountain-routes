@@ -205,6 +205,8 @@ EMAIL_USE_SSL = env('EMAIL_USE_SSL')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 COMMENTS_PER_PAGE = env('COMMENTS_PER_PAGE')
+COMMENT_IMG_WIDTH = 320 
+COMMENT_IMG_HEIGHT = 240
 
 try:
     from .custom_settings import *
