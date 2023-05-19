@@ -2,12 +2,17 @@
 {% load i18n %}
 {% load static %}
 
+    {% block script_include %}
+      <script src="{% static '/js/zooming.min.js' %}"></script>
+    {% endblock %}
+    
     {% block content %}
     <div>
       <h2>{{ ridge.name }}</h2>
       <div>{{ ridge.description|default_if_none:""|linebreaks|safe }}</div>
     </div>
 
+   
     {% if ridge.links %}
     <div class="panel panel-default">
       <div class="panel-body">
@@ -42,4 +47,8 @@
       </table>
     {% endif %}
 
+    <script>
+      new Zooming().listen('img');
+    </script>
+    
     {% endblock %}
