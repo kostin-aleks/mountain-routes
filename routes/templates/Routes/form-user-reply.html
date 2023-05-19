@@ -18,6 +18,12 @@
             <label id="photo-error" class="has-error" for="id_photo">{{ form.photo.errors }}</label>
           </div>
           
+          <div class="form-group">
+            <label for="id_doc" class="text-info">{{ form.doc.label }}:</label><br>
+            {{ form.doc }}
+            <label id="doc-error" class="has-error" for="id_doc">{{ form.doc.errors }}</label>
+          </div>
+          
           <div class="">
             <button class="btn btn-success" type="submit" name="add" >
               {% trans "Send" %}

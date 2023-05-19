@@ -298,6 +298,11 @@ class PeakUserCommentForm(forms.Form):
         label=_('Photo'),
         required=False,
         widget=ImagePreviewWidget())
+    
+    doc = forms.FileField(
+        label=_('Text'),
+        required=False,
+        )
 
     def clean_body(self):
         """

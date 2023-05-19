@@ -18,7 +18,13 @@
             {{ form_comment.photo }}
             <label id="photo-error" class="has-error" for="id_photo">{{ form_comment.photo.errors }}</label>
           </div>
-        
+
+          <div class="form-group">
+            <label for="id_doc" class="text-info">{{ form_comment.doc.label }}:</label><br>
+            {{ form_comment.doc }}
+            <label id="doc-error" class="has-error" for="id_doc">{{ form_comment.doc.errors }}</label>
+          </div>
+          
           <div class="">
             <button class="btn btn-success" type="submit" name="add" >
               {% trans "Add comment" %}

@@ -19,6 +19,12 @@
           </div>
           
           <div class="form-group">
+            <label for="id_doc" class="text-info">{{ form.doc.label }}:</label><br>
+            {{ form.doc }}
+            <label id="doc-error" class="has-error" for="id_doc">{{ form.doc.errors }}</label>
+          </div>
+          
+          <div class="form-group">
             <label for="id_name" class="text-info">
               {{ form.name.label }}:
             </label><br>

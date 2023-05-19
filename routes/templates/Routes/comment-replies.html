@@ -43,6 +43,15 @@
             </div>
           </div>
         {% endif %}
+        {% if reply.doc %}
+        <div class="row">
+          <div class="col-xs-6 col-md-3">
+            <div class="thumbnail thumbnail-img">
+              <a href="{{ reply.doc.url }}" target="_blank">{{ reply.doc_name }}</a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
         </div>
       </div>
     </div>

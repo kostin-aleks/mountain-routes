@@ -448,8 +448,8 @@ def edit_ridge(request, slug):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -482,8 +482,8 @@ def edit_peak(request, slug):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser or
-            (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -543,8 +543,8 @@ def remove_peak(request, slug):
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
     the_ridge = the_peak.ridge
-    if not (user.is_superuser or
-            (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser
+            or (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -570,8 +570,8 @@ def add_peak_route(request, slug):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -616,8 +616,8 @@ def edit_route(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -690,8 +690,8 @@ def remove_route(request, route_id):
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
     the_peak = the_route.peak
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -720,8 +720,8 @@ def add_route_section(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -784,8 +784,8 @@ def add_peak_route(request, slug):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -833,6 +833,13 @@ def validate_photo_form(request, form):
         message = _("You can upload only images in jpg, gif or png format.")
         if photo.content_type not in allowed_image_types:
             form.errors['photo'] = message
+    if 'doc' in request.FILES:
+        txt = request.FILES['doc']
+        message = _("You can upload only text file.")
+        if txt.content_type != 'text/plain':
+            form.errors['doc'] = message
+        if txt.size > settings.COMMENT_TXT_SIZE_KB * 1024:
+            form.errors['doc'] = _(f"File size must be less than {settings.COMMENT_TXT_SIZE_KB} KB.")
 
     return form
 
@@ -918,10 +925,14 @@ def add_peak_comment(request, slug):
                     peak_comment.nickname = data['name']
                     peak_comment.email = data['email']
                     peak_comment.homepage = data['homepage']
+
                 if request.FILES.get('photo'):
                     image = request.FILES['photo']
                     peak_comment.photo = resize_uploaded_image(
                         image, settings.COMMENT_IMG_WIDTH, settings.COMMENT_IMG_HEIGHT)
+
+                if request.FILES.get('doc'):
+                    peak_comment.doc = request.FILES['doc']
 
                 peak_comment.save()
 
@@ -973,17 +984,20 @@ def add_comment_reply(request, comment_id):
                     reply.nickname = data['name']
                     reply.email = data['email']
                     reply.homepage = data['homepage']
-                
+
                 if request.FILES.get('photo'):
                     image = request.FILES['photo']
                     reply.photo = resize_uploaded_image(
                         image, settings.COMMENT_IMG_WIDTH, settings.COMMENT_IMG_HEIGHT)
-                    
+
+                if request.FILES.get('doc'):
+                    reply.doc = request.FILES['doc']
+
                 reply.save()
-    
+
                 reply.ip_address = get_ip_from_request(request)
                 reply.save()
-    
+
                 args['show_form'] = False
 
     else:
@@ -1004,8 +1018,8 @@ def add_route_photo(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -1035,8 +1049,8 @@ def add_route_point(request, route_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -1069,8 +1083,8 @@ def add_ridge_link(request, slug):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -1100,8 +1114,8 @@ def remove_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1121,8 +1135,8 @@ def remove_route_photo(request, route_id, photo_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_photo = get_object_or_404(RoutePhoto, id=photo_id)
     if the_photo.route.id != the_route.id:
@@ -1142,8 +1156,8 @@ def remove_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1163,8 +1177,8 @@ def remove_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1184,8 +1198,8 @@ def remove_peak_photo(request, slug, photo_id):
     """
     user = request.user
     the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_peak.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_peak.editor == user)):
         raise PermissionDenied()
     the_photo = get_object_or_404(PeakPhoto, id=photo_id)
     if the_photo.peak.id != the_peak.id:
@@ -1216,8 +1230,8 @@ def edit_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1241,8 +1255,8 @@ def edit_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1268,8 +1282,8 @@ def edit_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1298,8 +1312,8 @@ def get_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1318,8 +1332,8 @@ def get_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1338,8 +1352,8 @@ def get_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:
@@ -1359,8 +1373,8 @@ def update_route_point(request, route_id, point_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_point = get_object_or_404(RoutePoint, id=point_id)
     if the_point.route.id != the_route.id:
@@ -1408,8 +1422,8 @@ def update_ridge_link(request, slug, link_id):
     """
     user = request.user
     the_ridge = get_object_or_404(Ridge, slug=slug)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_ridge.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_ridge.editor == user)):
         raise PermissionDenied()
     the_link = get_object_or_404(RidgeInfoLink, id=link_id)
     if the_link.ridge.id != the_ridge.id:
@@ -1447,8 +1461,8 @@ def update_route_section(request, route_id, section_id):
     """
     user = request.user
     the_route = get_object_or_404(Route, id=route_id)
-    if not (user.is_superuser
-            or (user.climber.is_editor and the_route.editor == user)):
+    if not (user.is_superuser or
+            (user.climber.is_editor and the_route.editor == user)):
         raise PermissionDenied()
     the_section = get_object_or_404(RouteSection, id=section_id)
     if the_section.route.id != the_route.id:

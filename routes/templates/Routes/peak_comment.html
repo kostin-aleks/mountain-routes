@@ -30,6 +30,15 @@
           </div>
         </div>
         {% endif %}
+        {% if comment.doc %}
+        <div class="row">
+          <div class="col-xs-6 col-md-3">
+            <div class="thumbnail thumbnail-img">
+              <a href="{{ comment.doc.url }}" target="_blank">{{ comment.doc_name }}</a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
     

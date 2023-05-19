@@ -1,6 +1,7 @@
 """ mountains models """
 
 import math
+import os
 import re
 import random
 from slugify import slugify
@@ -309,6 +310,8 @@ class PeakComment(models.Model):
     body = models.TextField(_("body"))
     photo = models.ImageField(
         _("photo"), upload_to=get_image_path, blank=True, null=True)
+    doc = models.FileField(
+        _("doc"), upload_to=get_image_path, blank=True, null=True)
     ip_address = models.GenericIPAddressField(_("IP address"), blank=True, null=True)
     country_code = models.CharField(_("country code"), max_length=16, null=True)
     country = models.CharField(_("country"), max_length=255, null=True)
@@ -337,6 +340,11 @@ class PeakComment(models.Model):
         return PeakComment.objects.filter(
             parent=self).filter(active=True).order_by('id')
 
+    @property
+    def doc_name(self):
+        """ get doc's file name """
+        return os.path.basename(self.doc.name)
+    
     @classmethod
     def add_test_comments(cls, peak, count=20):
         """
