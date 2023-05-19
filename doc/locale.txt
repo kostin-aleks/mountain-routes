@@ -1,0 +1,2 @@
+./manage.py makemessages --all --ignore data --ignore venv 
+./manage.py compilemessage --ignore data --ignore venv
