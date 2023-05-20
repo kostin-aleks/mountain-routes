@@ -3,7 +3,7 @@
    
     <div class="panel panel-success bordered-comment">
       <div class="panel-body">
-        <form hx-post="{% url "add-peak-comment" peak.slug %}" hx-target="#comments-page"
+        <form id="comment-form" hx-post="{% url "add-peak-comment" peak.slug %}" hx-target="#comments-page"
             hx-swap="outerHTML" hx-encoding='multipart/form-data'>
           {% csrf_token %}
           <div class="form-group">
@@ -71,3 +71,96 @@
         <span class="label label-success">{{ form_message }}</span>
       </div>
     </div>
+
+
+    <script>   
+    
+      $.validator.addMethod('regexp', function(value, element, params) {
+        var expression = new RegExp(params);
+        return this.optional(element) || expression.test(value);
+      });
+      
+      $.validator.addMethod('allowed_tags', function(value, element, params) {
+        var expression = new RegExp(/<[^<>]+>/g);
+        var restricted = false;
+        var there_are_tags = expression.test(value);
+        if (there_are_tags) {
+          var allowed = ['i', 'code', 'strong', 'a'];
+          expression = new RegExp(/<\/*\s*(?<tag>[\w+]+)\s*[^>]*>/g);
+          let result = value.matchAll(expression);
+          for (const match of result) {
+            if (!(allowed.includes(match[1]))) {
+              restricted = true;
+            }
+          }
+        }
+        var okey = !there_are_tags;
+        if (!okey) {
+          okey = !restricted;
+        }
+        return this.optional(element) || okey;
+      });
+      
+      $(document).ready(function(){
+        $("#comment-form").validate({
+          rules:{
+            body:{
+              required: true,
+              allowed_tags: true
+            },
+            name:{
+              required: true,
+              regexp: /^[a-zA-Z0-9]+$/,
+              minlength: 2,
+              maxlength: 100,
+            },
+            email:{
+              required: true,
+              email: true,
+              minlength: 5,
+              maxlength: 255,
+            },
+            homepage:{
+              required: false,
+              url: true,
+              minlength: 5,
+              maxlength: 255,
+            },
+            photo:{
+              accept: "image/jpeg,image/gif,image/png"
+            },
+            doc:{
+              accept: "text/plain"
+            },
+          },
+          messages:{
+            body:{
+              allowed_tags: gettext("You use prohibited tags. You can use only tags &lt;i&gt;, &lt;code&gt;, &lt;strong&gt; and &lt;a&gt;."),
+              required: gettext("Required field"),
+            },
+            name:{
+              required: gettext("Required field"),
+              regexp: gettext("The user name must consist only of the characters (a-z, A-Z, 0-9)."),
+              minlength: gettext("Name must be at least 2 characters long"),
+              maxlength: gettext("Maximum number of characters - 100"),
+            },
+            email:{
+              required: gettext("Required field"),
+              minlength: gettext("Email cannot be shorter than 5 characters"),
+              maxlength: gettext("Address too long"),
+            },
+            homepage:{
+              required: gettext("Required field"),
+              minlength: gettext("URL cannot be shorter than 5 characters"),
+              maxlength: gettext("URL too long"),
+            },
+            photo:{
+              accept: gettext("Only jpeg, gif and png files can be uploaded")
+            },
+            doc: {
+              accept: gettext("You can only upload files in txt format")
+            },
+          }
+        });
+      });
+    </script>

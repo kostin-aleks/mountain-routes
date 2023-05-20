@@ -28,3 +28,8 @@ form .errorlist {
   background: #d4e8f1;
   padding-block: 5px;
 }
+
+.error{
+  color: red;
+  padding-left: 3px
+}
