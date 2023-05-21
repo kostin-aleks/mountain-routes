@@ -73,14 +73,14 @@
           },
           messages:{
             body:{
-              allowed_tags: gettext("You use prohibited tags. You can use only tags &lt;i&gt;, &lt;code&gt;, &lt;strong&gt; and &lt;a&gt;."),
-              required: gettext("Required field"),
+              allowed_tags: "{% trans "You use prohibited tags. You can use only tags &lt;i&gt;, &lt;code&gt;, &lt;strong&gt; and &lt;a&gt;." %}"),
+              required: "{% trans "Required field" %}"),
             },
             photo:{
-              accept: gettext("Only jpeg, gif and png files can be uploaded")
+              accept: "{% trans "Only jpeg, gif and png files can be uploaded" %}")
             },
             doc: {
-              accept: gettext("You can only upload files in txt format")
+              accept: "{% trans "You can only upload files in txt format" %}")
             },
           }
         });
