@@ -2,6 +2,7 @@
 misc utils
 """
 
+
 def atoi(value, default=None):
     """ return integer from string or None """
     try:

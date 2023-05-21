@@ -7,13 +7,10 @@ DESCRIPTION
      Test RegEx solution to validate tags in the text
 """
 
-from lxml import etree
 import re
+from lxml import etree
 
 from django.core.management.base import BaseCommand
-from django.shortcuts import get_object_or_404
-from routes.mountains.models import PeakComment
-from routes.utils import ip_geolocation
 
 
 class Command(BaseCommand):
@@ -29,21 +26,22 @@ class Command(BaseCommand):
                 'txt': """
                   <ul>
                     <li>
-                      <a href="/ukrainian/news/1684305407-v-vozdushnyh-silah-ukrainy-i-belom-dome-prokommentirovali-zayavlenie-rf-o-popadanii-v-patriot.html">
-                        
+                      <a href="/ukrainian/news/1684305407-v-vozdushnyh-silah-v-patriot.html">
+
                         <span class="meta meta-border d-block">
                             <span class="d-flex mb-2">
                                 <span class="time-gray fz-12">09:36</span>
                                 <span class="time-gray fz-12 ml-2">Общие новости</span>
                             </span>
                             <span class="fz-14 text-white title">
-                                В Воздушных силах Украины и Белом доме прокомментировали заявление РФ 
+                                В Воздушных силах Украины и Белом доме
+                                прокомментировали заявление РФ
                                 о попадании в Patriot
                             </span>
                       </a>
                       </li>
                       <li>
-                        <a href="/ukrainian/high/1684302820-shahab-vyskazalsya-o-vozmozhnom-vozvraschenii-v-zaryu.html">
+                        <a href="/ukrainian/high/1684302820-shahab.html">
 
                           <span class="meta meta-border d-block">
                                 <span class="d-flex mb-2">
@@ -86,11 +84,11 @@ class Command(BaseCommand):
         for sample in samples:
             print(f"\nsample {sample['idx']}")
             txt = sample['txt']
-            x = re.search(r"<[^>]*>", txt)
-            if x:
+            result = re.search(r"<[^>]*>", txt)
+            if result:
                 print('text contains tags')
-                x = re.findall(r"<[^>]*>", txt)
-                for item in x:
+                items = re.findall(r"<[^>]*>", txt)
+                for item in items:
                     tag = re.search(r"<[\s,\/]*([a-z,A-Z]+)\s*[^>]*>", item)
                     tag_name = tag.groups()[0]
                     # print(tag_name)

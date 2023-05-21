@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import environ
 import os
 from pathlib import Path
+import environ
 
 env = environ.Env()
 environ.Env.read_env()
@@ -205,7 +205,7 @@ EMAIL_USE_SSL = env('EMAIL_USE_SSL')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 COMMENTS_PER_PAGE = env('COMMENTS_PER_PAGE')
-COMMENT_IMG_WIDTH = 320 
+COMMENT_IMG_WIDTH = 320
 COMMENT_IMG_HEIGHT = 240
 COMMENT_TXT_SIZE_KB = 100
 

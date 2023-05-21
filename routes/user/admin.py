@@ -18,4 +18,5 @@ class EditorRoleAdmin(admin.ModelAdmin):
     """ Editor Role Admin """
     list_display = ('climber',)
 
+
 admin.site.register(EditorRole, EditorRoleAdmin)

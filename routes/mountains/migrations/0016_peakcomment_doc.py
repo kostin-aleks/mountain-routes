@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='peakcomment',
             name='doc',
-            field=models.FileField(blank=True, null=True, upload_to=routes.utils.get_image_path, verbose_name='doc'),
+            field=models.FileField(
+                blank=True, null=True, upload_to=routes.utils.get_image_path,
+                verbose_name='doc'),
         ),
     ]

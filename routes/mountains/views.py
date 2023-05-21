@@ -11,7 +11,6 @@ from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.forms.utils import ErrorDict
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils.html import format_html
@@ -38,7 +37,7 @@ def divide_into_groups_of_three(lst):
     """
     divide the list into groups of three
     """
-    chunked_list = list()
+    chunked_list = []
     chunk_size = 3
 
     for i in range(0, len(lst), chunk_size):
@@ -53,11 +52,11 @@ def get_ip_from_request(request):
     """
     forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
     if forwarded:
-        ip = forwarded.split(',')[0]
+        ip_address = forwarded.split(',')[0]
     else:
-        ip = request.META.get('REMOTE_ADDR')
+        ip_address = request.META.get('REMOTE_ADDR')
 
-    return ip
+    return ip_address
 
 
 def sorting_info(sort):
@@ -293,10 +292,10 @@ def routes(request):
     RequestConfig(
         request, paginate={"per_page": 100}).configure(routes_table)
 
-    sd = request.session.get('routes_filter') or {}
+    sdata = request.session.get('routes_filter') or {}
     data = {'peak': request.GET.get('peak')}
     if not request.GET:
-        data = {'peak': sd.get('peak')}
+        data = {'peak': sdata.get('peak')}
     form = FilterRoutesForm(data)
 
     request.session['routes_filter'] = dict(peak=data['peak'])
@@ -564,52 +563,6 @@ def remove_peak(request, slug):
 
 
 @login_required
-def add_peak_route(request, slug):
-    """
-    add a new route to the peak
-    """
-    user = request.user
-    the_peak = get_object_or_404(Peak, slug=slug)
-    if not (user.is_superuser or
-            (user.climber.is_editor and the_peak.editor == user)):
-        raise PermissionDenied()
-
-    if request.method == 'POST':
-        form = RouteForm(request.POST)
-
-        if form.is_valid():
-            data = form.cleaned_data
-            Route.objects.create(
-                peak=the_peak,
-                slug=data['slug'],
-                name=data['name'],
-                description=data['description'],
-                short_description=data['short_description'],
-                length=data['length'],
-                difficulty=data['difficulty'],
-                max_difficulty=data['max_difficulty'],
-                author=data['author'],
-                year=data['year'],
-                height_difference=data['height_difference'],
-                start_height=data['start_height'],
-                descent=data['descent'],
-                editor=user,
-                ready=data['ready'],
-            )
-            return HttpResponseRedirect(reverse('peak', args=[the_peak.slug]))
-    else:
-        form = RouteForm()
-
-    args = {
-        'form': form,
-        'peak': the_peak,
-    }
-
-    return render(
-        request, 'Routes/add_peak_route.html', args)
-
-
-@login_required
 def edit_route(request, route_id):
     """
     edit the route
@@ -839,7 +792,8 @@ def validate_photo_form(request, form):
         if txt.content_type != 'text/plain':
             form.errors['doc'] = message
         if txt.size > settings.COMMENT_TXT_SIZE_KB * 1024:
-            form.errors['doc'] = _(f"File size must be less than {settings.COMMENT_TXT_SIZE_KB} KB.")
+            form.errors['doc'] = \
+                _(f"File size must be less than {settings.COMMENT_TXT_SIZE_KB} KB.")
 
     return form
 
@@ -1582,4 +1536,3 @@ def delete_comment(request, comment_id):
                 reply.save()
 
     return render(request, 'Routes/empty.html', {})
-

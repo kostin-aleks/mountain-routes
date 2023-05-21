@@ -24,9 +24,9 @@ class Command(BaseCommand):
         """
         dir_path = path_join(settings.STATIC_TEST_DATA, '')
         img_path = path_join(dir_path, file_name)
-        f = open(img_path, 'rb')
-        item.photo.save(f'{kind}{idx}.jpg', File(f))
-        item.save()
+        with open(img_path, 'rb') as file_:
+            item.photo.save(f'{kind}{idx}.jpg', File(file_))
+            item.save()
 
     def handle(self, *args, **options):
         items = [
@@ -222,7 +222,7 @@ class Command(BaseCommand):
                 route.start_height = route_item.get('start_height') or None
                 route.descent = route_item.get('descent') or ''
                 route.editor = None
-                route.ready = True if route_item.get('ready') else False
+                route.ready = bool(route_item.get('ready'))
 
                 route.save()
 

@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='peakcomment',
-            options={'ordering': ['created_on'], 'verbose_name': 'peak comment', 'verbose_name_plural': 'peak comments'},
+            options={
+                'ordering': ['created_on'],
+                'verbose_name': 'peak comment',
+                'verbose_name_plural': 'peak comments'},
         ),
         migrations.AlterField(
             model_name='peakcomment',
@@ -43,7 +46,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='peakcomment',
             name='peak',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='mountains.peak', verbose_name='peak'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, related_name='comments',
+                to='mountains.peak', verbose_name='peak'),
         ),
         migrations.AlterModelTable(
             name='peakcomment',

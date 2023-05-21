@@ -2,8 +2,8 @@
 forms related to mountains
 """
 
-from lxml import etree
 import re
+from lxml import etree
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -317,16 +317,17 @@ class PeakUserCommentForm(forms.Form):
 
         tags = re.findall("<[^>]*>", txt)
         for item in tags:
-            tag = re.search("<[\s,\/]*([a-z,A-Z]+)\s*[^>]*>", item)
+            tag = re.search(r"<[\s,\/]*([a-z,A-Z]+)\s*[^>]*>", item)
             tag_name = tag.groups()[0]
 
             if tag_name not in ALLOWED_TAGS:
                 raise ValidationError(
-                    _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
+                    _("You use prohibited tags. " +
+                      "You can use only tags <i>, <code>, <strong> and <a>."))
 
         parser = etree.XMLParser()
         try:
-            tree = etree.XML(f'<html>{txt}</html>', parser)
+            etree.XML(f'<html>{txt}</html>', parser)
         except etree.XMLSyntaxError:
             raise ValidationError(
                 _("Fix syntax errors in html tags."))
@@ -340,10 +341,6 @@ class PeakUserCommentForm(forms.Form):
                     replaced = True
             if replaced:
                 break
-
-        if False:
-            raise ValidationError(
-                _("You use prohibited tags. You can use only tags <i>, <code>, <strong> and <a>."))
 
         return str(soup)
 

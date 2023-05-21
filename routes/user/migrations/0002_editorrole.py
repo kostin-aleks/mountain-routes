@@ -14,8 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EditorRole',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('climber', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='user.climber')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('climber', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='user.climber')),
             ],
             options={
                 'db_table': 'editor_role',

@@ -17,31 +17,40 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='peak',
             name='changed',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now, verbose_name='created'),
         ),
         migrations.AddField(
             model_name='peak',
             name='editor',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='editor'),
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.PROTECT,
+                to=settings.AUTH_USER_MODEL, verbose_name='editor'),
         ),
         migrations.AddField(
             model_name='ridge',
             name='changed',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now, verbose_name='created'),
         ),
         migrations.AddField(
             model_name='ridge',
             name='editor',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='editor'),
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.PROTECT,
+                to=settings.AUTH_USER_MODEL, verbose_name='editor'),
         ),
         migrations.AddField(
             model_name='route',
             name='changed',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='created'),
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now, verbose_name='created'),
         ),
         migrations.AddField(
             model_name='route',
             name='editor',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='editor'),
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.PROTECT,
+                to=settings.AUTH_USER_MODEL, verbose_name='editor'),
         ),
     ]

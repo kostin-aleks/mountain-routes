@@ -66,5 +66,5 @@ urlpatterns = [
     path('delete/reply/<int:reply_id>/',
          views.delete_reply, name="delete-reply"),
     path('delete/comment/<int:comment_id>/',
-         views.delete_comment, name="delete-comment"),    
+         views.delete_comment, name="delete-comment"),
 ]

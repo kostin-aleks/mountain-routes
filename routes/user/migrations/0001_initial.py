@@ -18,10 +18,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Climber',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('middle_name', models.CharField(blank=True, max_length=32, null=True)),
-                ('geocity', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='geoname.geocity')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                ('geocity', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='geoname.geocity')),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL, verbose_name='user')),
             ],
             options={
                 'db_table': 'climber',

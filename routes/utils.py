@@ -1,16 +1,15 @@
 """
 Module stores utilities
 """
-import json
 import os
 import random
-import requests
-import string
 from datetime import datetime
+import string
+import requests
 
 from django.conf import settings
 from django.shortcuts import _get_queryset
-from django.utils.translation import get_language, gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 ANY = 'any'
@@ -32,6 +31,7 @@ def get_image_path(instance, filename):
         'photos',
         class_name(instance),
         now.strftime('%Y%m%d%H%M'), filename)
+
 
 def get_object_or_none(klass, *args, **kwargs):
     """
@@ -74,14 +74,14 @@ def random_username():
     DIGIT_COUNT = 3
 
     with open(
-        os.path.join(settings.STATICFILES_DIRS[0], 'animals.txt'),
-        encoding="utf-8") as _file:
+            os.path.join(settings.STATICFILES_DIRS[0], 'animals.txt'),
+            encoding="utf-8") as _file:
         nouns = _file.readlines()
     nouns = [s for s in nouns if len(s) <= MAXLEN]
 
     with open(
-        os.path.join(settings.STATICFILES_DIRS[0], 'adjectives.txt'),
-        encoding="utf-8") as _file:
+            os.path.join(settings.STATICFILES_DIRS[0], 'adjectives.txt'),
+            encoding="utf-8") as _file:
         adjs = _file.readlines()
     adjs = [s for s in adjs if len(s) <= MAXLEN]
 
@@ -103,7 +103,7 @@ def ridges_list():
     from routes.mountains.models import Ridge
     first = [('', _('--any--'))]
     return first + [(c.slug, c.name) for c
-            in Ridge.objects.all().order_by('name')]
+                    in Ridge.objects.all().order_by('name')]
 
 
 def peaks_list():
@@ -113,18 +113,24 @@ def peaks_list():
     from routes.mountains.models import Peak
     first = [('', _('--any--'))]
     return first + [(c.slug, c.name) for c
-            in Peak.objects.all().order_by('name')]
+                    in Peak.objects.all().order_by('name')]
 
 
 def get_ip():
-    response = requests.get('https://api64.ipify.org?format=json').json()
+    """
+    get IP address from response
+    """
+    response = requests.get('https://api64.ipify.org?format=json', timeout=20).json()
     return response["ip"]
 
 
 def ip_geolocation(ip_address='127.0.0.1'):
+    """
+    Get geolocation by IP location
+    """
     if ip_address == '127.0.0.1':
         ip_address = get_ip()
-    response = requests.get(f'https://ipapi.co/{ip_address}/json/').json()
+    response = requests.get(f'https://ipapi.co/{ip_address}/json/', timeout=20).json()
     location_data = {
         "ip": ip_address,
         "city": response.get("city"),

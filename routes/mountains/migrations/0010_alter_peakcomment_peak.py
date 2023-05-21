@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='peakcomment',
             name='peak',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mountains.peak', verbose_name='peak'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='mountains.peak', verbose_name='peak'),
         ),
     ]

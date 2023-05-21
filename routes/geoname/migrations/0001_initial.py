@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoCity',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('geonameid', models.IntegerField(default=0)),
                 ('name', models.CharField(blank=True, max_length=200, null=True)),
                 ('asciiname', models.CharField(blank=True, max_length=200, null=True)),
@@ -42,7 +43,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoCountry',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('geoname_id', models.IntegerField(db_index=True, default=0)),
                 ('iso', models.CharField(db_index=True, max_length=2)),
                 ('name', models.CharField(blank=True, max_length=128, null=True)),
@@ -54,7 +56,8 @@ class Migration(migrations.Migration):
                 ('population', models.IntegerField(blank=True, null=True)),
                 ('continent', models.CharField(max_length=2)),
                 ('tld', models.CharField(blank=True, max_length=6, null=True)),
-                ('currency_code', models.CharField(blank=True, db_index=True, max_length=3, null=True)),
+                ('currency_code', models.CharField(
+                    blank=True, db_index=True, max_length=3, null=True)),
                 ('currency_name', models.CharField(blank=True, max_length=32, null=True)),
             ],
             options={
@@ -64,7 +67,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoCountryAdminSubject',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('geoname_id', models.IntegerField(db_index=True, default=0)),
                 ('country_iso', models.CharField(db_index=True, max_length=2)),
                 ('name', models.CharField(blank=True, max_length=128, null=True)),
@@ -77,7 +81,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoCountryLanguage',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('country_iso3', models.CharField(db_index=True, max_length=3)),
                 ('lang_code', models.CharField(db_index=True, max_length=10)),
             ],
@@ -88,7 +93,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoCountryNeighbour',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('country_iso3', models.CharField(db_index=True, max_length=3)),
                 ('neighbour_iso', models.CharField(db_index=True, max_length=2)),
             ],
@@ -99,7 +105,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoRUSSubject',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('geoname_id', models.IntegerField(default=0)),
                 ('country_iso', models.CharField(max_length=2)),
                 ('name', models.CharField(blank=True, max_length=128, null=True)),
@@ -115,7 +122,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoUKRSubject',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('geoname_id', models.IntegerField(default=0)),
                 ('country_iso', models.CharField(max_length=2)),
                 ('name', models.CharField(blank=True, max_length=128, null=True)),

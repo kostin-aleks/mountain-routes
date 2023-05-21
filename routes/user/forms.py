@@ -55,7 +55,7 @@ class ProfileForm(forms.Form):
         custom init
         """
         username = ''
-        for i in range(10):
+        for __ in range(10):
             username = random_username()
             if not get_user_model().objects.filter(username=username).exists():
                 break

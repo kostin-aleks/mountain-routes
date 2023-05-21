@@ -20,4 +20,3 @@ def switch_language(request, language):
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
                         language, expires=expires)
     return response
-

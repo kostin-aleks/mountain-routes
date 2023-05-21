@@ -86,6 +86,7 @@ class GeoPoint(models.Model):
             if 'W' in string or 'S' in string or 'ю.ш.' in string or 'з.д.' in string:
                 degree = -degree
             return degree
+        return None
 
     def field_value(self, name='lat'):
         """
@@ -236,7 +237,7 @@ class Peak(models.Model):
         return self.peakphoto_set.order_by('id')
 
     def comments(self):
-        """ 
+        """
         peak comments only
         no replies
         """
@@ -370,7 +371,7 @@ class PeakComment(models.Model):
         """
         fake = Faker()
 
-        for _ in range(count):
+        for __ in range(count):
             man = fake.simple_profile()
             comment = cls(
                 peak=peak,

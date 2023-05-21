@@ -10,7 +10,8 @@ def global_context(request):
     """
     language_switch = {}
     if len(settings.LANGUAGE_CODES) > 1:
-        language_switch = {k: settings.DEFINED_LANGUAGES[k]['short'] for k in settings.LANGUAGE_CODES}
+        language_switch = {k: settings.DEFINED_LANGUAGES[k]['short']
+                           for k in settings.LANGUAGE_CODES}
     return {
         'LANGUAGE_SWITCH': language_switch,
     }

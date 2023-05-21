@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='peakphoto',
             name='description',
-            field=models.CharField(blank=True, max_length=128, null=True, verbose_name='description'),
+            field=models.CharField(
+                blank=True, max_length=128, null=True, verbose_name='description'),
         ),
         migrations.AlterField(
             model_name='ridge',
@@ -43,12 +44,14 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ridgeinfolink',
             name='description',
-            field=models.CharField(blank=True, max_length=128, null=True, verbose_name='description'),
+            field=models.CharField(
+                blank=True, max_length=128, null=True, verbose_name='description'),
         ),
         migrations.AlterField(
             model_name='route',
             name='author',
-            field=models.CharField(blank=True, max_length=64, null=True, verbose_name='author'),
+            field=models.CharField(
+                blank=True, max_length=64, null=True, verbose_name='author'),
         ),
         migrations.AlterField(
             model_name='route',
@@ -58,32 +61,38 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='route',
             name='description',
-            field=models.TextField(blank=True, null=True, verbose_name='description'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='description'),
         ),
         migrations.AlterField(
             model_name='route',
             name='difficulty',
-            field=models.CharField(max_length=3, null=True, verbose_name='difficulty'),
+            field=models.CharField(
+                max_length=3, null=True, verbose_name='difficulty'),
         ),
         migrations.AlterField(
             model_name='route',
             name='height_difference',
-            field=models.IntegerField(blank=True, null=True, verbose_name='height_difference'),
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name='height_difference'),
         ),
         migrations.AlterField(
             model_name='route',
             name='length',
-            field=models.IntegerField(blank=True, null=True, verbose_name='length'),
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name='length'),
         ),
         migrations.AlterField(
             model_name='route',
             name='max_difficulty',
-            field=models.CharField(max_length=16, null=True, verbose_name='max difficulty'),
+            field=models.CharField(
+                max_length=16, null=True, verbose_name='max difficulty'),
         ),
         migrations.AlterField(
             model_name='route',
             name='number',
-            field=models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='number'),
+            field=models.PositiveSmallIntegerField(
+                blank=True, null=True, verbose_name='number'),
         ),
         migrations.AlterField(
             model_name='route',
@@ -93,52 +102,62 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='route',
             name='recommended_equipment',
-            field=models.TextField(blank=True, null=True, verbose_name='recommended equipment'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='recommended equipment'),
         ),
         migrations.AlterField(
             model_name='route',
             name='short_description',
-            field=models.TextField(blank=True, null=True, verbose_name='short description'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='short description'),
         ),
         migrations.AlterField(
             model_name='route',
             name='start_height',
-            field=models.IntegerField(blank=True, null=True, verbose_name='start_height'),
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name='start_height'),
         ),
         migrations.AlterField(
             model_name='route',
             name='year',
-            field=models.IntegerField(blank=True, null=True, verbose_name='year'),
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name='year'),
         ),
         migrations.AlterField(
             model_name='routephoto',
             name='description',
-            field=models.CharField(blank=True, max_length=128, null=True, verbose_name='description'),
+            field=models.CharField(
+                blank=True, max_length=128, null=True, verbose_name='description'),
         ),
         migrations.AlterField(
             model_name='routepoint',
             name='description',
-            field=models.CharField(blank=True, max_length=128, null=True, verbose_name='description'),
+            field=models.CharField(
+                blank=True, max_length=128, null=True, verbose_name='description'),
         ),
         migrations.AlterField(
             model_name='routesection',
             name='angle',
-            field=models.CharField(blank=True, max_length=32, null=True, verbose_name='angle'),
+            field=models.CharField(
+                blank=True, max_length=32, null=True, verbose_name='angle'),
         ),
         migrations.AlterField(
             model_name='routesection',
             name='description',
-            field=models.TextField(blank=True, null=True, verbose_name='description'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='description'),
         ),
         migrations.AlterField(
             model_name='routesection',
             name='difficulty',
-            field=models.CharField(blank=True, max_length=32, null=True, verbose_name='difficulty'),
+            field=models.CharField(
+                blank=True, max_length=32, null=True, verbose_name='difficulty'),
         ),
         migrations.AlterField(
             model_name='routesection',
             name='length',
-            field=models.IntegerField(blank=True, null=True, verbose_name='length'),
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name='length'),
         ),
         migrations.AlterField(
             model_name='routesection',

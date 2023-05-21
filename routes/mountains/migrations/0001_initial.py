@@ -16,9 +16,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeoPoint',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('latitude', models.DecimalField(decimal_places=6, default=0, max_digits=10, verbose_name='latitude')),
-                ('longitude', models.DecimalField(decimal_places=6, default=0, max_digits=10, verbose_name='longitude')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('latitude', models.DecimalField(
+                    decimal_places=6, default=0, max_digits=10, verbose_name='latitude')),
+                ('longitude', models.DecimalField(
+                    decimal_places=6, default=0, max_digits=10, verbose_name='longitude')),
             ],
             options={
                 'verbose_name': 'geopoint',
@@ -29,13 +32,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Peak',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('slug', models.SlugField(unique=True, verbose_name='slug')),
                 ('name', models.CharField(blank=True, max_length=64, null=True)),
                 ('height', models.IntegerField(blank=True, default=0, null=True)),
                 ('description', models.TextField(blank=True, null=True)),
-                ('photo', models.ImageField(blank=True, null=True, upload_to=routes.utils.get_image_path, verbose_name='photo')),
-                ('point', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='mountains.geopoint', verbose_name='point')),
+                ('photo', models.ImageField(
+                    blank=True, null=True, upload_to=routes.utils.get_image_path,
+                    verbose_name='photo')),
+                ('point', models.ForeignKey(
+                    blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                    to='mountains.geopoint', verbose_name='point')),
             ],
             options={
                 'verbose_name': 'peak',
@@ -46,7 +54,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ridge',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False,
+                    verbose_name='ID')),
                 ('slug', models.SlugField(unique=True, verbose_name='slug')),
                 ('name', models.CharField(max_length=128)),
                 ('description', models.TextField(blank=True, null=True)),
@@ -60,13 +70,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Route',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False,
+                    verbose_name='ID')),
                 ('name', models.CharField(blank=True, max_length=64, null=True)),
                 ('number', models.PositiveSmallIntegerField(blank=True, null=True)),
                 ('short_description', models.TextField(blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True)),
-                ('photo', models.ImageField(blank=True, null=True, upload_to=routes.utils.get_image_path, verbose_name='photo')),
-                ('map_image', models.ImageField(blank=True, null=True, upload_to=routes.utils.get_image_path, verbose_name='map')),
+                ('photo', models.ImageField(
+                    blank=True, null=True, upload_to=routes.utils.get_image_path,
+                    verbose_name='photo')),
+                ('map_image', models.ImageField(
+                    blank=True, null=True, upload_to=routes.utils.get_image_path,
+                    verbose_name='map')),
                 ('difficulty', models.CharField(max_length=3, null=True)),
                 ('max_difficulty', models.CharField(max_length=16, null=True)),
                 ('length', models.IntegerField(blank=True, null=True)),
@@ -76,7 +92,9 @@ class Migration(migrations.Migration):
                 ('start_height', models.IntegerField(blank=True, null=True)),
                 ('descent', models.TextField(blank=True, null=True)),
                 ('ready', models.BooleanField(default=False)),
-                ('peak', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.peak', verbose_name='peak')),
+                ('peak', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to='mountains.peak', verbose_name='peak')),
             ],
             options={
                 'verbose_name': 'route',
@@ -87,13 +105,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RouteSection',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('num', models.IntegerField(blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('length', models.IntegerField(blank=True, null=True)),
                 ('angle', models.CharField(blank=True, max_length=32, null=True)),
                 ('difficulty', models.CharField(blank=True, max_length=32, null=True)),
-                ('route', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.route', verbose_name='route')),
+                ('route', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to='mountains.route', verbose_name='route')),
             ],
             options={
                 'verbose_name': 'route section',
@@ -104,10 +125,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RoutePoint',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('description', models.CharField(blank=True, max_length=128, null=True)),
-                ('point', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='mountains.geopoint', verbose_name='point')),
-                ('route', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.route', verbose_name='route')),
+                ('point', models.ForeignKey(
+                    blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                    to='mountains.geopoint', verbose_name='point')),
+                ('route', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to='mountains.route', verbose_name='route')),
             ],
             options={
                 'verbose_name': 'route point',
@@ -118,10 +144,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RoutePhoto',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', models.ImageField(blank=True, null=True, upload_to=routes.utils.get_image_path, verbose_name='photo')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('photo', models.ImageField(
+                    blank=True, null=True, upload_to=routes.utils.get_image_path,
+                    verbose_name='photo')),
                 ('description', models.CharField(blank=True, max_length=128, null=True)),
-                ('route', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.route', verbose_name='route')),
+                ('route', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to='mountains.route', verbose_name='route')),
             ],
             options={
                 'verbose_name': 'route photo',
@@ -132,10 +163,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RidgeInfoLink',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('link', models.URLField(max_length=128, verbose_name='link')),
                 ('description', models.CharField(blank=True, max_length=128, null=True)),
-                ('ridge', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.ridge', verbose_name='ridge')),
+                ('ridge', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to='mountains.ridge', verbose_name='ridge')),
             ],
             options={
                 'verbose_name': 'ridge link',
@@ -146,10 +180,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PeakPhoto',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', models.ImageField(blank=True, null=True, upload_to=routes.utils.get_image_path, verbose_name='photo')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('photo', models.ImageField(
+                    blank=True, null=True, upload_to=routes.utils.get_image_path,
+                    verbose_name='photo')),
                 ('description', models.CharField(blank=True, max_length=128, null=True)),
-                ('peak', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.peak', verbose_name='peak')),
+                ('peak', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT, to='mountains.peak',
+                    verbose_name='peak')),
             ],
             options={
                 'verbose_name': 'peak photo',
@@ -160,6 +199,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='peak',
             name='ridge',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='mountains.ridge', verbose_name='ridge'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to='mountains.ridge', verbose_name='ridge'),
         ),
     ]

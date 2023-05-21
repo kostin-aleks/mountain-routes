@@ -40,7 +40,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_profile, name='account-profile'),
     path('switch/language/<language>/', switch_language, name='switch-language'),
-    path('captcha',include("captcha.urls")),
+    path('captcha', include("captcha.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

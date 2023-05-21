@@ -7,8 +7,8 @@ from django.utils import translation
 from routes.utils import get_object_or_none
 
 
-RU_CHARS = u"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ -"
-UA_CHARS = u"ЇІЄ'"
+RU_CHARS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ -"
+UA_CHARS = "ЇІЄ'"
 RUUA_CHARS = RU_CHARS + UA_CHARS
 SET_RUUA_UPPER = set(RUUA_CHARS)
 

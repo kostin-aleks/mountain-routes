@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         peak = get_object_or_404(Peak, slug=options['peak'])
-        NUM = 20
-        PeakComment.add_test_comments(peak, count=NUM)
+        num = 20
+        PeakComment.add_test_comments(peak, count=num)
 
-        return f'{NUM} comments are added to the peak {peak.name}'
+        return f'{num} comments are added to the peak {peak.name}'
