@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block content %}
+
     {% include "Routes/peak_buttons.html" %}
 
     <br/><br/>
@@ -116,7 +117,12 @@
 
       //L.marker([{{ peak.point.latitude }}, {{ peak.point.longitude }}]).addTo(mymap).bindPopup("{{ peak.name }}");
 
-      new Zooming().listen('img');
+      const zoom = new Zooming()
+      zoom.listen('img');
+      
+      document.addEventListener('htmx:afterSettle', function(evt) {
+        zoom.listen('img');
+      });
     </script>
 {% endblock %}
 

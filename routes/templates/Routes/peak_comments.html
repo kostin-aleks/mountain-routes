@@ -57,7 +57,8 @@
         {% if comments.has_previous %}
         <li>
           <a href="" hx-get="{% url "peak-comments" peak.id comments.previous_page_number %}" 
-             hx-trigger="click" hx-target="#comments-page" hx-swap="outerHTML">&laquo;</a>
+             hx-trigger="click" hx-target="#comments-page" hx-swap="outerHTML"
+              >&laquo;</a>
         </li>
         {% else %}
         <li class="disabled"><span>&laquo;</span></li>

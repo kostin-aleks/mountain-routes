@@ -13,8 +13,8 @@
     </div>
 
     {% for reply in comment.replies %}
-    <div class="geser">
-      <div class="media bordered-replay" style="">
+    <div class="geser bordered-replay">
+      <div class="media" style="">
         <div class="media-body" style="margin: 5px">
           <h6 class="media-heading title">{{ reply.name }}</h6>
           <p class="">
@@ -31,25 +31,24 @@
             </button>
             {% endif %}
           </p>
-          {% if reply.photo %}
-          <div class="row">
-            <div class="col-xs-6 col-md-3">
-              <div class="thumbnail thumbnail-img">
-                <img src="{{ reply.photo.url }}" alt="photo" style="width:100%" >
-              </div>
+          
+        </div> <!-- media body -->
+      </div> <!-- media -->
+      <div class="row">
+            {% if reply.photo %}
+            <div class="col-md-2">
+                <img src="{{ reply.photo.url }}" alt="photo" 
+                     width="{{ reply.tsize.w }}" height="{{ reply.tsize.h }}" />
             </div>
-          </div>
-        {% endif %}
-        {% if reply.doc %}
-        <div class="row">
-          <div class="col-xs-6 col-md-3">
-            <div class="thumbnail thumbnail-img">
-              <a href="{{ reply.doc.url }}" target="_blank">{{ reply.doc_name }}</a>
+            {% endif %}
+            {% if reply.doc %}
+            <div class="col-md-2">
+              <a href="{{ reply.doc.url }}" target="_blank">
+                <span class="glyphicon glyphicon-paperclip"></span>
+                <span class="label label-default">{{ reply.doc_name }}</span>
+              </a>
             </div>
-          </div>
-        </div>
-        {% endif %}
-        </div>
+            {% endif %}
       </div>
     </div>
     {% endfor %}
