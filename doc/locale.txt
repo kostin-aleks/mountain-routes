@@ -1,3 +1,0 @@
-./manage.py makemessages --all --ignore data --ignore venv 
-./manage.py makemessages --all --ignore data --ignore venv -d djangojs
-./manage.py compilemessages --ignore data --ignore venv
