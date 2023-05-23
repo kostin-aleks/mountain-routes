@@ -58,7 +58,7 @@
        |--\[+\] venv   <-- виртуальная среда
        |----- requirements.txt <-- список необходимых пакетов для pip install
        |----- README.html
-       \`----- virtualenv\_setup.sh <-- установка или обновление виртуальной среды
+       \`----- virtualenv_setup.sh <-- установка или обновление виртуальной среды
       
 
 *   Django settings хранятся в `routes/settings.py`
@@ -75,7 +75,7 @@
 
 Выполните:
 
-        ./virtualenv\_setup.sh
+        ./virtualenv_setup.sh
         
 
 Используйте виртуальное окружение:
@@ -92,8 +92,8 @@
 
 В папке routes выполните:
 
-        cp custom\_settings\_example.py custom\_settings.py 
-        cp env-example .env
+        cp custom_settings_example.py custom_settings.py 
+        cp .env-example .env
         
 
 ### 3.4. База данных
@@ -102,15 +102,15 @@
 
 *   Создайте пустую базу данных.
 *   Добавьте пользователя с правами рута для этой базы данных. (Или дайте права существующему пользователю).
-*   Пропишите настройки DATABASE\_NAME, DATABASE\_USER, DATABASE\_PASSWORD, DATABASE\_HOST, DATABASE\_PORT в .env
+*   Пропишите настройки DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT в .env
 
 ### 3.5. Переменные в .env
 
 Часть необходимых настроек прописали в предыдущем пункте для базы данных.
 
 *   Для регистрации нового пользователя используется email. Нужно прописать настройки почтового сервера в .env
-*   Пропишите количество комментариев на странице COMMENTS\_PER\_PAGE
-*   Установите SECRET\_KEY. Воспользуйтесь [рецептом](https://www.educative.io/answers/how-to-generate-a-django-secretkey) или для теста пропишите длинную строку.
+*   Пропишите количество комментариев на странице COMMENTS_PER_PAGE
+*   Установите SECRET_KEY. Воспользуйтесь [рецептом](https://www.educative.io/answers/how-to-generate-a-django-secretkey) или для теста пропишите длинную строку.
 
 ### 3.6. Миграция моделей в базу данных
 
@@ -143,11 +143,11 @@ source venv/bin/activate
     После простого диалога получите пользователя с правами суперадмина. Сохраните для себя логин и пароль.
 *   Заполните базу данных определёнными тестовыми данными:
     
-    ./manage.py init\_routes\_data
+    ./manage.py init_routes_data
     
 *   Добавьте тестовые комментарии к какой-нибудь вершине. Например для вершины Близница:
     
-    ./manage.py add\_comments\_to\_the\_peak -p bliznitsa
+    ./manage.py add_comments_to_the_peak -p bliznitsa
     
     Эта команда добавляет 20 комментариев. Можно добавлять такими порциями любое количество.
 
@@ -205,7 +205,7 @@ source venv/bin/activate
 Во время сохранения комментария пользователя сохраняется IP из запроса.  
 Отдельная команда добавлена для сбора геоданных по IP.  
 
-      ./manage update\_geolocation
+      ./manage update_geolocation
       
 
 На сервере эта команда будет периодически выполняться скриптом cron.  
