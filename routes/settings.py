@@ -98,12 +98,25 @@ DATABASE_PASSWORD = env('DATABASE_PASSWORD')
 DATABASE_HOST = env('DATABASE_HOST')
 DATABASE_PORT = env('DATABASE_PORT')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+# 'default': {
+# 'ENGINE': 'django.db.backends.sqlite3',
+# 'NAME': BASE_DIR / 'db.sqlite3',
+# }
+# }
+
+# DATABASES = {
+# 'default': {
+# 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+# 'NAME': DATABASE_NAME,
+# 'USER': DATABASE_USER,
+# 'HOST': DATABASE_HOST,
+# 'PASSWORD': DATABASE_PASSWORD,
+# 'PORT': DATABASE_PORT,
+# 'ATOMIC_REQUESTS': True,
+# 'CONN_MAX_AGE': POSTGRES_CONN_MAX_AGE,
+# }
+# }
 
 DATABASES = {
     "default": {

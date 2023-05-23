@@ -2,10 +2,10 @@
 custom settings
 """
 
-DEBUG = True
+DEBUG = False
 
 ADMINS = (
-    ('kostin', 'galdor@ukr.net'),
+    ('admin', 'admin@ukr.net'),
 )
 
 MANAGERS = ADMINS

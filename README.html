@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+<!-- 2023-05-20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Каталог зимних альпинистских маршрутов Карпат</title>
+<meta name="author" content="Александр Костин" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<style type="text/css">html{font-family:sans-serif;line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}progress{vertical-align:baseline}[hidden],template{display:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit;font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}button,input,optgroup,select,textarea{font:inherit;margin:0}optgroup{font-weight:700}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}.org-bold{font-weight:700}.org-bold-italic{font-weight:700;font-style:italic}.org-buffer-menu-buffer{font-weight:700}.org-builtin{color:#483d8b}.org-button{color:#3a5fcd;text-decoration:underline}.org-calendar-month-header{color:#00f}.org-calendar-today{text-decoration:underline}.org-calendar-weekday-header{color:#008b8b}.org-calendar-weekend-header{color:#b22222}.org-comint-highlight-input{font-weight:700}.org-comint-highlight-prompt{color:#0000cd}.org-comment,.org-comment-delimiter{color:#b22222}.org-constant{color:#008b8b}.org-diary{color:red}.org-doc{color:#8b2252}.org-error{color:red;font-weight:700}.org-escape-glyph{color:brown}.org-file-name-shadow{color:#7f7f7f}.org-fringe{background-color:#f2f2f2}.org-function-name{color:#00f}.org-glyphless-char{font-size:60%}.org-header-line{color:#333;background-color:#e5e5e5}.org-help-argument-name{font-style:italic}.org-highlight{background-color:#b4eeb4}.org-holiday{background-color:pink}.org-info-header-node{color:brown;font-weight:700;font-style:italic}.org-info-header-xref{color:#3a5fcd;text-decoration:underline}.org-info-index-match{background-color:#ff0}.org-info-menu-header{font-weight:700}.org-info-menu-star{color:red}.org-info-node{color:brown;font-weight:700;font-style:italic}.org-info-title-1{font-size:172%;font-weight:700}.org-info-title-2{font-size:144%;font-weight:700}.org-info-title-3{font-size:120%;font-weight:700}.org-info-title-4{font-weight:700}.org-info-xref{color:#3a5fcd;text-decoration:underline}.org-italic{font-style:italic}.org-keyword{color:#a020f0}.org-lazy-highlight{background-color:#afeeee}.org-link{color:#3a5fcd;text-decoration:underline}.org-link-visited{color:#8b008b;text-decoration:underline}.org-makefile-makepp-perl{background-color:#bfefff}.org-makefile-space{background-color:#ff69b4}.org-makefile-targets{color:#00f}.org-match{background-color:#ff0}.org-next-error{background-color:gtk_selection_bg_color}.org-nobreak-space{color:brown;text-decoration:underline}.org-org-agenda-calendar-event,.org-org-agenda-calendar-sexp{color:#000;background-color:#fff}.org-org-agenda-clocking{background-color:#ff0}.org-org-agenda-column-dateline{background-color:#e5e5e5}.org-org-agenda-current-time{color:#b8860b}.org-org-agenda-date{color:#00f}.org-org-agenda-date-today{color:#00f;font-weight:700;font-style:italic}.org-org-agenda-date-weekend{color:#00f;font-weight:700}.org-org-agenda-diary{color:#000;background-color:#fff}.org-org-agenda-dimmed-todo{color:#7f7f7f}.org-org-agenda-done{color:#228b22}.org-org-agenda-filter-category,.org-org-agenda-filter-effort,.org-org-agenda-filter-regexp,.org-org-agenda-filter-tags{color:#000;background-color:#bfbfbf}.org-org-agenda-restriction-lock{background-color:#eee}.org-org-agenda-structure{color:#00f}.org-org-archived,.org-org-block{color:#7f7f7f}.org-org-block-begin-line,.org-org-block-end-line{color:#b22222}.org-org-checkbox{font-weight:700}.org-org-checkbox-statistics-done{color:#228b22;font-weight:700}.org-org-checkbox-statistics-todo{color:red;font-weight:700}.org-org-clock-overlay{color:#000;background-color:#d3d3d3}.org-org-code{color:#7f7f7f}.org-org-column,.org-org-column-title{background-color:#e5e5e5}.org-org-column-title{font-weight:700;text-decoration:underline}.org-org-date{color:#a020f0;text-decoration:underline}.org-org-date-selected{color:red}.org-org-default{color:#000;background-color:#fff}.org-org-document-info{color:#191970}.org-org-document-info-keyword{color:#7f7f7f}.org-org-document-title{color:#191970;font-weight:700}.org-org-done{color:#228b22;font-weight:700}.org-org-drawer{color:#00f}.org-org-ellipsis{color:#b8860b;text-decoration:underline}.org-org-footnote{color:#a020f0;text-decoration:underline}.org-org-formula{color:#b22222}.org-org-headline-done{color:#bc8f8f}.org-org-hide{color:#fff}.org-org-latex-and-related{color:#8b4513}.org-org-level-1{color:#00f}.org-org-level-2{color:sienna}.org-org-level-3{color:#a020f0}.org-org-level-4{color:#b22222}.org-org-level-5{color:#228b22}.org-org-level-6{color:#008b8b}.org-org-level-7{color:#483d8b}.org-org-level-8{color:#8b2252}.org-org-link{color:#3a5fcd;text-decoration:underline}.org-org-list-dt{font-weight:700}.org-org-macro{color:#8b4513}.org-org-meta-line{color:#b22222}.org-org-mode-line-clock{color:#000;background-color:#bfbfbf}.org-org-mode-line-clock-overrun{color:#000;background-color:red}.org-org-priority{color:#a020f0}.org-org-quote{color:#7f7f7f}.org-org-scheduled{color:#006400}.org-org-scheduled-previously{color:#b22222}.org-org-scheduled-today{color:#006400}.org-org-sexp-date,.org-org-special-keyword{color:#a020f0}.org-org-table{color:#00f}.org-org-tag,.org-org-tag-group{font-weight:700}.org-org-target{text-decoration:underline}.org-org-time-grid{color:#b8860b}.org-org-todo{color:red;font-weight:700}.org-org-upcoming-deadline{color:#b22222}.org-org-verbatim,.org-org-verse{color:#7f7f7f}.org-org-warning{color:red;font-weight:700}.org-outline-1{color:#00f}.org-outline-2{color:sienna}.org-outline-3{color:#a020f0}.org-outline-4{color:#b22222}.org-outline-5{color:#228b22}.org-outline-6{color:#008b8b}.org-outline-7{color:#483d8b}.org-outline-8{color:#8b2252}.org-preprocessor{color:#483d8b}.org-regexp-grouping-backslash,.org-regexp-grouping-construct{font-weight:700}.org-region{background-color:gtk_selection_bg_color}.org-secondary-selection{background-color:#ff0}.org-shadow{color:#7f7f7f}.org-show-paren-match{background-color:#40e0d0}.org-show-paren-mismatch{color:#fff;background-color:#a020f0}.org-string{color:#8b2252}.org-success{color:#228b22;font-weight:700}.org-table-cell{color:#e5e5e5;background-color:#00f}.org-tooltip{color:#000;background-color:#ffffe0}.org-trailing-whitespace{background-color:red}.org-type{color:#228b22}.org-underline{text-decoration:underline}.org-variable-name{color:sienna}.org-warning{color:#ff8c00;font-weight:700}.org-warning-1{color:red;font-weight:700}body{width:95%;margin:2% auto;font-size:14px;line-height:1.4em;font-family:Georgia,serif;color:#333}@media screen and (min-width:600px){body{font-size:18px}}@media screen and (min-width:910px){body{width:900px}}::-moz-selection{background:#d6edff}::selection{background:#d6edff}dl,ol,p,ul{margin:0 auto}.title{margin:.8em auto;color:#000}.subtitle,.title{text-align:center}.subtitle{font-size:1.1em;line-height:1.4;font-weight:700;margin:1em auto}.abstract{margin:auto;width:80%;font-style:italic}.abstract p:last-of-type:before{content:"    ";white-space:pre}.status{font-size:90%;margin:2em auto}[class^=section-number-]{margin-right:.5em}[id^=orgheadline]{clear:both}#footnotes{font-size:90%}.footpara{display:inline;margin:.2em auto}.footdef{margin-bottom:1em}.footdef sup{padding-right:.5em}a{color:#527d9a;text-decoration:none}a:hover{color:#035;border-bottom:1px dotted}figure{padding:0;margin:1em auto;text-align:center}img{max-width:100%;vertical-align:middle}.MathJax_Display{margin:0!important;width:90%!important}h1,h2,h3,h4,h5,h6{color:#a5573e;line-height:1em;font-family:Helvetica,sans-serif}h1,h2,h3{line-height:1.4em}h4,h5,h6{font-size:1em}@media screen and (min-width:600px){h1{font-size:2em}h2{font-size:1.5em}h3{font-size:1.3em}h1,h2,h3{line-height:1.4em}h4,h5,h6{font-size:1.1em}}dt{font-weight:700}table{margin:1em auto;border-top:2px solid;border-collapse:collapse}table,thead{border-bottom:2px solid}table td+td,table th+th{border-left:1px solid gray}table tr{border-top:1px solid #d3d3d3}td,th{padding:.3em .6em;vertical-align:middle}caption.t-above{caption-side:top}caption.t-bottom{caption-side:bottom}caption{margin-bottom:.3em}figcaption{margin-top:.3em}th.org-center,th.org-left,th.org-right{text-align:center}td.org-right{text-align:right}td.org-left{text-align:left}td.org-center{text-align:center}blockquote{margin:1em 2em;padding-left:1em;border-left:3px solid #ccc}kbd{background-color:#f7f7f7;font-size:80%;margin:0 .1em;padding:.1em .6em}.todo{background-color:red}.done,.todo{color:#fff;padding:.1em .3em;border-radius:3px;background-clip:padding-box;font-size:80%;font-family:Lucida Console,monospace;line-height:1}.done{background-color:green}.priority{color:orange;font-family:Lucida Console,monospace}#table-of-contents li{clear:both}.tag{font-family:Lucida Console,monospace;font-size:.7em;font-weight:400}.tag span{padding:.3em;float:right;margin-right:.5em;border:1px solid #bbb;border-radius:3px;background-clip:padding-box;color:#333;background-color:#eee;line-height:1}.timestamp{color:#bebebe;font-size:90%}.timestamp-kwd{color:#5f9ea0}.org-right{margin-left:auto;margin-right:0;text-align:right}.org-left{margin-left:0;margin-right:auto;text-align:left}.org-center{margin-left:auto;margin-right:auto;text-align:center}.underline{text-decoration:underline}#postamble p,#preamble p{font-size:90%;margin:.2em}p.verse{margin-left:3%}:not(pre)>code{padding:2px 5px;margin:auto 1px;border:1px solid #ddd;border-radius:3px;background-clip:padding-box;color:#333;font-size:80%}.org-src-container{border:1px solid #ccc;box-shadow:3px 3px 3px #eee;font-family:Lucida Console,monospace;font-size:80%;margin:1em auto;padding:.1em .5em;position:relative}.org-src-container>pre{overflow:auto}.org-src-container>pre:before{display:block;position:absolute;background-color:#b3b3b3;top:0;right:0;padding:0 .5em;border-bottom-left-radius:8px;border:0;color:#fff;font-size:80%}.org-src-container>pre.src-sh:before{content:"sh"}.org-src-container>pre.src-bash:before{content:"bash"}.org-src-container>pre.src-emacs-lisp:before{content:"Emacs Lisp"}.org-src-container>pre.src-R:before{content:"R"}.org-src-container>pre.src-cpp:before{content:"C++"}.org-src-container>pre.src-c:before{content:"C"}.org-src-container>pre.src-html:before{content:"HTML"}.org-src-container>pre.src-javascript:before,.org-src-container>pre.src-js:before{content:"Javascript"}// More languages 0% http://orgmode.org/worg/org-contrib/babel/languages.html .org-src-container>pre.src-abc:before{content:"ABC"}.org-src-container>pre.src-asymptote:before{content:"Asymptote"}.org-src-container>pre.src-awk:before{content:"Awk"}.org-src-container>pre.src-C:before{content:"C"}.org-src-container>pre.src-calc:before{content:"Calc"}.org-src-container>pre.src-clojure:before{content:"Clojure"}.org-src-container>pre.src-comint:before{content:"comint"}.org-src-container>pre.src-css:before{content:"CSS"}.org-src-container>pre.src-D:before{content:"D"}.org-src-container>pre.src-ditaa:before{content:"Ditaa"}.org-src-container>pre.src-dot:before{content:"Dot"}.org-src-container>pre.src-ebnf:before{content:"ebnf"}.org-src-container>pre.src-forth:before{content:"Forth"}.org-src-container>pre.src-F90:before{content:"Fortran"}.org-src-container>pre.src-gnuplot:before{content:"Gnuplot"}.org-src-container>pre.src-haskell:before{content:"Haskell"}.org-src-container>pre.src-io:before{content:"Io"}.org-src-container>pre.src-java:before{content:"Java"}.org-src-container>pre.src-latex:before{content:"LaTeX"}.org-src-container>pre.src-ledger:before{content:"Ledger"}.org-src-container>pre.src-ly:before{content:"Lilypond"}.org-src-container>pre.src-lisp:before{content:"Lisp"}.org-src-container>pre.src-makefile:before{content:"Make"}.org-src-container>pre.src-matlab:before{content:"Matlab"}.org-src-container>pre.src-max:before{content:"Maxima"}.org-src-container>pre.src-mscgen:before{content:"Mscgen"}.org-src-container>pre.src-Caml:before{content:"Objective"}.org-src-container>pre.src-octave:before{content:"Octave"}.org-src-container>pre.src-org:before{content:"Org"}.org-src-container>pre.src-perl:before{content:"Perl"}.org-src-container>pre.src-picolisp:before{content:"Picolisp"}.org-src-container>pre.src-plantuml:before{content:"PlantUML"}.org-src-container>pre.src-python:before{content:"Python"}.org-src-container>pre.src-ruby:before{content:"Ruby"}.org-src-container>pre.src-sass:before{content:"Sass"}.org-src-container>pre.src-scala:before{content:"Scala"}.org-src-container>pre.src-scheme:before{content:"Scheme"}.org-src-container>pre.src-screen:before{content:"Screen"}.org-src-container>pre.src-sed:before{content:"Sed"}.org-src-container>pre.src-shell:before{content:"shell"}.org-src-container>pre.src-shen:before{content:"Shen"}.org-src-container>pre.src-sql:before{content:"SQL"}.org-src-container>pre.src-sqlite:before{content:"SQLite"}.org-src-container>pre.src-stan:before{content:"Stan"}.org-src-container>pre.src-vala:before{content:"Vala"}.org-src-container>pre.src-axiom:before{content:"Axiom"}.org-src-container>pre.src-browser:before{content:"HTML"}.org-src-container>pre.src-cypher:before{content:"Neo4j"}.org-src-container>pre.src-elixir:before{content:"Elixir"}.org-src-container>pre.src-request:before{content:"http"}.org-src-container>pre.src-ipython:before{content:"iPython"}.org-src-container>pre.src-kotlin:before{content:"Kotlin"}.org-src-container>pre.src-Flavored Erlang lfe:before{content:"Lisp"}.org-src-container>pre.src-mongo:before{content:"MongoDB"}.org-src-container>pre.src-prolog:before{content:"Prolog"}.org-src-container>pre.src-rec:before{content:"rec"}.org-src-container>pre.src-ML sml:before{content:"Standard"}.org-src-container>pre.src-Translate translate:before{content:"Google"}.org-src-container>pre.src-typescript:before{content:"Typescript"}.org-src-container>pre.src-rust:before{content:"Rust"}.inlinetask{background:#ffc;border:2px solid gray;margin:10px;padding:10px}#org-div-home-and-up{font-size:70%;text-align:right;white-space:nowrap}.linenr{font-size:90%}.code-highlighted{background-color:#ff0}#bibliography{font-size:90%}#bibliography table{width:100%}.creator{display:block}@media screen and (min-width:600px){.creator{display:inline;float:right}}</style>
+</head>
+
+<body>
+  <div id="content" class="content">
+    <h1 class="title">Каталог зимних альпинистских маршрутов Карпат</h1>
+    <div id="table-of-contents" role="doc-toc">
+      <h2>Содержание</h2>
+      <div id="text-table-of-contents" role="doc-toc">
+      <ul>
+        <li><a href="#org1">1. O проекте </a></li>
+        <li>
+          <a href="#org2">2. Пакеты и программы, необходимые перед установкой проекта</a>
+          <ul>
+          <li><a href="#org2-1">2.1. Directory tree</a></li>
+          </ul>
+        </li>
+        <li><a href="#org3">3. Installation (установка)</a>
+          <ul>
+            <li><a href="#org3-1">3.1. Клонирование проекта</a></li>
+            <li><a href="#org3-2">3.2. Виртуальное окружение</a></li>
+            <li><a href="#org3-3">3.3. Settings </a></li>
+            <li><a href="#org3-4">3.4. База данных </a></li>
+            <li><a href="#org3-5">3.5. Переменные в .env </a></li>
+            <li><a href="#org3-6">3.6. Миграция моделей в базу данных </a></li>
+            <li><a href="#org3-7">3.7. Тестовые данные </a></li>
+            <li><a href="#org3-8">3.8. Тестирование </a></li>
+            <li><a href="#org3-9">3.9. Сервер </a></li>
+          </ul>
+        </li>
+        <li><a href="#org4">4. Локализация</a></li>
+        <li><a href="#org5">5.</span> Геоданные пользователей</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="outline-container-orgd9538c6" class="outline-2">
+    <h2 id="org1"><span class="section-number-2">1.</span> О проекте </h2>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org1-1"><span class="section-number-3">1.1.</span> Краткое описание проекта </h3>
+      <div class="outline-text-3" id="text-4-1">
+        Проект предназначен для хранения каталога зимних альпинистских маршрутов на вершины украинских Карпат.<br/>
+        Список хребтов.<br/>
+        <br/>
+        Хребет содержит список вершин.<br/>
+        Вершина содержит список маршрутов.<br/>
+        <br/>
+        К вершине прикручена система комментирования пользователями. Для обмена информацией.<br/>
+        <br/>
+        Все объекты могут быть изменены суперадмином в стандартной админке по адресу /admin/<br/>
+        Админ может добавить пользователя в редакторы (editor roles), 
+        после этого на страницах становятся доступны элементы интерфейса, 
+        позволяющие изменять объекты в пользовательской части сайта.
+        
+      </div>
+    </div>  
+    
+  </div>
+
+  <div id="outline-container-org75beb7c" class="outline-2">
+    <h2 id="org2">
+      <span class="section-number-2">2.</span> Пакеты и программы, необходимые перед установкой проекта
+    </h2>
+    <div class="outline-text-3" id="text-3-1">
+      <ul class="org-ul">
+        <li>Python3 должен быть установлен в системе</li>
+        <li>pip3</li>
+        <li>gettext</li>
+        <li>mysql server</li>
+      </ul>
+    </div>
+    
+  <div id="outline-container-orgdc6e050" class="outline-3">
+    <h3 id="org2-1"><span class="section-number-3">2.1.</span> Directory tree</h3>
+    <div class="outline-text-3" id="text-3-1">
+      <pre class="example" id="org6521387">
+      Directory tree
+      ==============
+      [-] routes
+       |--[+] data   &lt;--- хранение файлов
+       |--[+] doc    &lt;--- документы
+       |--[+] locale &lt;--- переводы строк
+       |--[+] routes &lt;-- код проекта 
+       |--[+] venv   &lt;-- виртуальная среда
+       |----- requirements.txt &lt;-- список необходимых пакетов для pip install
+       |----- README.html
+       `----- virtualenv_setup.sh &lt;-- установка или обновление виртуальной среды
+      </pre>
+  
+      <ul class="org-ul">
+      <li>Django settings хранятся в <code>routes/settings.py</code></li>
+      </ul>
+    </div>
+  </div>
+  
+  </div>
+
+
+  <div id="outline-container-orgd9538c6" class="outline-2">
+    <h2 id="org3"><span class="section-number-2">3.</span> Installation (установка)</h2>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-1"><span class="section-number-3">3.1.</span> Клонирование проекта</h3>
+      <div class="outline-text-3" id="text-4-1">
+        <pre class="example" id="org3a1b579">
+        git clone https://github.com/kostin-aleks/mountain-routes.git .
+        </pre>
+      </div>
+    </div>  
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-2"><span class="section-number-3">3.2.</span> Виртуальное окружение</h3>
+      <div class="outline-text-3" id="text-4-1">
+        Выполните:
+        <pre class="example" id="org3a1b579">
+        ./virtualenv_setup.sh
+        </pre>
+
+        Используйте виртуальное окружение:
+        <pre class="example" id="org3a1b579">
+        source venv/bin/activate
+        </pre>
+
+        Установите необходимые пакеты:
+        <pre class="example" id="org3a1b579">
+        pip install -r requirements.txt
+        </pre>
+      </div>
+    </div>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-3"><span class="section-number-3">3.3.</span> Settings</h3>
+      <div class="outline-text-3" id="text-4-1">
+        В папке routes выполните:
+        <pre class="example" id="org3a1b579">
+        cp custom_settings_example.py custom_settings.py 
+        cp env-example .env
+        </pre>
+      </div>
+    </div>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-4"><span class="section-number-3">3.4.</span> База данных </h3>
+      <div class="outline-text-3" id="text-4-1">
+        По умолчанию проект использует MySQL.
+        
+        Это определяется настройкой словаря DATABASES в settings.
+        Аналогичные словари для SQLite и PostgreSQL закомментированы.
+        
+        <ul>
+          <li>Создайте пустую базу данных.</li>
+          <li>Добавьте пользователя с правами рута для этой базы данных.
+             (Или дайте права существующему пользователю).
+          </li>
+          <li>Пропишите настройки DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT
+              в .env
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-5"><span class="section-number-3">3.5.</span> Переменные в .env </h3>
+      <div class="outline-text-3" id="text-4-1">
+        Часть необходимых настроек прописали в предыдущем пункте для базы данных.
+        
+        <ul>
+          <li>Для регистрации нового пользователя используется email.
+              Нужно прописать настройки почтового сервера в .env
+          </li>
+        
+          <li>Пропишите количество комментариев на странице COMMENTS_PER_PAGE</li>
+        
+          <li>Установите SECRET_KEY. Воспользуйтесь 
+              <a href="https://www.educative.io/answers/how-to-generate-a-django-secretkey">рецептом</a>  
+              или для теста пропишите длинную строку. </li>
+        </ul>
+        
+      </div>
+    </div>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-6"><span class="section-number-3">3.6.</span> Миграция моделей в базу данных </h3>
+      <div class="outline-text-3" id="text-4-1">
+        Попробуйте запустить 
+        <pre>./manage.py</pre>
+        Если получили ошибку, возможно, нужно войти в виртуальное окружение:
+        <pre>source venv/bin/activate</pre>
+        
+        Запустите миграцию:
+        <pre>./manage.py migrate</pre>
+        
+      </div>
+    </div>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-7"><span class="section-number-3">3.7.</span> Тестовые данные </h3>
+      <div class="outline-text-3" id="text-4-1"> 
+      
+        Попробуйте запустить 
+        <pre>./manage.py</pre>
+        Если получили ошибку, возможно, нужно войти в виртуальное окружение:
+        <pre>source venv/bin/activate</pre>
+        <ul>
+          <li>Создайте суперюзера.
+              <pre>./manage.py createsuperuser</pre>
+              После простого диалога получите пользователя с правами суперадмина.
+              Сохраните для себя логин и пароль.
+          </li>
+        
+          <li>Заполните базу данных определёнными тестовыми данными:
+            <pre>./manage.py init_routes_data</pre>        
+          </li>
+            
+          <li>Добавьте тестовые комментарии к какой-нибудь вершине.
+              Например для вершины Близница:
+              <pre>./manage.py add_comments_to_the_peak -p bliznitsa</pre>
+              Эта команда добавляет 20 комментариев. Можно добавлять такими порциями любое количество.
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
+    
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-8"><span class="section-number-3">3.8.</span> Тестирование </h3>
+      <div class="outline-text-3" id="text-4-1">
+        Попробуйте запустить 
+        <pre>./manage.py</pre>
+        Если получили ошибку, возможно, нужно войти в виртуальное окружение:
+        <pre>source venv/bin/activate</pre>
+        
+        Запустите тесты:
+        <pre>./manage.py test</pre>
+        
+      </div>
+    </div>
+
+    <div id="outline-container-orgae4c2d9" class="outline-3">
+      <h3 id="org3-8"><span class="section-number-3">3.9.</span> Сервер </h3>
+      <div class="outline-text-3" id="text-4-1">
+        Попробуйте запустить 
+        <pre>./manage.py</pre>
+        Если получили ошибку, возможно, нужно войти в виртуальное окружение:
+        <pre>source venv/bin/activate</pre>
+        
+        Запустите локальный сервер:
+        <pre>./manage.py runserver</pre>
+        По умолчанию сервер доступен по адресу http://127.0.0.1:8000/<br/>
+        Можно указать порт.
+        
+      </div>
+    </div>
+    
+  <div id="outline-container-org7563d5d" class="outline-2">
+    <h2 id="org4"><span class="section-number-2">4.</span> Локализация</h2>
+    <div class="outline-text-2" id="text-1">
+
+      Используется стандартный способ локализации Django на основе gettext.<br/>
+      Сначала сбор переводимых строк.
+      <pre class="example" id="org79a540f">
+      ./manage makemessages --all --ignore data --ignore venv
+      ./manage.py makemessages --all --ignore data --ignore venv -d djangojs
+      </pre>
+      Затем добавление правильных переводов в файлах .po в папках locale/
+      и routes/static/js/locale/
+      <br/><br/>
+      И компиляция файлов перевода.
+      <pre class="example" id="org79a540f">
+      ./manage.py compilemessages --ignore data --ignore venv
+      </pre>
+    </div>
+  </div>
+
+  <div id="outline-container-org7563d5d" class="outline-2">
+    <h2 id="org5"><span class="section-number-2">5.</span> Геоданные пользователей </h2>
+    <div class="outline-text-2" id="text-1">
+
+      Во время сохранения комментария пользователя сохраняется IP из запроса.<br/>
+      Отдельная команда добавлена для сбора геоданных по IP.<br/>
+      <pre class="example" id="org79a540f">
+      ./manage update_geolocation
+      </pre>
+      На сервере эта команда будет периодически выполняться скриптом cron.<br/>
+      Для тестирования можно просто вызвать эту команду вручную.<br/>
+      Эта задача вынесена в отдельную команду из-за довольно ощутимого времени обработки запроса сторонним сервисом.
+    </div>
+  </div>
+  
+  <div id="postamble" class="status">
+    <p class="author">Author: Aleksandr Kostin</p>
+    <p class="date">Created: 2023-05-20</p>
+  </div>
+  
+</body>
+</html>
