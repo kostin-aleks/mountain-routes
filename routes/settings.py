@@ -45,13 +45,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
     'django.contrib.sitemaps',
-    # 'django.contrib.flatpages',
     'routes.mountains',
+    'routes.api',
     'django_tables2',
     'django_filters',
     'django_registration',
+    # 'drf_spectacular',
+    'drf_yasg',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_swagger',
     'routes.user',
     'routes.geoname',
     'captcha',
@@ -216,6 +220,15 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = env('EMAIL_USE_SSL')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
 
 COMMENTS_PER_PAGE = env('COMMENTS_PER_PAGE')
 COMMENT_IMG_WIDTH = 320

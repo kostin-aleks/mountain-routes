@@ -31,6 +31,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(
         next_page='home'), name='log-out'),
     path('admin/', admin.site.urls),
+    path('api/', include('routes.api.urls')),
     path('home/', routes, name='home'),
     path('i18n/', include('django.conf.urls.i18n')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
