@@ -31,7 +31,8 @@ from django.http import HttpResponseRedirect, QueryDict
 from django.contrib.auth import get_user_model
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
-#from country.models import Country
+
+from routes.mountains.models import Ridge
 #from city.models import City
 #from game.models import (
     #Game, GameCalculationType, Regulation, Classifier, Transport)
@@ -81,37 +82,36 @@ def hello_world(request):
         "message": "Hello, world!"})
 
 
-#@extend_schema(
-    #methods=['get'],
-    #responses={200: serializers.CountrySerializer},
-    #operation_id="Countries",
-    #description='GET countries/')
-#@api_view(['GET'])
-#def countries(request):
-    #"""
-    #List of countries
-    #"""
-    #countries = Country.objects.filter(active=True)
+@extend_schema(
+    methods=['get'],
+    responses={200: serializers.RidgeOutSerializer},
+    operation_id="Ridges",
+    description='GET ridges/')
+@api_view(['GET'])
+def ridges(request):
+    """
+    List of ridges
+    """
+    ridges = Ridge.objects.order_by('name')
 
-    #return Response(
-        #serializers.CountrySerializer(countries, many=True).data)
+    return Response(
+        serializers.RidgeOutSerializer(ridges, many=True).data)
 
 
-#@extend_schema(
-    #methods=['get'],
-    #responses={200: serializers.CountrySerializer},
-    #operation_id="Country",
-    #description='GET country/{country_id}/')
-#@api_view(['GET'])
-#def country(request, country_id):
-    #"""
-    #Country by id
-    #"""
-    #country = get_object_or_none(Country, pk=country_id)
-    #if country is None:
-        #return Response({}, status=status.HTTP_400_BAD_REQUEST)
+@extend_schema(
+    methods=['get'],
+    responses={200: serializers.RidgeOutSerializer},
+    operation_id="Ridge",
+    description='GET ridge/{slug}/')
+@api_view(['GET'])
+def ridge(request, slug):
+    """
+    Ridge by slug
+    """
+    print(slug)
+    ridge = get_object_or_404(Ridge, slug=slug)
 
-    #return Response(serializers.CountrySerializer(country).data)
+    return Response(serializers.RidgeOutSerializer(ridge).data)
 
 
 #@extend_schema(

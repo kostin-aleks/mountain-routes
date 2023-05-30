@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'django_filters',
     'django_registration',
-    # 'drf_spectacular',
+    'drf_spectacular',
     'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',

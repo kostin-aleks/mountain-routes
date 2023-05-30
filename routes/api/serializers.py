@@ -215,15 +215,24 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 #name = serializers.CharField()
 
 
-# class CountrySerializer(serializers.Serializer):
-# """
-# Serializer for Country
-# """
-#iso = serializers.CharField()
-#iso3 = serializers.CharField(required=False)
-#name = serializers.CharField()
-#phone_code = serializers.CharField(required=False)
-#active = serializers.BooleanField(required=False)
+class UserOutSerializer(serializers.Serializer):
+    """
+    Serializer for User
+    """
+    username = serializers.CharField()
+    id = serializers.IntegerField()
+
+
+class RidgeOutSerializer(serializers.Serializer):
+    """
+    Serializer for Ridge
+    """
+    id = serializers.IntegerField()
+    slug = serializers.CharField()
+    name = serializers.CharField()
+    description = serializers.CharField()
+    editor = UserOutSerializer()
+    changed = serializers.DateTimeField()
 
 
 # class CountryInfoSerializer(serializers.Serializer):
