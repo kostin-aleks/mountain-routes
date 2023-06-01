@@ -7,3 +7,5 @@ venv/
 custom_settings.py
 
 data/
+
+*.wpr

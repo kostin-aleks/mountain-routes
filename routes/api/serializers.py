@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-#from game.models import Class, Classifier, Game, Transport
+from routes.mountains.models import Ridge
 #from location.models import Location
 #from task.models import Task, TaskAttemptPhoto
 #from team.models import Team
@@ -223,16 +223,24 @@ class UserOutSerializer(serializers.Serializer):
     id = serializers.IntegerField()
 
 
-class RidgeOutSerializer(serializers.Serializer):
+class RidgeOutSerializer(serializers.ModelSerializer):
     """
     Serializer for Ridge
     """
-    id = serializers.IntegerField()
-    slug = serializers.CharField()
-    name = serializers.CharField()
-    description = serializers.CharField()
+    class Meta:
+        model = Ridge
+        fields = '__all__'
+
     editor = UserOutSerializer()
-    changed = serializers.DateTimeField()
+
+
+class RidgeInSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Ridge (In)
+    """
+    class Meta:
+        model = Ridge
+        fields = ['name', 'description']
 
 
 # class CountryInfoSerializer(serializers.Serializer):
@@ -591,7 +599,7 @@ class StatusSerializer(serializers.Serializer):
     """
     status = serializers.CharField()
     message = serializers.CharField(required=False)
-    id = serializers.IntegerField(required=False)  # pylint: disable=invalid-name
+    id = serializers.IntegerField(required=False)
 
 
 # class LocationTypeSerializer(serializers.Serializer):

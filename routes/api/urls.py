@@ -35,8 +35,11 @@ urlpatterns = [
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('hello/', views.hello_world, name='hello'),
-    path('ridges/', views.ridges, name='ridges'),
-    path('ridge/<slug:slug>/', views.ridge, name='ridge-by-slug'),
+    path('ridges/', views.RidgeList.as_view(), name='ridges'),
+    path('ridges/new/', views.RidgeNew.as_view(), name='new-ridge'),
+    path(
+        'ridge/<slug:slug>/', views.RidgeDetail.as_view(), 
+        name='ridge-by-slug'),
     #path('country/<iso>/', views.country_by_iso, name='country-by-iso'),
     #path('cities/', views.cities, name='cities'),
     #path('city/<int:city_id>/', views.city, name='city-by-id'),
