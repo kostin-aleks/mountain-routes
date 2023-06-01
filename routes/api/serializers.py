@@ -1450,11 +1450,11 @@ class StatusSerializer(serializers.Serializer):
     #lat = serializers.FloatField(required=False)
 
 
-# class TokenSerializer(serializers.Serializer):
-    # """
-    # Serializer for token
-    # """
-    #refresh = serializers.CharField()
+class TokenSerializer(serializers.Serializer):
+    """
+    Serializer for token
+    """
+    refresh = serializers.CharField()
 
 
 # class GoogleTokenSerializer(serializers.Serializer):
@@ -1479,27 +1479,27 @@ class StatusSerializer(serializers.Serializer):
     #jti = serializers.CharField()
 
 
-# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    # """
-    # Serializer to return tokens on login+password request
-    # """
-    # @classmethod
-    # def get_token(cls, user):
-    #token = super().get_token(user)
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Serializer to return tokens on login+password request
+    """
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
 
-    # Add custom claims
-    #token['superuser'] = user.is_superuser
-    #token['jti'] = token.get('jti')
-    # return token
+        # Add custom claims
+        token['superuser'] = user.is_superuser
+        token['jti'] = token.get('jti')
+        return token
 
-    # def validate(self, attrs):
-    #data = super().validate(attrs)
-    #refresh = self.get_token(self.user)
-    #data['refresh'] = str(refresh)
-    #data['access'] = str(refresh.access_token)
-    #data['superuser'] = refresh['superuser']
-    #data['jti'] = str(refresh['jti'])
-    # return data
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        data['superuser'] = refresh['superuser']
+        data['jti'] = str(refresh['jti'])
+        return data
 
 
 # class LocationFullDataSerializer(serializers.Serializer):
