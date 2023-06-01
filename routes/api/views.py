@@ -55,6 +55,7 @@ def error_response(errors):
 
 
 @swagger_auto_schema(
+    method='get',
     operation_description="GET hello/",
     responses={200: serializers.StatusSerializer})
 @api_view(['GET'])
