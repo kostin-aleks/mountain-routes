@@ -172,7 +172,8 @@ DEFINED_LANGUAGES = {
     'en': {'title': 'English', 'short': 'ENG'},
     'ru': {'title': 'Русский', 'short': 'РУС'},
 }
-LANGUAGES = [(k, DEFINED_LANGUAGES[k]['title']) for k in DEFINED_LANGUAGES if k in LANGUAGE_CODES]
+LANGUAGES = [(k, DEFINED_LANGUAGES[k]['title'])
+             for k in DEFINED_LANGUAGES if k in LANGUAGE_CODES]
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, "locale")
@@ -228,6 +229,10 @@ REST_FRAMEWORK = {
     ],
     # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
+
+SWAGGER_SETTINGS = {
+
 }
 
 COMMENTS_PER_PAGE = env('COMMENTS_PER_PAGE')

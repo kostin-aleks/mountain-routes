@@ -24,7 +24,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView
-from drf_spectacular.utils import extend_schema
+# from drf_spectacular.utils import extend_schema
+from drf_yasg.utils import swagger_auto_schema
 from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponseRedirect, QueryDict, Http404
@@ -33,22 +34,8 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 
 from routes.mountains.models import Ridge
-#from city.models import City
-# from game.models import (
-# Game, GameCalculationType, Regulation, Classifier, Transport)
-#from location.models import (Location, LocationType)
-# from task.models import (
-#Task, TaskAttempt, TaskAttemptPhoto,
-# TaskType, TaskAttemptQuestAnswers)
-#from team.models import Team
-#from fcuser.models import UserProfile, UserLocation, HEADERS
 #from fcuser.pipeline import get_unique_random_name, update_user_photo
-#from geopoint.models import GeoPoint
 from routes.api.models import App, AppVersion, UserAppVersion
-#from payment.models import Payment
-# from utils import (
-#get_object_or_none, user_profile, base64_to_string, decode_field,
-# get_team_or_none, get_team_or_404)
 from routes.api import serializers
 # from flashcross.decorators import verified_session, expert
 
@@ -67,29 +54,28 @@ def error_response(errors):
     }
 
 
-@extend_schema(
-    methods=['get'],
-    responses={200: serializers.StatusSerializer},
-    operation_id="Hello",
-    description='GET hello/')
+@swagger_auto_schema(
+    operation_description="GET hello/",
+    responses={200: serializers.StatusSerializer})
 @api_view(['GET'])
 def hello_world(request):
     """
     test api method
     """
-    return Response({
+    data = {
         'status': 'OK',
-        "message": "Hello, world!"})
+        "message": "Hello, world!"
+    }
+    return Response(
+        serializers.StatusSerializer(data).data)
 
 
 class RidgeList(APIView):
     """
     List of ridges
     """
-    @extend_schema(
-        responses={200: serializers.RidgeOutSerializer},
-        operation_id="Ridges",
-        description='GET ridges/')
+    @swagger_auto_schema(
+        responses={200: serializers.RidgeOutSerializer(many=True)})
     def get(self, request):
         ridges = Ridge.objects.order_by('name')
         serializer = serializers.RidgeOutSerializer(
@@ -101,11 +87,10 @@ class RidgeNew(APIView):
     """
     Add a new ridge
     """
-    @extend_schema(
-        request=serializers.RidgeInSerializer,
-        responses={201: serializers.RidgeOutSerializer},
-        operation_id="New Ridge",
-        description='POST ridges/new/')
+    @swagger_auto_schema(
+        operation_description="POST ridges/new/",
+        request_body=serializers.RidgeInSerializer,
+        responses={201: serializers.RidgeOutSerializer})
     def post(self, request):
         serializer = serializers.RidgeInSerializer(
             data=request.data)
@@ -133,11 +118,9 @@ class RidgeDetail(APIView):
         except Ridge.DoesNotExist:
             raise Http404
 
-    @extend_schema(
-        methods=['get'],
-        responses={200: serializers.RidgeOutSerializer},
-        operation_id="Get Ridge",
-        description='GET ridge/{slug}/')
+    @swagger_auto_schema(
+        operation_description="GET ridge/{slug}/",
+        responses={200: serializers.RidgeOutSerializer})
     def get(self, request, slug):
         """
         get ridge instance
@@ -146,11 +129,10 @@ class RidgeDetail(APIView):
         serializer = serializers.RidgeOutSerializer(ridge)
         return Response(serializer.data)
 
-    @extend_schema(
-        request=serializers.RidgeInSerializer,
-        responses={200: serializers.RidgeOutSerializer},
-        operation_id="Update Ridge",
-        description='PUT ridge/{slug}/')
+    @swagger_auto_schema(
+        operation_description="PUT ridge/{slug}/",
+        request_body=serializers.RidgeInSerializer,
+        responses={200: serializers.RidgeOutSerializer})
     def put(self, request, slug):
         """
         update the ridge instance
@@ -165,31 +147,18 @@ class RidgeDetail(APIView):
         return Response(
             serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @extend_schema(
-        responses={204: None},
-        operation_id="Delete Ridge",
-        description='DELETE ridge/{slug}/')
+    @swagger_auto_schema(
+        operation_description="DELETE ridge/{slug}/",
+        responses={200: serializers.StatusSerializer})
     def delete(self, request, slug):
         ridge = self.get_object(slug)
         ridge.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-# @extend_schema(
-    # methods=['get'],
-    #responses={200: serializers.CountrySerializer},
-    #operation_id="Country by ISO",
-    # description='GET country/{iso}/')
-# @api_view(['GET'])
-# def country_by_iso(request, iso):
-    # """
-    # Country by iso
-    # """
-    #country = get_object_or_none(Country, iso=iso)
-    # if country is None:
-        # return Response({}, status=status.HTTP_400_BAD_REQUEST)
-
-    # return Response(serializers.CountrySerializer(country).data)
+        data = {
+            'status': 'OK',
+            "message": f"Ridge {slug} is deleted"
+        }
+        return Response(
+            serializers.StatusSerializer(data).data)
 
 
 # @extend_schema(
