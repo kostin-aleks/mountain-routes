@@ -24,7 +24,9 @@ class RidgeFilter(admin.SimpleListFilter):
 
 class RidgeAdmin(admin.ModelAdmin):
     """ RidgeAdmin """
-    list_display = ('id', 'slug', 'name', 'description', 'editor', 'changed', )
+    list_display = (
+        'id', 'slug', 'name', 'description', 'editor',
+        'active', 'changed', )
     search_fields = ('slug', 'name', 'description')
     raw_id_fields = ('editor',)
     ordering = ('name',)
@@ -58,7 +60,7 @@ class PeakAdmin(admin.ModelAdmin):
     """ PeakAdmin """
     list_display = (
         'id', 'slug', 'name', 'description', 'ridge',
-        'height', 'photo', 'point', 'editor', 'changed')
+        'height', 'photo', 'point', 'editor', 'active', 'changed')
     search_fields = ('slug', 'name', 'description')
     raw_id_fields = ('point', 'editor')
     list_filter = (RidgeFilter, )
@@ -95,10 +97,11 @@ admin.site.register(PeakPhoto, PeakPhotoAdmin)
 
 class PeakCommentAdmin(admin.ModelAdmin):
     """ PeakCommentAdmin """
-    list_display = ('id', 'peak', 'body', 'author', 'nickname',
-                    'email', 'homepage', 'parent', 'photo', 'doc',
-                    'ip_address', 'country_code', 'country', 'region', 'city',
-                    'created_on', 'active')
+    list_display = (
+        'id', 'peak', 'body', 'author', 'nickname',
+        'email', 'homepage', 'parent', 'photo', 'doc',
+        'ip_address', 'country_code', 'country', 'region', 'city',
+        'created_on', 'active')
     search_fields = ('body', )
     ordering = ('-id', )
     list_filter = (PeakFilter, )
@@ -153,8 +156,9 @@ admin.site.register(Route, RouteAdmin)
 
 class RouteSectionAdmin(admin.ModelAdmin):
     """ RouteSectionAdmin """
-    list_display = ('id', 'route', 'num', 'description', 'difficulty',
-                    'length', 'angle')
+    list_display = (
+        'id', 'route', 'num', 'description', 'difficulty',
+        'length', 'angle')
     ordering = ('route__name', 'num')
 
 

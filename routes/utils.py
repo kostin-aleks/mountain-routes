@@ -13,6 +13,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 ANY = 'any'
+TEST_LOGIN = ''
+TEST_PASSWD = 'newstrongpassword'
 
 
 def class_name(instance):

@@ -125,6 +125,7 @@ class Ridge(models.Model):
     description = models.TextField(_("description"), blank=True, null=True)
     editor = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
+    active = models.BooleanField(_("active"), default=True)
     changed = models.DateTimeField(
         _("created"), default=timezone.now, db_index=True)
 
@@ -217,6 +218,7 @@ class Peak(models.Model):
         verbose_name=_("point"))
     editor = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, verbose_name=_("editor"), null=True)
+    active = models.BooleanField(_("active"), default=True)
     changed = models.DateTimeField(
         _("created"), default=timezone.now, db_index=True)
 
