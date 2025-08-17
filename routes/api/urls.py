@@ -2,6 +2,7 @@
 Here are all urls related to Mountain Routes API
 """
 
+from django.contrib.auth.decorators import permission_required, login_required
 from django.urls import path, re_path, include
 # from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import (
@@ -31,11 +32,18 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$',
-            schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger',
-            cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    re_path(
+        r'^swagger(?P<format>\.json|\.yaml)$',
+        login_required(schema_view.without_ui(cache_timeout=0)),
+        name='schema-json'),
+    re_path(
+        r'^swagger/$',
+        login_required(schema_view.with_ui('swagger', cache_timeout=0)),
+        name='schema-swagger-ui'),
+    re_path(
+        r'^redoc/$',
+        login_required(schema_view.with_ui('redoc', cache_timeout=0)),
+        name='schema-redoc'),
 
     path('hello/', views.hello_world, name='hello'),
     path('ridges/', views.RidgeList.as_view(), name='api-ridges'),
